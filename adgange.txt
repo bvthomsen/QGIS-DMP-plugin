@@ -1,0 +1,5 @@
+Type			Bruger			Kodeord	
+==================================================================
+Stat			MSTaesta		MSTtests2020!
+Region			1085aesta		REGtests2020!
+Kommune			173aesta		LYNGBYtests2020!
