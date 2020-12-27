@@ -26,6 +26,7 @@ from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
 # Initialize Qt resources from file resources.py
 from .resources import *
+from .helper import *
 
 # Import the code for the DockWidget
 from .dmp_manager_dockwidget import DMPManagerDockWidget
@@ -61,9 +62,12 @@ class DMPManager:
             self.translator.load(locale_path)
             QCoreApplication.installTranslator(self.translator)
 
+        trInit('DMPManager')
+
+
         # Declare instance attributes
         self.actions = []
-        self.menu = self.tr(u'&DMP Manager')
+        self.menu = tr(u'&DMP Manager')
         # TODO: We are going to let the user set this up in a future iteration
         self.toolbar = self.iface.addToolBar(u'DMPManager')
         self.toolbar.setObjectName(u'DMPManager')
@@ -72,22 +76,8 @@ class DMPManager:
 
         self.pluginIsActive = False
         self.dockwidget = None
-
-
-    # noinspection PyMethodMayBeStatic
-    def tr(self, message):
-        """Get the translation for a string using Qt translation API.
-
-        We implement this ourselves since we do not inherit QObject.
-
-        :param message: String for translation.
-        :type message: str, QString
-
-        :returns: Translated version of message.
-        :rtype: QString
-        """
-        # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
-        return QCoreApplication.translate('DMPManager', message)
+ 
+    
 
 
     def add_action(
@@ -170,7 +160,7 @@ class DMPManager:
         icon_path = ':/plugins/dmp_manager/icon.png'
         self.add_action(
             icon_path,
-            text=self.tr(u'DMP Manager'),
+            text=tr(u'DMP Manager'),
             callback=self.run,
             parent=self.iface.mainWindow())
 
@@ -180,7 +170,6 @@ class DMPManager:
         """Cleanup necessary items here when plugin dockwidget is closed"""
 
         #print "** CLOSING DMPManager"
-
         # disconnects
         self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)
 
@@ -200,7 +189,7 @@ class DMPManager:
 
         for action in self.actions:
             self.iface.removePluginWebMenu(
-                self.tr(u'&DMP Manager'),
+                tr(u'&DMP Manager'),
                 action)
             self.iface.removeToolBarIcon(action)
         # remove the toolbar

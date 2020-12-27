@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>354</width>
-    <height>719</height>
+    <height>530</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,9 +22,9 @@
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Download</string>
+        <string>DMP Download</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
+       <layout class="QVBoxLayout" name="verticalLayout_10">
         <item>
          <widget class="QGroupBox" name="groupBox_5">
           <property name="title">
@@ -44,7 +44,7 @@
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QTimeEdit" name="timeEdit"/>
+              <widget class="QDateTimeEdit" name="spTimeout"/>
              </item>
             </layout>
            </item>
@@ -59,48 +59,82 @@
          </widget>
         </item>
         <item>
+         <widget class="QGroupBox" name="groupBox_6">
+          <property name="title">
+           <string>Administration</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <layout class="QFormLayout" name="formLayout_2">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>CVR No:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="leCVRNo"/>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
          <widget class="QGroupBox" name="groupBox">
           <property name="title">
            <string>Download layer from DMP</string>
           </property>
-          <layout class="QGridLayout" name="gridLayout">
-           <item row="2" column="0" colspan="2">
+          <layout class="QVBoxLayout" name="verticalLayout_11">
+           <item>
+            <widget class="QPushButton" name="pbCandidates">
+             <property name="text">
+              <string>Fetch candidates</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="cbDownload"/>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="cbxFilterExtent">
+             <property name="text">
+              <string>Filter by map extents</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="cbxFilterCVR">
+             <property name="text">
+              <string>Filter by CVR no</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="pbDownload">
              <property name="text">
               <string>Download</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="0" colspan="2">
-            <widget class="QComboBox" name="cbDownload"/>
-           </item>
-           <item row="1" column="0">
-            <widget class="QCheckBox" name="chbFilterCVR">
-             <property name="text">
-              <string>Filter by CVR no</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QCheckBox" name="chbFilterExtent">
-             <property name="text">
-              <string>Filter by map extents</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_6">
-             <property name="text">
-              <string>Downloaded</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="leDownloadNo">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
+           <item>
+            <layout class="QFormLayout" name="formLayout_3">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>Number of downloaded geometries:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="leDownloadNo">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -122,7 +156,7 @@
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
-        <string>Geometrycheck</string>
+        <string>Geometry check</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_7">
         <item>
@@ -175,7 +209,7 @@
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>Comparison</string>
+        <string>Feature Comparison</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
@@ -204,7 +238,7 @@
       </widget>
       <widget class="QWidget" name="tab_4">
        <attribute name="title">
-        <string>Upload</string>
+        <string>DMP Upload</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
