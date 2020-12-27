@@ -64,6 +64,8 @@ class DMPManager:
 
         trInit('DMPManager')
 
+        # initialize dictionary with parameters from json file 
+        self.parm = read_config(os.path.join(self.plugin_dir,'configuration.json'))
 
         # Declare instance attributes
         self.actions = []
@@ -169,8 +171,8 @@ class DMPManager:
     def onClosePlugin(self):
         """Cleanup necessary items here when plugin dockwidget is closed"""
 
-        #print "** CLOSING DMPManager"
-        # disconnects
+        write_config(os.path.join(self.plugin_dir,'configuration.json'), self.parm)
+
         self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)
 
         # remove this statement if dockwidget is to remain
@@ -203,19 +205,39 @@ class DMPManager:
         if not self.pluginIsActive:
             self.pluginIsActive = True
 
-            #print "** STARTING DMPManager"
-
-            # dockwidget may not exist if:
-            #    first run of plugin
-            #    removed on close (see self.onClosePlugin method)
             if self.dockwidget == None:
                 # Create the dockwidget (after translation) and keep reference
                 self.dockwidget = DMPManagerDockWidget()
+                self.dockwidget.pbReset.clicked.connect(self.pbResetClicked)  
+                self.dockwidget.pbSave.clicked.connect(self.pbSaveClicked)  
+
 
             # connect to provide cleanup on closing of dockwidget
             self.dockwidget.closingPlugin.connect(self.onClosePlugin)
 
             # show the dockwidget
-            # TODO: fix to allow choice of dock location
             self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dockwidget)
             self.dockwidget.show()
+
+
+    def pbResetClicked(self):
+
+        self.parm = read_config(os.path.join(self.plugin_dir,'configuration.json'))
+        spv = self.parm["Values"]
+        sd = self.dockwidget
+
+        sd.leCVRNo.setText(str(spv["CVR number"]))
+        sd.lePrefLayer.setText(str(spv["Preferred layer"]))
+        sd.cbxFilterCVR.setChecked(spv["Use CVR"])
+        sd.cbxFilterExtent.setChecked(spv["Use extent"])
+
+    def pbSaveClicked(self):
+
+        spv = self.parm["Values"]
+        sd = self.dockwidget
+
+        spv["CVR number"] = int(sd.leCVRNo.text())
+        spv["Preferred layer"] = int(sd.lePrefLayer.text())
+        spv["Use CVR"] = sd.cbxFilterCVR.isChecked()
+        spv["Use extent"] = sd.cbxFilterExtent.isChecked()
+        write_config(os.path.join(self.plugin_dir,'configuration.json'),self.parm)

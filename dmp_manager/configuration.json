@@ -1,0 +1,39 @@
+{
+    "Access": {
+        "HttpAddress": "https://gmpark.dk/park/api/demo-dk/onsite",
+        "Username": "bvt@aestas.dk",
+        "Password": "F0r44r_2o2o",
+        "Ticket": ""
+    },
+    "Commands": {
+        "UploadFile": "/onsiteelement/upload?ticket={}&filename={}",
+        "GettingAccessToken": "/signin?username={}&password={}",
+        "GetElementTypes": "/elementtype/gets?ticket={}",
+        "GetElementTypeDetail": "/elementtype/get?id={}&ticket={}",
+        "GetWorkAreaTypes": "/workareatype/gets?ticket={}",
+        "GetWorkAreaTypeDetail": "/workareatype/get?id={}&ticket={}",
+        "GetElementsId": "/element/gets?ticket={}&elementTypeId={}",
+        "GetElements": "/element/gets?ticket={}&page={}&limit={}&elementTypeId={}&elementText={}",
+        "GetElementsAll": "/element/gets?ticket={}",
+        "GetElementDetail": "/onsiteelement/get?id={}&ticket={}",
+        "CreateElement": "/element/create?ticket={}",
+        "UpdateElement": "/element/update?ticket={}",
+        "DeleteElement": "/element/delete?ids={}&ticket={}",
+        "GetWorkAreas": "/workarea/gets?workareatypeid={}&ticket={}&mappinglevel=3",
+        "GetWorkAreasAll": "/workarea/gets?ticket={}&mappinglevel=3",
+        "GetWorkAreasText": "/workarea/gets?workareatext={}&workareatypeid={}&ticket={}&mappinglevel=3",
+        "GetWorkAreaDetail": "/workarea/get?id={}&ticket={}"
+    },
+    "Values": {
+        "Use extent": false,
+        "Use CVR": true,
+        "Preferred layer": 234567,
+        "CVR number": 123456789,
+        "Crs": "EPSG:25832",
+        "Org_path": "C:/Users/Bo Victor/AppData/Roaming/QGIS/QGIS3/profiles/default/python/plugins/sweco_park",
+        "Log_reference": "request_log",
+        "Pnt_reference": "elements_pnt_ref",
+        "Lin_reference": "elements_lin_ref",
+        "Pol_reference": "elements_pol_ref"
+    }
+}
