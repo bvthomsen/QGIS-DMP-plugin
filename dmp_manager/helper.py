@@ -7,10 +7,10 @@ import requests
 
 trClassName= ''
 
-def trInit(message):
+def trInit(className):
 
     global trClassName
-    trClassName = message
+    trClassName = className
 
 # noinspection PyMethodMayBeStatic
 def tr(message):
@@ -20,49 +20,54 @@ def tr(message):
 
 def findLayerVariableValue (ename, evalue):
 
-    for layer in QgsProject.instance().layerTreeRoot().findLayers():
-        if evalue == QgsExpressionContextUtils.layerScope(layer.layer()).variable(ename): return layer.layer()
+    for ltLayer in QgsProject.instance().layerTreeRoot().findLayers():
+        if evalue == QgsExpressionContextUtils.layerScope(ltLayer.layer()).variable(ename): return ltLayer, ltLayer.layer() 
 
-    return None
+    return None, None
 
 
 def logI (mess,tab=None):
 
     global trClassName
-    
-    QgsMessageLog.logMessage(mess, tab or trClassName, Qgis.Info)
+    tab = tab or trClassName
+    QgsMessageLog.logMessage(mess, tab, Qgis.Info, False)
 
 def logW (mess,tab=None):
 
     global trClassName
-    QgsMessageLog.logMessage(mess, tab or trClassName, Qgis.Warning)
+    tab = tab or trClassName
+    QgsMessageLog.logMessage(mess, tab, Qgis.Warning, True)
 
 def logC (mess,tab=None):
 
     global trClassName
-    QgsMessageLog.logMessage(mess, tab or trClassName, Qgis.Critical)
+    tab = tab or trClassName
+    QgsMessageLog.logMessage(mess, tab, Qgis.Critical, True)
 
-def messI (mess1,mess2,duration=5):
-
-    global trClassName
-    iface.messageBar().pushMessage (mess1 or trClassName, mess2, Qgis.Info, duration)
-    iface.mainWindow().repaint()
-
-def messW (mess1,mess2,duration=20):
+def messI (message,prefix=None,duration=5):
 
     global trClassName
-    iface.messageBar().pushMessage (mess1 or trClassName, mess2, Qgis.Warning, duration)
+    prefix = prefix or trClassName
+    iface.messageBar().pushMessage (prefix, message, Qgis.Info, duration)
     iface.mainWindow().repaint()
 
-def messC (mess1,mess2,duration=30):
+def messW (message,prefix=None,duration=20):
 
     global trClassName
-    iface.messageBar().pushMessage (mess1 or trClassName, mess2, Qgis.Critical,duration)
+    prefix = prefix or trClassName
+    iface.messageBar().pushMessage (prefix, message, Qgis.Warning, duration)
     iface.mainWindow().repaint()
 
-def xstr(s):
+def messC (message,prefix=None,duration=30):
 
-    return '' if s is None else str(s)
+    global trClassName
+    prefix = prefix or trClassName
+    iface.messageBar().pushMessage (prefix, message, mess2, Qgis.Critical,duration)
+    iface.mainWindow().repaint()
+
+def xstr(s,r=''):
+
+    return r if s else str(s)
 
 
 def addMemoryLayer2tree (type, epsg, name, style, attr, tree, tb):
@@ -162,19 +167,26 @@ def write_config(filename, config):  # functionality not tested; 2019-11-09
     file.close()
     
 
-def handleRequest (isPost,url,package=None,name='',loglayer=None):
+def handleRequest (url, isPost=False, headers=None, package=None, loglayer=None, module=''):
 
-    stime = QDateTime.currentDateTime().toString(Qt.ISODate) 
-    
     if isPost:
-        r = requests.post(url,json=package) if package else requests.post(url)
+        if headers:
+            r = requests.post(url,json=package, headers=headers) if package else requests.post(url,headers=headers)
+        else:        
+            r = requests.post(url,json=package) if package else requests.post(url)
     else:
-        r = requests.get(url) 
+        if headers:
+            r = requests.get(url, headers=headers) 
+        else:        
+            r = requests.get(url) 
 
     scode = r.status_code
     dict = r.json() if r.status_code == 200 else None
 
     if loglayer:
+    
+        stime = QDateTime.currentDateTime().toString(Qt.ISODate) 
+
         feat = QgsFeature(loglayer.fields())
         feat['operation'] = 'post' if isPost else 'get'
         feat['url'] = url
@@ -182,7 +194,7 @@ def handleRequest (isPost,url,package=None,name='',loglayer=None):
         feat['status_code'] = str(scode)
         feat['dict'] = dumps(dict, indent=2)[:100000] if dict else ''
         feat['timestamp'] = stime 
-        feat['module'] = name  
+        feat['module'] = module
         loglayer.dataProvider().addFeatures ([feat])
 
     return scode, dict  

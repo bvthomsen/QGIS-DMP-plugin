@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>379</width>
-    <height>596</height>
+    <width>354</width>
+    <height>442</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,75 +18,42 @@
     <item>
      <widget class="QTabWidget" name="twMain">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>DMP Download</string>
+        <string>Fecth</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_10">
         <item>
-         <widget class="QGroupBox" name="groupBox_5">
-          <property name="title">
-           <string>Access token </string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QLineEdit" name="leToken"/>
-           </item>
-           <item>
-            <layout class="QFormLayout" name="formLayout">
-             <item row="0" column="0">
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>Timeout:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QDateTimeEdit" name="spTimeout"/>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pbReqToken">
-             <property name="text">
-              <string>Request token</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
          <widget class="QGroupBox" name="groupBox">
           <property name="title">
-           <string>Download layer from DMP</string>
+           <string>Fetch layer from DMP</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_11">
-           <item>
-            <widget class="QPushButton" name="pbCandidates">
-             <property name="text">
-              <string>Fetch candidates</string>
-             </property>
-            </widget>
-           </item>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
             <widget class="QComboBox" name="cbDownload"/>
            </item>
            <item>
-            <widget class="QCheckBox" name="cbxFilterExtent">
-             <property name="text">
-              <string>Filter by map extents</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="cbxFilterCVR">
-             <property name="text">
-              <string>Filter by CVR no</string>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QRadioButton" name="rbMapExtent">
+               <property name="text">
+                <string>Filter by mapper extent</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="rbNoExtent">
+               <property name="text">
+                <string>No extent filter</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
            <item>
             <widget class="QPushButton" name="pbDownload">
@@ -117,64 +84,6 @@
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupBox_6">
-          <property name="title">
-           <string>Administration</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_6">
-           <item>
-            <layout class="QFormLayout" name="formLayout_2">
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_2">
-               <property name="text">
-                <string>CVR No:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="leCVRNo"/>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>Preferred layer</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLineEdit" name="lePrefLayer"/>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <item>
-              <widget class="QPushButton" name="pbPrefLayer">
-               <property name="text">
-                <string>Set pref. layer</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pbReset">
-               <property name="text">
-                <string>Reset to default</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pbSave">
-               <property name="text">
-                <string>Save as default</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -191,78 +100,57 @@
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
-        <string>Geometry check</string>
+        <string>Checks</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_7">
+       <layout class="QVBoxLayout" name="verticalLayout_12">
         <item>
-         <widget class="QGroupBox" name="groupBox_2">
+         <widget class="QGroupBox" name="groupBox_3">
           <property name="title">
-           <string>Geometry check of local edit layer</string>
+           <string>Choose layer</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
-            <widget class="QComboBox" name="cbGeometryCheck"/>
-           </item>
-           <item>
-            <widget class="QTreeView" name="tvGeometryCheck"/>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pbGeometryCheck">
-             <property name="text">
-              <string>Check</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="QLabel" name="label_12">
-               <property name="text">
-                <string>Geom. OK</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="leGeoOKNo"/>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_13">
-               <property name="text">
-                <string>Geom. illegal</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="leGeoIllNo"/>
-             </item>
-            </layout>
+            <widget class="QComboBox" name="cbLayerCheck"/>
            </item>
           </layout>
          </widget>
         </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="tab_2">
-       <attribute name="title">
-        <string>Feature Comparison</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
-         <widget class="QGroupBox" name="groupBox_3">
+         <widget class="QGroupBox" name="groupBox_2">
           <property name="title">
-           <string>Compare local edit layer with reference layer</string>
+           <string>Compare edit and reference layer</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <item>
-            <widget class="QComboBox" name="cbCompare"/>
-           </item>
-           <item>
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="0" column="0" colspan="2">
             <widget class="QTreeView" name="tvCompare"/>
            </item>
-           <item>
+           <item row="1" column="0">
             <widget class="QPushButton" name="pbCompare">
              <property name="text">
               <string>Compare</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="pbClearCompare">
+             <property name="text">
+              <string>Clear </string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_7">
+          <property name="title">
+           <string>Geometry check</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <widget class="QPushButton" name="pbCheck">
+             <property name="text">
+              <string>Activate QGIS geometry check</string>
              </property>
             </widget>
            </item>
@@ -273,7 +161,7 @@
       </widget>
       <widget class="QWidget" name="tab_4">
        <attribute name="title">
-        <string>DMP Upload</string>
+        <string>Upload</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
@@ -281,46 +169,151 @@
           <property name="title">
            <string>Upload local edit layer to DMP</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_9">
-           <item>
-            <widget class="QComboBox" name="cbUpload"/>
-           </item>
-           <item>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="1" column="0" colspan="2">
             <widget class="QTreeView" name="tvUpload"/>
            </item>
-           <item>
+           <item row="2" column="0">
             <widget class="QPushButton" name="pbUpload">
              <property name="text">
               <string>Upload</string>
              </property>
             </widget>
            </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <item>
-              <widget class="QLabel" name="label_14">
-               <property name="text">
-                <string>Geom. Ok</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="leULGeomOK"/>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_15">
-               <property name="text">
-                <string>Geom. illegal</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="leULGeomIllNo"/>
-             </item>
-            </layout>
+           <item row="2" column="1">
+            <widget class="QPushButton" name="pbClearUpload">
+             <property name="text">
+              <string>Clear</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QComboBox" name="cbUpload"/>
            </item>
           </layout>
          </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_5">
+       <attribute name="title">
+        <string>Administration</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item>
+         <widget class="QGroupBox" name="groupBox_5">
+          <property name="title">
+           <string>Access token </string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QLineEdit" name="leToken"/>
+           </item>
+           <item>
+            <layout class="QFormLayout" name="formLayout">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Token timeout:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDateTimeEdit" name="dtTimeout">
+               <property name="displayFormat">
+                <string>yyyy-MM-dd HH:mm</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pbReqToken">
+             <property name="text">
+              <string>Request token</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_6">
+          <property name="title">
+           <string>Administration</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <layout class="QFormLayout" name="formLayout_2">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>CVR number:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="leCVRNo"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>Preferred layer:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="lePrefLayer"/>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pbPrefLayer">
+             <property name="text">
+              <string>Set layer choice in tab &quot;fetch&quot; as preferred </string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QPushButton" name="pbReset">
+               <property name="text">
+                <string>Reset to default</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbSave">
+               <property name="text">
+                <string>Save as default</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pbRefresh">
+             <property name="text">
+              <string>Reset administrative data</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>3</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>

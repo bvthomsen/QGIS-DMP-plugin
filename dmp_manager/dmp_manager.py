@@ -31,6 +31,7 @@ from .helper import *
 # Import the code for the DockWidget
 from .dmp_manager_dockwidget import DMPManagerDockWidget
 import os.path
+import webbrowser
 
 
 class DMPManager:
@@ -63,9 +64,6 @@ class DMPManager:
             QCoreApplication.installTranslator(self.translator)
 
         trInit('DMPManager')
-
-        # initialize dictionary with parameters from json file 
-        self.parm = read_config(os.path.join(self.plugin_dir,'configuration.json'))
 
         # Declare instance attributes
         self.actions = []
@@ -171,23 +169,12 @@ class DMPManager:
     def onClosePlugin(self):
         """Cleanup necessary items here when plugin dockwidget is closed"""
 
-        write_config(os.path.join(self.plugin_dir,'configuration.json'), self.parm)
-
         self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)
-
-        # remove this statement if dockwidget is to remain
-        # for reuse if plugin is reopened
-        # Commented next statement since it causes QGIS crashe
-        # when closing the docked window:
-        # self.dockwidget = None
-
         self.pluginIsActive = False
 
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
-
-        #print "** UNLOAD DMPManager"
 
         for action in self.actions:
             self.iface.removePluginWebMenu(
@@ -208,9 +195,15 @@ class DMPManager:
             if self.dockwidget == None:
                 # Create the dockwidget (after translation) and keep reference
                 self.dockwidget = DMPManagerDockWidget()
-                self.dockwidget.pbReset.clicked.connect(self.pbResetClicked)  
-                self.dockwidget.pbSave.clicked.connect(self.pbSaveClicked)  
 
+
+            # Connect signals and slots for dockwidget
+            self.dockwidget.pbReset.clicked.connect(self.pbResetClicked)  
+            self.dockwidget.pbSave.clicked.connect(self.pbSaveClicked)  
+            self.dockwidget.leToken.textChanged.connect(self.leTokenTextChanged)  
+            self.dockwidget.pbReqToken.clicked.connect(self.pbReqTokenClicked)  
+            self.dockwidget.pbPrefLayer.clicked.connect(self.pbPrefLayerClicked)  
+            self.dockwidget.pbRefresh.clicked.connect(self.pbRefreshClicked)  
 
             # connect to provide cleanup on closing of dockwidget
             self.dockwidget.closingPlugin.connect(self.onClosePlugin)
@@ -219,25 +212,139 @@ class DMPManager:
             self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dockwidget)
             self.dockwidget.show()
 
+            # Set initial values
+            self.pbResetClicked()
+
+
+    def onClosePlugin(self):
+        """Cleanup necessary items here when plugin dockwidget is closed"""
+
+        self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)
+        self.pluginIsActive = False
 
     def pbResetClicked(self):
+        """Reread configuration json file and set the self.parm dict"""
 
         self.parm = read_config(os.path.join(self.plugin_dir,'configuration.json'))
-        spv = self.parm["Values"]
+        self.attributes = read_config(os.path.join(self.plugin_dir,'attributes.json'))
+
         sd = self.dockwidget
+        spv = self.parm["Values"]
 
         sd.leCVRNo.setText(str(spv["CVR number"]))
-        sd.lePrefLayer.setText(str(spv["Preferred layer"]))
-        sd.cbxFilterCVR.setChecked(spv["Use CVR"])
-        sd.cbxFilterExtent.setChecked(spv["Use extent"])
+        sd.lePrefLayer.setText(spv["Preferred layer"])
+        sd.rbMapExtent.setChecked(spv["Use extent"])
+        sd.leToken.setText(spv["Token value"])
+        sd.dtTimeout.setDateTime(QDateTime().fromString(spv["Token time"],Qt.ISODate))
+
+        self.loadCbDownload()
+
 
     def pbSaveClicked(self):
+        """Save values from several subwidgets into the self.parm dictionary and save it permanently into json file"""
+
+        sd = self.dockwidget
+        spv = self.parm["Values"]
+
+        spv["CVR number"] = int(sd.leCVRNo.text())
+        spv["Preferred layer"] = sd.lePrefLayer.text()
+        spv["Use extent"] = sd.rbMapExtent.isChecked()
+        spv["Token value"] = sd.leToken.text()
+        spv["Token time"] = sd.dtTimeout.dateTime().toString(Qt.ISODate) 
+
+        write_config(os.path.join(self.plugin_dir,'configuration.json'),self.parm)
+        write_config(os.path.join(self.plugin_dir,'attributes.json'),self.attributes)
+
+    def leTokenTextChanged (self,txt):
+        """Set timeout parameter for token (current time + 1 hour)"""
+
+        sd = self.dockwidget
+        sd.dtTimeout.setDateTime(QDateTime.currentDateTime().addSecs(3500)) # "Næsten" 1 time
+
+    def pbReqTokenClicked(self):
+        """HTTP request to generate access ticket and token for DMP"""
+
+        #sd = self.dockwidget
+        spa = self.parm["Access"]
+        webbrowser.open(spa['Logon'])
+
+    def pbPrefLayerClicked(self):
+        """Change preferred layerid to current value from cbDownload combobox item value"""
 
         spv = self.parm["Values"]
         sd = self.dockwidget
 
-        spv["CVR number"] = int(sd.leCVRNo.text())
-        spv["Preferred layer"] = int(sd.lePrefLayer.text())
-        spv["Use CVR"] = sd.cbxFilterCVR.isChecked()
-        spv["Use extent"] = sd.cbxFilterExtent.isChecked()
-        write_config(os.path.join(self.plugin_dir,'configuration.json'),self.parm)
+        spv = self.parm["Values"]
+        sd = self.dockwidget
+        ci = sd.cbDownload.currentIndex()
+        if ci >= 0:
+            spv["Preferred layer"] = sd.cbDownload.itemData(ci)['id']
+            sd.lePrefLayer.setText(spv["Preferred layer"])
+
+    def pbRefreshClicked(self):
+        """Fetch all layer names and other information from DMP"""
+
+        if self.checkToken():
+
+            sa = self.attributes
+            sd = self.dockwidget
+            spa = self.parm["Access"]
+            spc = self.parm["Commands"]
+
+            # Create header information for requests
+            headers = spa['Headers']
+            headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
+    
+            url = spa['Address'] + spc['attributter']
+            status, result = handleRequest (url, False, headers, None, None, '')
+            if status == 200:
+                sa['attributter'] = result['data']
+            else:
+                messC('Error {} for dowload of {}'.format(status,'attributter'))
+
+            url = spa['Address'] + spc['temaattributter']
+            status, result = handleRequest (url, False, headers, None, None, '')
+            if status == 200:
+                sa['temaattributter'] = result['data']
+            else:
+                messC('Error {} for dowload of {}'.format(status,'temaattributter'))
+
+            url = spa['Address'] + spc['temakoder']
+            status, result = handleRequest (url, False, headers, None, None, '')
+            if status == 200:
+                sa['temakoder'] = result['data']
+                self.loadCbDownload()
+            else:
+                messC('Error {} for dowload of {}'.format(status,'temakoder'))
+    
+    def checkToken(self):
+        """Check if token still is valid (not to old)"""
+
+        sd = self.dockwidget
+        spa = self.parm["Access"]
+        if sd.dtTimeout.dateTime() < QDateTime.currentDateTime():
+            # Missing code to start openId process....
+            messW('Timeout for token - refresh token using logon at DMP')
+            webbrowser.open(spa['Logon'])
+            return False
+        
+        return True
+
+    def loadCbDownload(self):
+        """Load cbDownload combobox from attributes dict"""
+
+        sa = self.attributes
+        sd = self.dockwidget
+
+        pref = '' if sd.lePrefLayer.text() is None else sd.lePrefLayer.text() 
+
+        sd.cbDownload.clear()
+        cndx = 0
+        indx = 0
+
+        for d in sa['temakoder']: 
+            sd.cbDownload.addItem(d['id'] + ' - '+ d['attributes']['title'],d)
+            if pref == d['id']: cndx = indx
+            indx +=1
+        
+        sd.cbDownload.setCurrentIndex(cndx)
