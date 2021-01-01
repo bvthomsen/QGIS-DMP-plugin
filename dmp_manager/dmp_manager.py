@@ -8,7 +8,7 @@
                               -------------------
         begin                : 2020-12-08
         git sha              : $Format:%H$
-        copyright            : (C) 2020 by Bo Victor Thomsen, AestasGIS Danmark 
+        copyright            : (C) 2020 by Bo Victor Thomsen, AestasGIS Danmark
         email                : bvt@aestas.dk
  ***************************************************************************/
 
@@ -21,17 +21,15 @@
  *                                                                         *
  ***************************************************************************/
 """
-from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
-from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction
-# Initialize Qt resources from file resources.py
-from .resources import *
-from .helper import *
-
-# Import the code for the DockWidget
-from .dmp_manager_dockwidget import DMPManagerDockWidget
 import os.path
 import webbrowser
+
+from PyQt5.QtCore import QSettings, QTranslator, QCoreApplication, Qt, QDateTime
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QAction
+from .resources import *
+from .helper import tr, trInit, logI, logW, logC, messI, messW, messC, read_config, write_config, handleRequest, mapperExtent, createDateTimeName
+from .dmp_manager_dockwidget import DMPManagerDockWidget
 
 
 class DMPManager:
@@ -67,8 +65,8 @@ class DMPManager:
 
         # Declare instance attributes
         self.actions = []
+
         self.menu = tr(u'&DMP Manager')
-        # TODO: We are going to let the user set this up in a future iteration
         self.toolbar = self.iface.addToolBar(u'DMPManager')
         self.toolbar.setObjectName(u'DMPManager')
 
@@ -76,21 +74,11 @@ class DMPManager:
 
         self.pluginIsActive = False
         self.dockwidget = None
- 
-    
+        self.parm = None
+        self.attributes = None
 
-
-    def add_action(
-        self,
-        icon_path,
-        text,
-        callback,
-        enabled_flag=True,
-        add_to_menu=True,
-        add_to_toolbar=True,
-        status_tip=None,
-        whats_this=None,
-        parent=None):
+    def add_action(self, icon_path, text, callback, enabled_flag=True, add_to_menu=True,
+                   add_to_toolbar=True, status_tip=None, whats_this=None, parent=None):
         """Add a toolbar icon to the toolbar.
 
         :param icon_path: Path to the icon for this action. Can be a resource
@@ -153,7 +141,6 @@ class DMPManager:
 
         return action
 
-
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
@@ -171,7 +158,6 @@ class DMPManager:
 
         self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)
         self.pluginIsActive = False
-
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -192,18 +178,20 @@ class DMPManager:
         if not self.pluginIsActive:
             self.pluginIsActive = True
 
-            if self.dockwidget == None:
+            if self.dockwidget is None:
                 # Create the dockwidget (after translation) and keep reference
                 self.dockwidget = DMPManagerDockWidget()
 
-
             # Connect signals and slots for dockwidget
-            self.dockwidget.pbReset.clicked.connect(self.pbResetClicked)  
-            self.dockwidget.pbSave.clicked.connect(self.pbSaveClicked)  
-            self.dockwidget.leToken.textChanged.connect(self.leTokenTextChanged)  
-            self.dockwidget.pbReqToken.clicked.connect(self.pbReqTokenClicked)  
-            self.dockwidget.pbPrefLayer.clicked.connect(self.pbPrefLayerClicked)  
-            self.dockwidget.pbRefresh.clicked.connect(self.pbRefreshClicked)  
+            sd = self.dockwidget
+            sd.pbReset.clicked.connect(self.pbResetClicked)
+            sd.pbSave.clicked.connect(self.pbSaveClicked)
+            sd.leToken.textChanged.connect(self.leTokenTextChanged)
+            sd.pbReqToken.clicked.connect(self.pbReqTokenClicked)
+            sd.pbPrefLayer.clicked.connect(self.pbPrefLayerClicked)
+            sd.pbRefresh.clicked.connect(self.pbRefreshClicked)
+            sd.pbDownload.clicked.connect(self.pbDownloadClicked)
+            sd.rbDatabase.toggled.connect(self.rbDatabaseToggled)
 
             # connect to provide cleanup on closing of dockwidget
             self.dockwidget.closingPlugin.connect(self.onClosePlugin)
@@ -215,51 +203,65 @@ class DMPManager:
             # Set initial values
             self.pbResetClicked()
 
-
-    def onClosePlugin(self):
-        """Cleanup necessary items here when plugin dockwidget is closed"""
-
-        self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)
-        self.pluginIsActive = False
-
     def pbResetClicked(self):
         """Reread configuration json file and set the self.parm dict"""
 
-        self.parm = read_config(os.path.join(self.plugin_dir,'configuration.json'))
-        self.attributes = read_config(os.path.join(self.plugin_dir,'attributes.json'))
+        self.parm = read_config(os.path.join(self.plugin_dir, 'configuration.json'))
+        self.attributes = read_config(os.path.join(self.plugin_dir, 'attributes.json'))
 
         sd = self.dockwidget
         spv = self.parm["Values"]
+        spd = self.parm["Data"]
 
         sd.leCVRNo.setText(str(spv["CVR number"]))
         sd.lePrefLayer.setText(spv["Preferred layer"])
         sd.rbMapExtent.setChecked(spv["Use extent"])
         sd.leToken.setText(spv["Token value"])
-        sd.dtTimeout.setDateTime(QDateTime().fromString(spv["Token time"],Qt.ISODate))
+        sd.dtTimeout.setDateTime(QDateTime().fromString(spv["Token time"], Qt.ISODate))
 
         self.loadCbDownload()
+        logI(createDateTimeName('gylle'))
+        if spd["Use database"]:
+            sd.rbDatabase.setChecked(True)
+            #sd.rbDirectory.setChecked(False)
+        else:
+            #sd.rbDatabase.setChecked(False)
+            sd.rbDirectory.setChecked(True)
 
+        #    sd.rbDirectory.setChecked(False)
+        self.loadCbDatabase(spd["Database"])
+        sd.leSchema.setText(spd["Schema"])
+        sd.fwDirectory.setFilePath(spd["Directory"])
+        self.loadCbFiletype(spd["Filetypes"], spd["Use filetype"])
 
     def pbSaveClicked(self):
-        """Save values from several subwidgets into the self.parm dictionary and save it permanently into json file"""
+        """Save values from several subwidgets into the self.parm dictionary and save it
+        permanently into json file"""
 
         sd = self.dockwidget
         spv = self.parm["Values"]
+        spd = self.parm["Data"]
 
         spv["CVR number"] = int(sd.leCVRNo.text())
         spv["Preferred layer"] = sd.lePrefLayer.text()
         spv["Use extent"] = sd.rbMapExtent.isChecked()
         spv["Token value"] = sd.leToken.text()
-        spv["Token time"] = sd.dtTimeout.dateTime().toString(Qt.ISODate) 
+        spv["Token time"] = sd.dtTimeout.dateTime().toString(Qt.ISODate)
 
-        write_config(os.path.join(self.plugin_dir,'configuration.json'),self.parm)
-        write_config(os.path.join(self.plugin_dir,'attributes.json'),self.attributes)
+        spd["Use database"] = sd.rbDatabase.isChecked()
+        spd["Database"] = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
+        spd["Schema"] = sd.leSchema.text()
+        spd["Directory"] = sd.fwDirectory.filePath()
+        spd["Use filetype"] = sd.cbFiletype.itemData(sd.cbFiletype.currentIndex())
 
-    def leTokenTextChanged (self,txt):
+        write_config(os.path.join(self.plugin_dir, 'configuration.json'), self.parm)
+        write_config(os.path.join(self.plugin_dir, 'attributes.json'), self.attributes)
+
+    def leTokenTextChanged(self, txt):
         """Set timeout parameter for token (current time + 1 hour)"""
 
         sd = self.dockwidget
-        sd.dtTimeout.setDateTime(QDateTime.currentDateTime().addSecs(3500)) # "Næsten" 1 time
+        sd.dtTimeout.setDateTime(QDateTime.currentDateTime().addSecs(3500))  # "Næsten" 1 time
 
     def pbReqTokenClicked(self):
         """HTTP request to generate access ticket and token for DMP"""
@@ -278,7 +280,7 @@ class DMPManager:
         sd = self.dockwidget
         ci = sd.cbDownload.currentIndex()
         if ci >= 0:
-            spv["Preferred layer"] = sd.cbDownload.itemData(ci)['id']
+            spv["Preferred layer"] = sd.cbDownload.itemData(ci)
             sd.lePrefLayer.setText(spv["Preferred layer"])
 
     def pbRefreshClicked(self):
@@ -294,29 +296,29 @@ class DMPManager:
             # Create header information for requests
             headers = spa['Headers']
             headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
-    
+
             url = spa['Address'] + spc['attributter']
-            status, result = handleRequest (url, False, headers, None, None, '')
+            status, result = handleRequest(url, False, headers, None, None, '')
             if status == 200:
                 sa['attributter'] = result['data']
             else:
-                messC('Error {} for dowload of {}'.format(status,'attributter'))
+                messC('Error {} for download of {}'.format(status, 'attributter'))
 
             url = spa['Address'] + spc['temaattributter']
-            status, result = handleRequest (url, False, headers, None, None, '')
+            status, result = handleRequest(url, False, headers, None, None, '')
             if status == 200:
                 sa['temaattributter'] = result['data']
             else:
-                messC('Error {} for dowload of {}'.format(status,'temaattributter'))
+                messC('Error {} for download of {}'.format(status, 'temaattributter'))
 
             url = spa['Address'] + spc['temakoder']
-            status, result = handleRequest (url, False, headers, None, None, '')
+            status, result = handleRequest(url, False, headers, None, None, '')
             if status == 200:
                 sa['temakoder'] = result['data']
                 self.loadCbDownload()
             else:
-                messC('Error {} for dowload of {}'.format(status,'temakoder'))
-    
+                messC('Error {} for download of {}'.format(status, 'temakoder'))
+
     def checkToken(self):
         """Check if token still is valid (not to old)"""
 
@@ -327,7 +329,7 @@ class DMPManager:
             messW('Timeout for token - refresh token using logon at DMP')
             webbrowser.open(spa['Logon'])
             return False
-        
+
         return True
 
     def loadCbDownload(self):
@@ -336,15 +338,85 @@ class DMPManager:
         sa = self.attributes
         sd = self.dockwidget
 
-        pref = '' if sd.lePrefLayer.text() is None else sd.lePrefLayer.text() 
+        pref = '' if sd.lePrefLayer.text() is None else sd.lePrefLayer.text()
 
         sd.cbDownload.clear()
         cndx = 0
         indx = 0
 
-        for d in sa['temakoder']: 
-            sd.cbDownload.addItem(d['id'] + ' - '+ d['attributes']['title'],d)
-            if pref == d['id']: cndx = indx
-            indx +=1
-        
+        for d in sa['temakoder']:
+            sd.cbDownload.addItem(d['id'] + ' - ' + d['attributes']['title'], d['id'])
+            if pref == d['id']:
+                cndx = indx
+            indx += 1
+
         sd.cbDownload.setCurrentIndex(cndx)
+
+    def pbDownloadClicked(self):
+        """Fetch feature objects from DMP"""
+
+        if self.checkToken():
+
+            sd = self.dockwidget
+            spa = self.parm["Access"]
+            spc = self.parm["Commands"]
+            spv = self.parm["Values"]
+
+            # Create header information for requests
+            headers = spa['Headers']
+            headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
+
+            indx = sd.cbDownload.currentIndex()
+            if indx >= 0:
+                extent = spv["Max extent"] if sd.rbNoExtent.isChecked() else mapperExtent(spv["EPSG code"]).asWkt()
+                url = spa['Address'] + spc['objekter'] + spc['objektfilter 1'].format(extent, sd.cbDownload.itemData(indx))
+                logI(url)
+                status, result = handleRequest(url, False, headers, None, None, '')
+                if status == 200:
+                    write_config(os.path.join(self.plugin_dir, 'objekter.json'), result)
+                else:
+                    messC('Error {} for download of {}'.format(status, 'objekter'))
+            else:
+                messC('Error, no selection of download layer')
+
+    def rbDatabaseToggled(self, enabled):
+        """ tbd """
+
+        sd = self.dockwidget
+        sd.gbDatabase.setEnabled(enabled)
+        sd.gbDirectory.setEnabled(not enabled)
+
+    def loadCbDatabase(self, item):
+        """Load cbDatabase combobox from main settings"""
+
+        sd = self.dockwidget
+        st = QSettings()
+
+        sd.cbDatabase.clear()
+
+        dbn = ['DB2', 'GeoPackage', 'MSSQL', 'Oracle', 'PostgreSQL', 'SpatiaLite']
+        for d in dbn:
+
+            dx = '/{}/connections/'.format(d)
+
+            st.beginGroup(dx)
+            conn = st.childGroups()
+            st.endGroup()
+
+            for c in conn:
+                sd.cbDatabase.addItem('{} - {}'.format(d, c), '{}{}'.format(dx, c))
+
+            sd.cbDatabase.setCurrentIndex(sd.cbDatabase.findData(item))
+
+    def loadCbFiletype(self, dft, item):
+        """Load cbDatabase combobox from main settings"""
+
+        sd = self.dockwidget
+        sd.cbFiletype.clear()
+
+        for key, val in dft.items():
+            sd.cbFiletype.addItem(key, val)
+
+        sd.cbFiletype.setCurrentIndex(sd.cbFiletype.findData(item))
+
+   

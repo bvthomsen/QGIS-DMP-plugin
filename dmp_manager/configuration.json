@@ -8,7 +8,8 @@
         "temakoder"      : "/temakoder",
         "attributter"    : "/attributter",
         "temaattributter": "/temaattributter",
-        "objekter"  : "/objekter"
+        "objekter"       : "/objekter",
+        "objektfilter 1" : "?intersects={}&filter=equals(temakode.id,'{}')&include=temakode" 
     },
     "Values": {
         "Use extent": false,
@@ -17,13 +18,21 @@
         "CVR number": 9876543,
         "Token value": "",
         "Token time": "",
-        "Max extent": "MULTIPOLYGON (((400000 6405000, 900000 6405000, 900000 6045000, 400000 6045000, 400000 6405000)))"
-        "Crs": "EPSG:25832",
-        "Org_path": "C:/Users/Bo Victor/AppData/Roaming/QGIS/QGIS3/profiles/default/python/plugins/sweco_park",
+        "Max extent": "POLYGON ((400000 6405000, 900000 6405000, 900000 6045000, 400000 6045000, 400000 6405000))",
+        "EPSG code": 25832,
         "Log_reference": {},
         "example_Log_reference": {"uri":"blah.shp","name":"blah","type":"ogr"},
         "Pnt_reference": {"uri":"point?crs=epsg:{}&field=id:integer&field=name:string(20)&index=yes","name":"elements_pnt_ref","type":"memory"},
         "Lin_reference": {"uri":"linestring?crs=epsg:{}&field=id:integer&field=name:string(20)&index=yes","name":"elements_pnt_ref","type":"memory"},
         "Pol_reference": {"uri":"polygon?crs=epsg:{}&field=id:integer&field=name:string(20)&index=yes","name":"elements_pnt_ref","type":"memory"}
+    },
+    "Data": {
+        "Use database": true,
+        "Database": "",
+        "Schema": "",
+        "Filetypes": {"ESRI Shapefiles":"All Files (*);;Shape Files (*.shp)","MapInfo TAB":"All Files (*);;Tab Files (*.tab)"},
+        "Use filetype": "ESRI Shapefiles",
+        "Directory": "c:\temp"
     }
+    
 }
