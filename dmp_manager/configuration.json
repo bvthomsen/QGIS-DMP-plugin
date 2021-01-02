@@ -32,7 +32,7 @@
         "Schema": "",
         "Filetypes": {"ESRI Shapefiles":"All Files (*);;Shape Files (*.shp)","MapInfo TAB":"All Files (*);;Tab Files (*.tab)"},
         "Use filetype": "ESRI Shapefiles",
-        "Directory": "c:\temp"
+        "Directory": "c:\\temp"
     }
     
 }
