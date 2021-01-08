@@ -9,9 +9,13 @@
         "attributter"    : "/attributter",
         "temaattributter": "/temaattributter",
         "objekter"       : "/objekter",
-        "objektfilter 1" : "?intersects={}&filter=equals(temakode.id,'{}')&include=temakode" 
+        "objektfilter 1" : "?intersects={}&filter=equals(temakode.id,'{}')&include=temakode", 
+        "temaattributfilter 1" : "?include=temakode",
+        "temaattributfilter 1 duer ikke" : "?filter=equals(temakode.id,'{}')&include=temakode"
     },
     "Values": {
+        "Global root" : "Miljøportalen", 
+        "Administration root" : "Administration", 
         "Use extent": false,
         "Use CVR": true,
         "Preferred layer": "",

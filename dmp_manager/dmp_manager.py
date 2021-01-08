@@ -25,10 +25,13 @@ import os.path
 import webbrowser
 
 from PyQt5.QtCore import QSettings, QTranslator, QCoreApplication, Qt, QDateTime
-from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QAction
+from qgis.core import QgsProject
 from .resources import *
-from .helper import tr, trInit, logI, logW, logC, messI, messW, messC, read_config, write_config, handleRequest, mapperExtent, createDateTimeName
+from .helper import tr, trInit, logI, logW, logC, messI, messW, messC, \
+    read_config, write_config, handleRequest, mapperExtent, createDateTimeName, \
+    loadLayer, createGroup, addLayer2Tree, createMemLayer
 from .dmp_manager_dockwidget import DMPManagerDockWidget
 
 
@@ -296,28 +299,34 @@ class DMPManager:
             # Create header information for requests
             headers = spa['Headers']
             headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
-
-            url = spa['Address'] + spc['attributter']
-            status, result = handleRequest(url, False, headers, None, None, '')
-            if status == 200:
-                sa['attributter'] = result['data']
-            else:
-                messC('Error {} for download of {}'.format(status, 'attributter'))
-
-            url = spa['Address'] + spc['temaattributter']
-            status, result = handleRequest(url, False, headers, None, None, '')
-            if status == 200:
-                sa['temaattributter'] = result['data']
-            else:
-                messC('Error {} for download of {}'.format(status, 'temaattributter'))
-
+            logI(str(headers))
             url = spa['Address'] + spc['temakoder']
+            logI(url)
             status, result = handleRequest(url, False, headers, None, None, '')
             if status == 200:
                 sa['temakoder'] = result['data']
                 self.loadCbDownload()
+                messI('Download of {} done'.format('temakoder'))
             else:
                 messC('Error {} for download of {}'.format(status, 'temakoder'))
+
+            url = spa['Address'] + spc['attributter']
+            logI(url)
+            status, result = handleRequest(url, False, headers, None, None, '')
+            if status == 200:
+                sa['attributter'] = result['data']
+                messI('Download of {} done'.format('attributter'))
+            else:
+                messC('Error {} for download of {}'.format(status, 'attributter'))
+
+            url = spa['Address'] + spc['temaattributter'] + spc['temaattributfilter 1']
+            logI(url)
+            status, result = handleRequest(url, False, headers, None, None, '')
+            if status == 200:
+                sa['temaattributter'] = result['data']
+                messI('Download of {} done'.format('temaattributter'))
+            else:
+                messC('Error {} for download of {}'.format(status, 'temaattributter'))
 
     def checkToken(self):
         """Check if token still is valid (not to old)"""
@@ -368,14 +377,30 @@ class DMPManager:
 
             indx = sd.cbDownload.currentIndex()
             if indx >= 0:
+                temanr = sd.cbDownload.itemData(indx)
                 extent = spv["Max extent"] if sd.rbNoExtent.isChecked() else mapperExtent(spv["EPSG code"]).asWkt()
-                url = spa['Address'] + spc['objekter'] + spc['objektfilter 1'].format(extent, sd.cbDownload.itemData(indx))
+                url = spa['Address'] + spc['objekter'] + spc['objektfilter 1'].format(extent, temanr)
                 logI(url)
+
                 status, result = handleRequest(url, False, headers, None, None, '')
                 if status == 200:
-                    write_config(os.path.join(self.plugin_dir, 'objekter.json'), result)
+
+                    root = QgsProject.instance().layerTreeRoot()
+                    mprg = createGroup(spv["Global root"], root)
+                    mpag = createGroup(spv["Administration root"], mprg)
+
+                    ml, ll = createMemLayer(self.attributes, temanr, 25832)
+
+                    for le in ll:
+                        addLayer2Tree(mpag, le, False)
+
+                    ll = loadLayer(ml, result)
+                    addLayer2Tree(mprg, ml, False)
+
                 else:
+
                     messC('Error {} for download of {}'.format(status, 'objekter'))
+
             else:
                 messC('Error, no selection of download layer')
 
@@ -418,5 +443,3 @@ class DMPManager:
             sd.cbFiletype.addItem(key, val)
 
         sd.cbFiletype.setCurrentIndex(sd.cbFiletype.findData(item))
-
-   
