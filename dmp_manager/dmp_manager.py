@@ -27,7 +27,8 @@ import webbrowser
 from PyQt5.QtCore import QSettings, QTranslator, QCoreApplication, Qt, QDateTime
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction
-from qgis.core import QgsProject
+from qgis.core import QgsProject, QgsProviderRegistry, QgsDataSourceUri, QgsAbstractProviderConnection
+
 from .resources import *
 from .helper import tr, trInit, logI, logW, logC, messI, messW, messC, \
     read_config, write_config, handleRequest, mapperExtent, createDateTimeName, \
@@ -388,14 +389,38 @@ class DMPManager:
                     root = QgsProject.instance().layerTreeRoot()
                     mprg = createGroup(spv["Global root"], root)
                     mpag = createGroup(spv["Administration root"], mprg)
+                    ml = None
+                    ll = []
+                    
+                    if sd.rbDatabase.isChecked():
+                        # Database based local repository
+                        if sd.cbDatabase.currentIndex() >= 0 and sd.leSchema.text() != '':
+                            setting = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
+                            logI(str(setting))
+                            metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
+                            logI(str(metadata))
+                            connection = metadata.findConnection("dmp-test on localhost")
+                            logI(str(connection))
+                            uri = QgsDataSourceUri(connection.uri())
+                            logI(str(uri))
+                            uri.setSchema(sd.leSchema.text())
+                            ml, ll = createMemLayer(self.attributes, temanr, 25832)
+                            logI(uri.uri())
+                        else:
+                            messC('Database connection or schemaname not set')
+                    else: 
+                        # File based local repository
+                        if sd.fwDirectory.filePath() != "" and sd.cbFiletype.currentIndex() >= 0: 
+                            ml, ll = createMemLayer(self.attributes, temanr, 25832)
+                        else:
+                            messC('Directory path or filetype not set')
 
-                    ml, ll = createMemLayer(self.attributes, temanr, 25832)
+                    if ml is not None:
+                        for le in ll:
+                            addLayer2Tree(mpag, le, False)
 
-                    for le in ll:
-                        addLayer2Tree(mpag, le, False)
-
-                    ll = loadLayer(ml, result)
-                    addLayer2Tree(mprg, ml, False)
+                        ll = loadLayer(ml, result)
+                        addLayer2Tree(mprg, ml, False)
 
                 else:
 
@@ -422,7 +447,7 @@ class DMPManager:
         dbn = ['DB2', 'GeoPackage', 'MSSQL', 'Oracle', 'PostgreSQL', 'SpatiaLite']
         for d in dbn:
 
-            dx = '/{}/connections/'.format(d)
+            dx = '/{}/connections/'.format(d if d != 'GeoPackage' else 'providers/ogr/GPKG')
 
             st.beginGroup(dx)
             conn = st.childGroups()

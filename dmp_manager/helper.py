@@ -359,11 +359,9 @@ def createField(e):
 
     elif e['data-type'] == "uuid":
         f.setType(QVariant.String)
-        f.setLength(36)
 
     elif e['data-type'] == "datetime":
-        f.setType(QVariant.String)
-        f.setLength(33)
+        f.setType(QVariant.DateTime)
 
     elif e['data-type'] == "number":
         f.setType(QVariant.Int)

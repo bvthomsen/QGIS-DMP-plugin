@@ -1,5 +1,3801 @@
 {
-    "attributter": {},
-    "temakoder"  : {},
-    "temaattributter": {}
+    "attributter": [
+        {
+            "type": "attributter",
+            "id": "temaattributter",
+            "attributes": {
+                "name": "temaattributter",
+                "title": "Temaattributter",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/attributter/temaattributter"
+            }
+        },
+        {
+            "type": "attributter",
+            "id": "objekt-id",
+            "attributes": {
+                "name": "objekt-id",
+                "title": "ObjektId",
+                "required": true,
+                "readonly": true,
+                "default": null,
+                "data-type": "uuid",
+                "domain": null
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/attributter/objekt-id"
+            }
+        },
+        {
+            "type": "attributter",
+            "id": "version-id",
+            "attributes": {
+                "name": "version-id",
+                "title": "VersionId",
+                "required": true,
+                "readonly": true,
+                "default": null,
+                "data-type": "uuid",
+                "domain": null
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/attributter/version-id"
+            }
+        },
+        {
+            "type": "attributter",
+            "id": "systid-fra",
+            "attributes": {
+                "name": "systid-fra",
+                "title": "Start systemtid",
+                "required": true,
+                "readonly": true,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/attributter/systid-fra"
+            }
+        },
+        {
+            "type": "attributter",
+            "id": "systid-til",
+            "attributes": {
+                "name": "systid-til",
+                "title": "Slut systemtid",
+                "required": false,
+                "readonly": true,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/attributter/systid-til"
+            }
+        },
+        {
+            "type": "attributter",
+            "id": "oprettet",
+            "attributes": {
+                "name": "oprettet",
+                "title": "Systemtid for oprettelse",
+                "required": true,
+                "readonly": true,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/attributter/oprettet"
+            }
+        },
+        {
+            "type": "attributter",
+            "id": "oprindkode-id",
+            "attributes": {
+                "name": "oprindkode-id",
+                "title": "Oprindelse",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ikke udfyldt",
+                    "1": "Ortofoto",
+                    "2": "Matrikelkort",
+                    "3": "Opm\u00e5ling",
+                    "4": "FOT / Tekniske kort",
+                    "5": "Modelberegning",
+                    "6": "Tegning",
+                    "7": "Felt-/markbes\u00f8g",
+                    "8": "Borgeranmeldelse",
+                    "9": "Luftfoto (historiske 1944-93)",
+                    "10": "Skr\u00e5foto",
+                    "11": "Andre foto"
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/attributter/oprindkode-id"
+            }
+        },
+        {
+            "type": "attributter",
+            "id": "statuskode-id",
+            "attributes": {
+                "name": "statuskode-id",
+                "title": "G\u00e6ldende status",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ukendt",
+                    "1": "Kladde",
+                    "2": "Forslag",
+                    "3": "G\u00e6ldende / Vedtaget",
+                    "4": "Ikke g\u00e6ldende / Aflyst"
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/attributter/statuskode-id"
+            }
+        },
+        {
+            "type": "attributter",
+            "id": "off-kode-id",
+            "attributes": {
+                "name": "off-kode-id",
+                "title": "Tilg\u00e6ngelighed",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "1": "Synlig for alle",
+                    "2": "Synlig for den ansvarlige myndighed",
+                    "3": "Synlig for alle myndigheder, men ikke offentligheden"
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/attributter/off-kode-id"
+            }
+        },
+        {
+            "type": "attributter",
+            "id": "cvr-kode-id",
+            "attributes": {
+                "name": "cvr-kode-id",
+                "title": "Myndighed",
+                "required": true,
+                "readonly": true,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "66137112": "Albertslund kommune",
+                    "60183112": "Aller\u00f8d kommune",
+                    "29189692": "Assens kommune",
+                    "58271713": "Ballerup kommune",
+                    "29189765": "Billund kommune",
+                    "26696348": "Bornholms Regionskommune",
+                    "65113015": "Br\u00f8ndby kommune",
+                    "29189501": "Br\u00f8nderslev kommune",
+                    "10859387": "Danmarks Milj\u00f8unders\u00f8gelser",
+                    "55145016": "De Nationale Geologiske Unders\u00f8gelser for Danmark og Gr\u00f8nland",
+                    "57607556": "Det Jordbrugsvidenskabelige Fakultet",
+                    "12881517": "Drag\u00f8r kommune",
+                    "29188386": "Egedal kommune",
+                    "29189803": "Esbjerg kommune",
+                    "31210917": "Fan\u00f8 kommune",
+                    "29189714": "Favrskov kommune",
+                    "29188475": "Faxe kommune",
+                    "29188335": "Fredensborg kommune",
+                    "69116418": "Fredericia kommune",
+                    "11259979": "Frederiksberg kommune",
+                    "29189498": "Frederikshavn kommune",
+                    "29189129": "Frederikssund kommune",
+                    "29188327": "Fures\u00f8 kommune",
+                    "29188645": "Faaborg-Midtfyn kommune",
+                    "19438414": "Gentofte kommune",
+                    "62761113": "Gladsaxe kommune",
+                    "65120119": "Glostrup kommune",
+                    "44023911": "Greve kommune",
+                    "29188440": "Gribskov kommune",
+                    "29188599": "Guldborgsund Kommune",
+                    "29189757": "Haderslev kommune",
+                    "29188416": "Halsn\u00e6s kommune",
+                    "29189587": "Hedensted Kommune",
+                    "64502018": "Helsing\u00f8r kommune",
+                    "63640719": "Herlev kommune",
+                    "29189919": "Herning kommune",
+                    "29189366": "Hiller\u00f8d kommune",
+                    "29189382": "Hj\u00f8rring kommune",
+                    "29189447": "Holb\u00e6k kommune",
+                    "29189927": "Holstebro kommune",
+                    "29189889": "Horsens kommune",
+                    "55606617": "Hvidovre kommune",
+                    "19501817": "H\u00f8je-Taastrup kommune",
+                    "70960516": "H\u00f8rsholm kommune",
+                    "29189617": "Ikast-Brande kommune",
+                    "11931316": "Ish\u00f8j kommune",
+                    "29189439": "Jammerbugt kommune",
+                    "29189595": "Kalundborg kommune",
+                    "29189706": "Kerteminde kommune",
+                    "29189897": "Kolding kommune",
+                    "62965916": "Kort- og Matrikelstyrelsen",
+                    "26489865": "Kulturarvsstyrelsen",
+                    "64942212": "K\u00f8benhavns kommune",
+                    "29189374": "K\u00f8ge kommune",
+                    "29188955": "Langeland kommune",
+                    "29188548": "Lejre kommune",
+                    "29189935": "Lemvig kommune",
+                    "29188572": "Lolland kommune",
+                    "11715311": "Lyngby-Taarb\u00e6k kommune",
+                    "45973328": "L\u00e6s\u00f8 kommune",
+                    "29189455": "Mariagerfjord kommune",
+                    "29189684": "Middelfart kommune",
+                    "25798376": "Milj\u00f8styrelsen",
+                    "41333014": "Mors\u00f8 kommune",
+                    "33157274": "Naturstyrelsen",
+                    "29189986": "Norddjurs kommune",
+                    "29188947": "Nordfyns Kommune",
+                    "29189722": "Nyborg kommune",
+                    "29189625": "N\u00e6stved kommune",
+                    "32264328": "Odder kommune",
+                    "35209115": "Odense kommune",
+                    "29188459": "Odsherred kommune",
+                    "29189668": "Randers Kommune",
+                    "29189463": "Rebild Kommune",
+                    "29190623": "Region Hovedstaden",
+                    "29190925": "Region Midtjylland",
+                    "29190941": "Region Nordjylland",
+                    "29190658": "Region Sj\u00e6lland",
+                    "29190909": "Region Syddanmark",
+                    "29189609": "Ringk\u00f8bing-Skjern kommune",
+                    "18957981": "Ringsted kommune",
+                    "29189404": "Roskilde kommune",
+                    "29188378": "Rudersdal kommune",
+                    "65307316": "R\u00f8dovre kommune",
+                    "23795515": "Sams\u00f8 kommune",
+                    "29189641": "Silkeborg Kommune",
+                    "29189633": "Skanderborg kommune",
+                    "29189579": "Skive kommune",
+                    "29188505": "Slagelse kommune",
+                    "68534917": "Solr\u00f8d kommune",
+                    "29189994": "Sor\u00f8 kommune",
+                    "29208654": "Stevns kommune",
+                    "29189951": "Struer kommune",
+                    "29189730": "Svendborg kommune",
+                    "29189978": "Syddjurs kommune",
+                    "29189773": "S\u00f8nderborg kommune",
+                    "29189560": "Thisted Kommune",
+                    "29189781": "T\u00f8nder kommune",
+                    "20310413": "T\u00e5rnby kommune",
+                    "19583910": "Vallensb\u00e6k kommune",
+                    "29189811": "Varde kommune",
+                    "29189838": "Vejen kommune",
+                    "29189900": "Vejle kommune",
+                    "29189471": "Vesthimmerlands kommune",
+                    "29189846": "Viborg kommune",
+                    "29189676": "Vordingborg kommune",
+                    "28856075": "\u00c6r\u00f8 Kommune",
+                    "29189854": "Aabenraa kommune",
+                    "29189420": "Aalborg kommune",
+                    "55133018": "\u00c5rhus Kommune",
+                    "15232102": "15.JUNI FONDEN",
+                    "19869644": "AGLAJA V/EIGIL PL\u00d8GER",
+                    "29038597": "Agri Nord",
+                    "22278916": "ALECTIA A/S",
+                    "31174562": "AL-NORTH ApS",
+                    "25388224": "ALS DENMARK A/S",
+                    "32278094": "Amphi Consult ApS",
+                    "31259509": "AMPHI-BAC ApS",
+                    "20228806": "ANALYTECH MILJ\u00d8LABORATORIUM A/S",
+                    "25556526": "Anders Thomsen Naturkonsulent",
+                    "26121418": "ARTOGIS A/S",
+                    "26048494": "ATKINS DANMARK A/S",
+                    "18632276": "Banedanmark",
+                    "25601920": "BIOFOS A/S",
+                    "32749151": "BIOWITT ApS",
+                    "33602669": "Bryologkredsen",
+                    "44623528": "COWI A/S",
+                    "29530572": "DANKOI ApS",
+                    "15796146": "DANMARKS J\u00c6GERFORBUND",
+                    "60804214": "DANMARKS NATURFREDNINGSFORENING",
+                    "37099015": "DANMARKS SPORTSFISKERFORBUND",
+                    "82023917": "Dansk Akvakultur",
+                    "36923113": "Dansk Bioconsult ApS",
+                    "26938228": "Dansk Biologisk Laboratorium",
+                    "20538228": "Dansk Botanisk Forening",
+                    "54752415": "Dansk Ornitologisk Forening",
+                    "59198513": "Dansk Skovforening",
+                    "82289011": "DE DANSKE SKOVDYRKERFORENINGER F.M.B.A.",
+                    "36502991": "DEN DANSKE NATURFOND",
+                    "37057819": "DHI",
+                    "24246930": "DLG (DANSK LANDBRUGS GROVVARESELSKAB A.M.B.A.)",
+                    "18334305": "ENVIDAN A/S",
+                    "70727528": "Ekokem OW A/S",
+                    "28848196": "EUROFINS MILJ\u00d8 A/S",
+                    "28986564": "FEMERN B\u00c6LT A/S",
+                    "18128594": "FISKE\u00d8KOLOGISK LABORATORIUM ApS",
+                    "56230718": "FRILUFTSR\u00c5DET",
+                    "30958799": "GeoDanmark",
+                    "15959177": "GEOKON A/S",
+                    "31576393": "HABITATVISION A/S",
+                    "14268537": "HOEJMARK GROUP A/S",
+                    "29688524": "H\u00d8JVANG LABORATORIER A/S",
+                    "27428843": "Jysk Landbrugsr\u00e5dgivning",
+                    "31123992": "Landboforeningen Gefion",
+                    "32708218": "Landsforeningen for B\u00e6redygtigt Landbrug",
+                    "25049608": "LandboNord",
+                    "25529529": "LANDBRUG & F\u00d8DEVARER F.M.B.A.",
+                    "20937289": "LIFA A/S LANDINSPEKT\u00d8RER",
+                    "30869052": "LMO I/S",
+                    "10499607": "Luscus Naturoverv\u00e5gning v/Ole G Norden Andersen",
+                    "64045628": "MOE A/S",
+                    "18210932": "Natur- og Milj\u00f8klagen\u00e6vnet",
+                    "63852228": "Natur og Ungdom",
+                    "20814616": "NaturErhvervstyrelsen",
+                    "29073910": "NATURHISTORISK MUSEUM",
+                    "34468753": "NATURR\u00c5DGIVNINGEN A/S",
+                    "31498945": "NATURPLAN ApS",
+                    "11647308": "NIRAS A/S",
+                    "21265543": "ORBICON A/S",
+                    "74038212": "PLANENERGI",
+                    "32571468": "R. DONS' VANDANALYTISK LABORATORIUM A/S",
+                    "26205204": "SEACON A/S",
+                    "32346987": "SEGES P/S",
+                    "29283958": "Syddansk Universitet",
+                    "37606030": "SVANA",
+                    "48233511": "Sweco Danmark A/S",
+                    "47437113": "S\u00f8nderjysk Landboforening",
+                    "56976116": "Teknologisk Institut (Agrotech)",
+                    "18742284": "VBM LABORATORIET A/S",
+                    "60729018": "Vejdirektoratet",
+                    "40781218": "WWF",
+                    "13038139": "\u00d8kologisk Landsforening",
+                    "31119103": "Aarhus Universitet",
+                    "34072191": "Slots- og Kulturstyrelsen",
+                    "29776938": "Danmarks Milj\u00f8portal Digital Milj\u00f8forvaltning",
+                    "99999999": "Ukendt"
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/attributter/cvr-kode-id"
+            }
+        },
+        {
+            "type": "attributter",
+            "id": "bruger-id",
+            "attributes": {
+                "name": "bruger-id",
+                "title": "Brugere",
+                "required": true,
+                "readonly": true,
+                "default": null,
+                "data-type": "uuid",
+                "domain": null
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/attributter/bruger-id"
+            }
+        },
+        {
+            "type": "attributter",
+            "id": "link",
+            "attributes": {
+                "name": "link",
+                "title": "URL-link",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/attributter/link"
+            }
+        },
+        {
+            "type": "attributter",
+            "id": "shape",
+            "attributes": {
+                "name": "shape",
+                "title": "Shape",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/attributter/shape"
+            }
+        }
+    ],
+    "temakoder": [
+        {
+            "type": "temakoder",
+            "id": "2001",
+            "attributes": {
+                "title": "Beskyttede sten- og jorddiger",
+                "name": "bes_sten_jorddiger",
+                "geometry-type": "MultiLineString"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2001"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2003",
+            "attributes": {
+                "title": "S\u00f8beskyttelseslinjer",
+                "name": "soe_bes_linjer",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2003"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2004",
+            "attributes": {
+                "title": "\u00c5beskyttelseslinjer",
+                "name": "aa_bes_linjer",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2004"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2005",
+            "attributes": {
+                "title": "Skovbyggelinjer",
+                "name": "skovbyggelinjer",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2005"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2008",
+            "attributes": {
+                "title": "Kirkebyggelinjer",
+                "name": "kirkebyggelinjer",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2008"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2009",
+            "attributes": {
+                "title": "Fredede omr\u00e5der",
+                "name": "fredede_omr",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2009"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2010",
+            "attributes": {
+                "title": "Fredede omr\u00e5der, forslag",
+                "name": "fredede_omr_forslag",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2010"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2013",
+            "attributes": {
+                "title": "Beskyttede naturtyper",
+                "name": "bes_naturtyper",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2013"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2014",
+            "attributes": {
+                "title": "Beskyttede vandl\u00f8b",
+                "name": "bes_vandloeb",
+                "geometry-type": "MultiLineString"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2014"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2018",
+            "attributes": {
+                "title": "NATURA 2000 - Fuglebeskyttelse",
+                "name": "fugle_bes_omr",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2018"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2019",
+            "attributes": {
+                "title": "NATURA 2000 - Habitatomr\u00e5der",
+                "name": "habitat_omr",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2019"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2020",
+            "attributes": {
+                "title": "Ramsar omr\u00e5der",
+                "name": "ramsar_omr",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2020"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2037",
+            "attributes": {
+                "title": "Natur- og vildtreservater",
+                "name": "natur_vildt_reservat",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2037"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2038",
+            "attributes": {
+                "title": "Kystn\u00e6rhedszone",
+                "name": "kystnaerhedszone",
+                "geometry-type": "LineString"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2038"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2054",
+            "attributes": {
+                "title": "Omr\u00e5deklassificering",
+                "name": "omr_klassificering",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2054"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2055",
+            "attributes": {
+                "title": "R\u00e5stofomr\u00e5der",
+                "name": "raastofomr",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2055"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2079",
+            "attributes": {
+                "title": "Kv\u00e6lstofreduktionspotentialer",
+                "name": "kvaelstof_red_pot",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2079"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2097",
+            "attributes": {
+                "title": "Igangv\u00e6rende p\u00e5bud JFL",
+                "name": "paabud_jfl",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2097"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2112",
+            "attributes": {
+                "title": "Indsatsplaner for grundvandsbeskyttelse",
+                "name": "indsatsplaner",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2112"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2140",
+            "attributes": {
+                "title": "Bekendtg\u00f8relsesfredninger",
+                "name": "fredede_omr_bk",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2140"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2141",
+            "attributes": {
+                "title": "Aftalearealer for grundvandsbeskyttelse",
+                "name": "aftarea_grvbes",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2141"
+            }
+        },
+        {
+            "type": "temakoder",
+            "id": "2142",
+            "attributes": {
+                "title": "Status p\u00e5 BNBO",
+                "name": "status_bnbo",
+                "geometry-type": "MultiPolygon"
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2142"
+            }
+        }
+    ],
+    "temaattributter": [
+        {
+            "type": "temaattributter",
+            "id": "2004-aendr-kode-id",
+            "attributes": {
+                "name": "aendr-kode-id",
+                "title": "\u00c6ndringsbegrundelse",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ikke udfyldt",
+                    "1": "Besigtigelse",
+                    "2": "Teknisk rettelse",
+                    "3": "Plan\u00e6ndring",
+                    "4": "Generel ajourf\u00f8ring"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2004-aendr-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2004-aendr-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2004"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2004-aendr-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2004-sagsbeh",
+            "attributes": {
+                "name": "sagsbeh",
+                "title": "Navn p\u00e5 den faglige sagsbehandler",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2004-sagsbeh/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2004-sagsbeh/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2004"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2004-sagsbeh"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2004-op-aars-k-id",
+            "attributes": {
+                "name": "op-aars-k-id",
+                "title": "\u00c5rsag til oph\u00e6velse af beskyttelseslinje",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ikke udfyldt",
+                    "1": "Bym\u00e6ssig bebyggelse f\u00f8r 1972",
+                    "2": "Statslig afg\u00f8relse"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2004-op-aars-k-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2004-op-aars-k-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2004"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2004-op-aars-k-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2141-afttyp-id",
+            "attributes": {
+                "name": "afttyp-id",
+                "title": "Aftaletype",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Frivillig aftale",
+                    "1": "Opk\u00f8b af jord til grundvandsbeskyttelse",
+                    "2": "P\u00e5bud efter MBL \u00a7 24",
+                    "3": "P\u00e5bud efter MBL \u00a7 26 a"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2141-afttyp-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2141-afttyp-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2141"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2141-afttyp-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2141-resttyp-id",
+            "attributes": {
+                "name": "resttyp-id",
+                "title": "Restriktionstype",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Pesticider",
+                    "1": "Kv\u00e6lstof",
+                    "2": "Pesticider og kv\u00e6lstof"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2141-resttyp-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2141-resttyp-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2141"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2141-resttyp-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2141-aftdat",
+            "attributes": {
+                "name": "aftdat",
+                "title": "Aftaledato",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2141-aftdat/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2141-aftdat/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2141"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2141-aftdat"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2013-natyp-kode-id",
+            "attributes": {
+                "name": "natyp-kode-id",
+                "title": "Naturtype",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ukendt",
+                    "1": "Eng",
+                    "2": "Hede",
+                    "3": "Mose",
+                    "4": "Overdrev",
+                    "5": "Strandeng",
+                    "6": "S\u00f8"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-natyp-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-natyp-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2013"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-natyp-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2013-aendr-kode-id",
+            "attributes": {
+                "name": "aendr-kode-id",
+                "title": "\u00c6ndringsbegrundelse",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ikke udfyldt",
+                    "1": "Besigtigelse",
+                    "2": "Teknisk rettelse",
+                    "3": "Plan\u00e6ndring",
+                    "4": "Generel ajourf\u00f8ring"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-aendr-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-aendr-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2013"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-aendr-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2013-sagsbeh",
+            "attributes": {
+                "name": "sagsbeh",
+                "title": "Sagsbehandler",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-sagsbeh/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-sagsbeh/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2013"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-sagsbeh"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2013-gl-sys-ref",
+            "attributes": {
+                "name": "gl-sys-ref",
+                "title": "Betegnelse (GlSysRef)",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-gl-sys-ref/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-gl-sys-ref/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2013"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-gl-sys-ref"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2013-besig-dato",
+            "attributes": {
+                "name": "besig-dato",
+                "title": "Dato for seneste besigtigelse",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-besig-dato/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-besig-dato/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2013"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-besig-dato"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2013-journalnr",
+            "attributes": {
+                "name": "journalnr",
+                "title": "Journalnumre",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-journalnr/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-journalnr/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2013"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-journalnr"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2013-vedligehold-status-id",
+            "attributes": {
+                "name": "vedligehold-status-id",
+                "title": "Vedligehold status",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "1": "Ok - gennemg\u00e5et",
+                    "2": "Uoverensstemmelse",
+                    "3": "Ny natur",
+                    "4": "Afregistreret",
+                    "100": "ret (INVALID)",
+                    "101": "slet (INVALID)",
+                    "102": "Tjek (INVALID)",
+                    "103": "uover - 1 (INVALID)",
+                    "104": "uover - 2 (INVALID)",
+                    "105": "uover - 3 (INVALID)",
+                    "106": "uover - 4 (INVALID)",
+                    "107": "uover - 5 (INVALID)",
+                    "108": "uover - 6 (INVALID)",
+                    "109": "uover - 7 (INVALID)",
+                    "110": "uover - 3 og 4 (INVALID)",
+                    "111": "uover - 3 og 5 (INVALID)",
+                    "112": "uover - 3 og 6 (INVALID)",
+                    "113": "uover - 3 og 7 (INVALID)",
+                    "114": "uover - 4 og 7 (INVALID)"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-vedligehold-status-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-vedligehold-status-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2013"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-vedligehold-status-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2013-vedligehold-tid",
+            "attributes": {
+                "name": "vedligehold-tid",
+                "title": "Vedligehold tidspunkt",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-vedligehold-tid/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-vedligehold-tid/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2013"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2013-vedligehold-tid"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2001-dige-id",
+            "attributes": {
+                "name": "dige-id",
+                "title": "DigeId",
+                "required": true,
+                "readonly": true,
+                "default": null,
+                "data-type": "number",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2001-dige-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2001-dige-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2001"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2001-dige-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2014-aendr-kode-id",
+            "attributes": {
+                "name": "aendr-kode-id",
+                "title": "\u00c6ndringsbegrundelse",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ikke udfyldt",
+                    "1": "Besigtigelse",
+                    "2": "Teknisk rettelse",
+                    "3": "Plan\u00e6ndring",
+                    "4": "Generel ajourf\u00f8ring"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2014-aendr-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2014-aendr-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2014"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2014-aendr-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2009-fred-tkode-id",
+            "attributes": {
+                "name": "fred-tkode-id",
+                "title": "Fredning",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "1": "Arealfredning",
+                    "2": "Kirkefredning",
+                    "3": "Statsfredning",
+                    "4": "Videnskabeligt reservat"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-fred-tkode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-fred-tkode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2009"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-fred-tkode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2009-reg-nr",
+            "attributes": {
+                "name": "reg-nr",
+                "title": "Registreringsnummer",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-reg-nr/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-reg-nr/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2009"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-reg-nr"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2009-fred-navn",
+            "attributes": {
+                "name": "fred-navn",
+                "title": "Kaldenavn",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-fred-navn/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-fred-navn/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2009"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-fred-navn"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2009-aendr-kode-id",
+            "attributes": {
+                "name": "aendr-kode-id",
+                "title": "\u00c6ndringsbegrundelse",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ikke udfyldt",
+                    "1": "Besigtigelse",
+                    "2": "Teknisk rettelse",
+                    "3": "Plan\u00e6ndring",
+                    "4": "Generel ajourf\u00f8ring"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-aendr-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-aendr-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2009"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-aendr-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2009-aar-fredn",
+            "attributes": {
+                "name": "aar-fredn",
+                "title": "\u00c5rstal for endelig afg\u00f8relse",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "number",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-aar-fredn/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-aar-fredn/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2009"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-aar-fredn"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2009-gyldig-fra",
+            "attributes": {
+                "name": "gyldig-fra",
+                "title": "Start p\u00e5 gyldighedsperiode",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-gyldig-fra/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-gyldig-fra/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2009"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-gyldig-fra"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2009-gyldig-til",
+            "attributes": {
+                "name": "gyldig-til",
+                "title": "Slut p\u00e5 gyldighedsperiode",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-gyldig-til/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-gyldig-til/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2009"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2009-gyldig-til"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2140-fred-tkode-id",
+            "attributes": {
+                "name": "fred-tkode-id",
+                "title": "Fredning",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "1": "Arealfredning",
+                    "2": "Kirkefredning",
+                    "3": "Statsfredning",
+                    "4": "Videnskabeligt reservat"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-fred-tkode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-fred-tkode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2140"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-fred-tkode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2140-reg-nr",
+            "attributes": {
+                "name": "reg-nr",
+                "title": "Registreringsnummer",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-reg-nr/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-reg-nr/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2140"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-reg-nr"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2140-fred-navn",
+            "attributes": {
+                "name": "fred-navn",
+                "title": "Kaldenavn",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-fred-navn/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-fred-navn/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2140"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-fred-navn"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2140-aendr-kode-id",
+            "attributes": {
+                "name": "aendr-kode-id",
+                "title": "\u00c6ndringsbegrundelse",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ikke udfyldt",
+                    "1": "Besigtigelse",
+                    "2": "Teknisk rettelse",
+                    "3": "Plan\u00e6ndring",
+                    "4": "Generel ajourf\u00f8ring"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-aendr-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-aendr-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2140"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-aendr-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2140-aar-fredn",
+            "attributes": {
+                "name": "aar-fredn",
+                "title": "\u00c5rstal for endelig afg\u00f8relse",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "number",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-aar-fredn/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-aar-fredn/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2140"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-aar-fredn"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2140-gyldig-fra",
+            "attributes": {
+                "name": "gyldig-fra",
+                "title": "Start p\u00e5 gyldighedsperiode",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-gyldig-fra/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-gyldig-fra/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2140"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-gyldig-fra"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2140-gyldig-til",
+            "attributes": {
+                "name": "gyldig-til",
+                "title": "Slut p\u00e5 gyldighedsperiode",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-gyldig-til/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-gyldig-til/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2140"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2140-gyldig-til"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2010-fred-tkode-id",
+            "attributes": {
+                "name": "fred-tkode-id",
+                "title": "Fredning",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "1": "Arealfredning",
+                    "2": "Kirkefredning",
+                    "3": "Statsfredning",
+                    "4": "Videnskabeligt reservat"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-fred-tkode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-fred-tkode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2010"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-fred-tkode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2010-reg-nr",
+            "attributes": {
+                "name": "reg-nr",
+                "title": "Registreringsnummer",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-reg-nr/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-reg-nr/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2010"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-reg-nr"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2010-fred-navn",
+            "attributes": {
+                "name": "fred-navn",
+                "title": "Kaldenavn",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-fred-navn/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-fred-navn/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2010"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-fred-navn"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2010-forsl-dato",
+            "attributes": {
+                "name": "forsl-dato",
+                "title": "Dato for hvorn\u00e5r forslaget er rejst",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-forsl-dato/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-forsl-dato/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2010"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-forsl-dato"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2010-gyldig-fra",
+            "attributes": {
+                "name": "gyldig-fra",
+                "title": "Start p\u00e5 gyldighedsperiode",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-gyldig-fra/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-gyldig-fra/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2010"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-gyldig-fra"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2010-gyldig-til",
+            "attributes": {
+                "name": "gyldig-til",
+                "title": "Slut p\u00e5 gyldighedsperiode",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-gyldig-til/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-gyldig-til/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2010"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2010-gyldig-til"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2018-site-nr",
+            "attributes": {
+                "name": "site-nr",
+                "title": "SiteNr (Kodev\u00e6rdi for GIS objekt)",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "number",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-site-nr/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-site-nr/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2018"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-site-nr"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2018-objektnavn",
+            "attributes": {
+                "name": "objektnavn",
+                "title": "Objektnavn",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-objektnavn/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-objektnavn/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2018"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-objektnavn"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2018-loc-ident",
+            "attributes": {
+                "name": "loc-ident",
+                "title": "SPA + identifikation af objektet",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-loc-ident/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-loc-ident/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2018"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-loc-ident"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2018-site-ident",
+            "attributes": {
+                "name": "site-ident",
+                "title": "Officiel EU Sitecode fra bekendtg\u00f8relse",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-site-ident/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-site-ident/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2018"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-site-ident"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2018-gyldig-fra",
+            "attributes": {
+                "name": "gyldig-fra",
+                "title": "Start p\u00e5 gyldighedsperiode",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-gyldig-fra/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-gyldig-fra/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2018"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-gyldig-fra"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2018-gyldig-til",
+            "attributes": {
+                "name": "gyldig-til",
+                "title": "Slut p\u00e5 gyldighedsperiode",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-gyldig-til/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-gyldig-til/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2018"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2018-gyldig-til"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2019-site-nr",
+            "attributes": {
+                "name": "site-nr",
+                "title": "SiteNr (Kodev\u00e6rdi for GIS objekt)",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "number",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-site-nr/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-site-nr/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2019"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-site-nr"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2019-objektnavn",
+            "attributes": {
+                "name": "objektnavn",
+                "title": "Objektnavn",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-objektnavn/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-objektnavn/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2019"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-objektnavn"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2019-loc-ident",
+            "attributes": {
+                "name": "loc-ident",
+                "title": "SPA + identifikation af objektet",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-loc-ident/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-loc-ident/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2019"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-loc-ident"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2019-site-ident",
+            "attributes": {
+                "name": "site-ident",
+                "title": "Officiel EU Sitecode fra bekendtg\u00f8relse",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-site-ident/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-site-ident/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2019"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-site-ident"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2019-gyldig-fra",
+            "attributes": {
+                "name": "gyldig-fra",
+                "title": "Start p\u00e5 gyldighedsperiode",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-gyldig-fra/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-gyldig-fra/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2019"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-gyldig-fra"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2019-gyldig-til",
+            "attributes": {
+                "name": "gyldig-til",
+                "title": "Slut p\u00e5 gyldighedsperiode",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-gyldig-til/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-gyldig-til/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2019"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2019-gyldig-til"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2112-indsatsplan",
+            "attributes": {
+                "name": "indsatsplan",
+                "title": "Navn",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2112-indsatsplan/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2112-indsatsplan/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2112"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2112-indsatsplan"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2112-plan-oprin-kode-id",
+            "attributes": {
+                "name": "plan-oprin-kode-id",
+                "title": "Insatsplanens oprindelse",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "1": "P\u00e5 baggrund af supplerende kortl\u00e6gning",
+                    "2": "P\u00e5 baggrund af revurderet vidensgrundlag",
+                    "3": "Statens grundvandskortl\u00e6gning",
+                    "4": "Kortl\u00e6gning foretaget af kommune eller vandv\u00e6rk",
+                    "5": "Regionens grundvandskortl\u00e6gning",
+                    "6": "Ingen kortl\u00e6gning - revision af eksisterende indsatsplan"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2112-plan-oprin-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2112-plan-oprin-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2112"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2112-plan-oprin-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2112-dato-pol-vedt",
+            "attributes": {
+                "name": "dato-pol-vedt",
+                "title": "Politisk vedtagelse",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2112-dato-pol-vedt/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2112-dato-pol-vedt/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2112"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2112-dato-pol-vedt"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2112-revisionsdato",
+            "attributes": {
+                "name": "revisionsdato",
+                "title": "Revisionsdato",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2112-revisionsdato/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2112-revisionsdato/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2112"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2112-revisionsdato"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2008-aendr-kode-id",
+            "attributes": {
+                "name": "aendr-kode-id",
+                "title": "\u00c6ndringsbegrundelse",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ikke udfyldt",
+                    "1": "Besigtigelse",
+                    "2": "Teknisk rettelse",
+                    "3": "Plan\u00e6ndring",
+                    "4": "Generel ajourf\u00f8ring"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2008-aendr-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2008-aendr-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2008"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2008-aendr-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2008-sagsbeh",
+            "attributes": {
+                "name": "sagsbeh",
+                "title": "Sagsbehandler",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2008-sagsbeh/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2008-sagsbeh/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2008"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2008-sagsbeh"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2079-natyp-kode-id",
+            "attributes": {
+                "name": "natyp-kode-id",
+                "title": "Kategorisering",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "1": "Kv\u00e6lstofreduktionspotentialet : 0-50%",
+                    "2": "Kv\u00e6lstofreduktionspotentialet : 51-75%",
+                    "3": "Kv\u00e6lstofreduktionspotentialet : 75-100%"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2079-natyp-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2079-natyp-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2079"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2079-natyp-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2037-res-tkode-id",
+            "attributes": {
+                "name": "res-tkode-id",
+                "title": "Type af reservat",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "1": "Tr\u00e6kfuglereservat",
+                    "2": "Ynglefuglereservat",
+                    "3": "S\u00e6lreservat",
+                    "4": "Hedereservat",
+                    "5": "Byreservat",
+                    "6": "\u00d8vrigt reservat"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-res-tkode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-res-tkode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2037"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-res-tkode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2037-beken-navn",
+            "attributes": {
+                "name": "beken-navn",
+                "title": "Navn",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-beken-navn/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-beken-navn/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2037"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-beken-navn"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2037-beken-form",
+            "attributes": {
+                "name": "beken-form",
+                "title": "Form\u00e5let med bekendtg\u00f8relsen",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-beken-form/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-beken-form/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2037"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-beken-form"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2037-beken-dato",
+            "attributes": {
+                "name": "beken-dato",
+                "title": "Bekendtg\u00f8relsens ikrafttr\u00e6den",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-beken-dato/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-beken-dato/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2037"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-beken-dato"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2037-ansv-enhed",
+            "attributes": {
+                "name": "ansv-enhed",
+                "title": "Angivelse af den ansvarlige enhed",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-ansv-enhed/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-ansv-enhed/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2037"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-ansv-enhed"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2037-gyldig-fra",
+            "attributes": {
+                "name": "gyldig-fra",
+                "title": "Start p\u00e5 gyldighedsperiode",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-gyldig-fra/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-gyldig-fra/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2037"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-gyldig-fra"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2037-gyldig-til",
+            "attributes": {
+                "name": "gyldig-til",
+                "title": "Slut p\u00e5 gyldighedsperiode",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-gyldig-til/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-gyldig-til/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2037"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2037-gyldig-til"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2054-ana-krkode-id",
+            "attributes": {
+                "name": "ana-krkode-id",
+                "title": "AnalyseKravKode",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "1": "Analysefrit omr\u00e5de (Kategori 1)",
+                    "2": "Analysefrit omr\u00e5de (Kategori 2)",
+                    "3": "Omr\u00e5de med krav om analyser"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-ana-krkode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-ana-krkode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2054"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-ana-krkode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2054-zonekode-id",
+            "attributes": {
+                "name": "zonekode-id",
+                "title": "Zonekode",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "1": "Byzone",
+                    "2": "Landzone",
+                    "3": "Sommerhusomr\u00e5de",
+                    "4": "Byzone og landzone",
+                    "5": "Sommerhusomr\u00e5de og landzone",
+                    "6": "Byzone og sommerhusomr\u00e5de",
+                    "7": "Byzone, landzone og sommerhusomr\u00e5de",
+                    "100": "Ukendt ved migrering (INVALID)"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-zonekode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-zonekode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2054"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-zonekode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2054-unbegrkode-id",
+            "attributes": {
+                "name": "unbegrkode-id",
+                "title": "Undtagelsesbegrundelse",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "1": "Anvendelseshistorik",
+                    "2": "Alder",
+                    "3": "Intensitet i anvendelse",
+                    "4": "Anvendte br\u00e6ndsler",
+                    "5": "Forureningsoplysninger",
+                    "6": "Trafikanl\u00e6g",
+                    "8": "Andet"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-unbegrkode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-unbegrkode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2054"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-unbegrkode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2054-inbegrkode-id",
+            "attributes": {
+                "name": "inbegrkode-id",
+                "title": "Inddragelsesbegrundelse",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "1": "Opfyldningsomr\u00e5der",
+                    "2": "Industri",
+                    "3": "Vejstr\u00e6kninger",
+                    "4": "Forureningsoplysninger",
+                    "8": "Andet"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-inbegrkode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-inbegrkode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2054"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-inbegrkode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2054-komurl-link",
+            "attributes": {
+                "name": "komurl-link",
+                "title": "Link til kommunens hjemmeside",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-komurl-link/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-komurl-link/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2054"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-komurl-link"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2054-komemailad",
+            "attributes": {
+                "name": "komemailad",
+                "title": "Kommunens e-mail-adresse",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-komemailad/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-komemailad/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2054"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-komemailad"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2054-komtlf",
+            "attributes": {
+                "name": "komtlf",
+                "title": "Kommunens telefonnummer",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "number",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-komtlf/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-komtlf/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2054"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-komtlf"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2054-gyldig-fra",
+            "attributes": {
+                "name": "gyldig-fra",
+                "title": "Start p\u00e5 gyldighedsperiode",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-gyldig-fra/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-gyldig-fra/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2054"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-gyldig-fra"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2054-gyldig-til",
+            "attributes": {
+                "name": "gyldig-til",
+                "title": "Slut p\u00e5 gyldighedsperiode",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-gyldig-til/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-gyldig-til/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2054"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2054-gyldig-til"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2097-dato-start",
+            "attributes": {
+                "name": "dato-start",
+                "title": "Hvorn\u00e5r p\u00e5buddet er meddelt endeligt til ans\u00f8ger",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-dato-start/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-dato-start/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2097"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-dato-start"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2097-hjemmel-kode-id",
+            "attributes": {
+                "name": "hjemmel-kode-id",
+                "title": "Hjemmel",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "\u00a7 9, stk. 2 - Foranstaltninger p\u00e5 kortlagte alment tilg\u00e6ngelige udend\u00f8rs arealer",
+                    "1": "\u00a7 10 - P\u00e5bud om afslutning af \u00a78-projekter",
+                    "2": "\u00a7 40 - Unders\u00f8gelsesp\u00e5bud",
+                    "3": "\u00a7 41 - Afv\u00e6rgep\u00e5bud",
+                    "4": "\u00a7 44 - T\u00e5lep\u00e5bud",
+                    "5": "\u00a7 48 - Unders\u00f8gelsesp\u00e5bud",
+                    "6": "\u00a7 48 - Afv\u00e6rgep\u00e5bud",
+                    "7": "\u00a7 72 a, stk. 3 - Foranstaltninger p\u00e5 omr\u00e5deklass. alment tilg\u00e6ngelige udend\u00f8rs arealer"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-hjemmel-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-hjemmel-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2097"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-hjemmel-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2097-type-kode-id",
+            "attributes": {
+                "name": "type-kode-id",
+                "title": "Type",
+                "required": true,
+                "readonly": false,
+                "default": "0",
+                "data-type": "domain",
+                "domain": {
+                    "0": "Aktivt p\u00e5bud",
+                    "1": "Kun l\u00e6ngerevarende krav"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-type-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-type-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2097"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-type-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2097-dato-delvis-slut",
+            "attributes": {
+                "name": "dato-delvis-slut",
+                "title": "Hvorn\u00e5r p\u00e5buddet er delvist afsluttet",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-dato-delvis-slut/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-dato-delvis-slut/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2097"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-dato-delvis-slut"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2097-indeklima-kode-id",
+            "attributes": {
+                "name": "indeklima-kode-id",
+                "title": "Indeklima",
+                "required": false,
+                "readonly": false,
+                "default": "0",
+                "data-type": "domain",
+                "domain": {
+                    "0": "Nej",
+                    "1": "Ja"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-indeklima-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-indeklima-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2097"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-indeklima-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2097-kontakt-kode-id",
+            "attributes": {
+                "name": "kontakt-kode-id",
+                "title": "Kontakt",
+                "required": false,
+                "readonly": false,
+                "default": "0",
+                "data-type": "domain",
+                "domain": {
+                    "0": "Nej",
+                    "1": "Ja"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-kontakt-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-kontakt-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2097"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-kontakt-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2097-grundvand-kode-id",
+            "attributes": {
+                "name": "grundvand-kode-id",
+                "title": "Grundvand",
+                "required": false,
+                "readonly": false,
+                "default": "0",
+                "data-type": "domain",
+                "domain": {
+                    "0": "Nej",
+                    "1": "Ja"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-grundvand-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-grundvand-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2097"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-grundvand-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2097-andre-kode-id",
+            "attributes": {
+                "name": "andre-kode-id",
+                "title": "Andre krav",
+                "required": false,
+                "readonly": false,
+                "default": "0",
+                "data-type": "domain",
+                "domain": {
+                    "0": "Nej",
+                    "1": "Ja"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-andre-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-andre-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2097"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-andre-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2097-journalnr",
+            "attributes": {
+                "name": "journalnr",
+                "title": "Journalnr",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-journalnr/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-journalnr/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2097"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2097-journalnr"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2055-omr-navn",
+            "attributes": {
+                "name": "omr-navn",
+                "title": "Kaldenavn",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2055-omr-navn/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2055-omr-navn/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2055"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2055-omr-navn"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2055-omr-tkode-id",
+            "attributes": {
+                "name": "omr-tkode-id",
+                "title": "Type",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "1": "R\u00e5stofgraveomr\u00e5de",
+                    "2": "R\u00e5stofinteresseomr\u00e5de",
+                    "3": "Areal med anmeldte rettigheder"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2055-omr-tkode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2055-omr-tkode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2055"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2055-omr-tkode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2055-gyldig-fra",
+            "attributes": {
+                "name": "gyldig-fra",
+                "title": "Start p\u00e5 gyldighedsperiode",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2055-gyldig-fra/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2055-gyldig-fra/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2055"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2055-gyldig-fra"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2055-gyldig-til",
+            "attributes": {
+                "name": "gyldig-til",
+                "title": "Slut p\u00e5 gyldighedsperiode",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2055-gyldig-til/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2055-gyldig-til/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2055"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2055-gyldig-til"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2020-site-nr",
+            "attributes": {
+                "name": "site-nr",
+                "title": "SiteNr (Kodev\u00e6rdi for GIS objekt)",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "number",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2020-site-nr/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2020-site-nr/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2020"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2020-site-nr"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2020-objektnavn",
+            "attributes": {
+                "name": "objektnavn",
+                "title": "Objektnavn",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2020-objektnavn/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2020-objektnavn/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2020"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2020-objektnavn"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2020-loc-ident",
+            "attributes": {
+                "name": "loc-ident",
+                "title": "SPA + identifikation af objektet",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2020-loc-ident/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2020-loc-ident/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2020"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2020-loc-ident"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2020-gyldig-fra",
+            "attributes": {
+                "name": "gyldig-fra",
+                "title": "Start p\u00e5 gyldighedsperiode",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2020-gyldig-fra/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2020-gyldig-fra/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2020"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2020-gyldig-fra"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2020-gyldig-til",
+            "attributes": {
+                "name": "gyldig-til",
+                "title": "Slut p\u00e5 gyldighedsperiode",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2020-gyldig-til/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2020-gyldig-til/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2020"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2020-gyldig-til"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2005-skovs-kode-id",
+            "attributes": {
+                "name": "skovs-kode-id",
+                "title": "Gyldighed",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "1": "G\u00e6ldende",
+                    "2": "Oph\u00e6vet"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2005-skovs-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2005-skovs-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2005"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2005-skovs-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2005-aendr-kode-id",
+            "attributes": {
+                "name": "aendr-kode-id",
+                "title": "\u00c6ndringsbegrundelse",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ikke udfyldt",
+                    "1": "Besigtigelse",
+                    "2": "Teknisk rettelse",
+                    "3": "Plan\u00e6ndring",
+                    "4": "Generel ajourf\u00f8ring"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2005-aendr-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2005-aendr-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2005"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2005-aendr-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2005-sagsbeh",
+            "attributes": {
+                "name": "sagsbeh",
+                "title": "Sagsbehandler",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2005-sagsbeh/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2005-sagsbeh/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2005"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2005-sagsbeh"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2005-skov-eje-k-id",
+            "attributes": {
+                "name": "skov-eje-k-id",
+                "title": "Ejerskab",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ikke udfyldt",
+                    "1": "Privat",
+                    "2": "Offentlig"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2005-skov-eje-k-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2005-skov-eje-k-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2005"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2005-skov-eje-k-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2005-op-aars-k-id",
+            "attributes": {
+                "name": "op-aars-k-id",
+                "title": "\u00c5rsag til oph\u00e6velse af beskyttelseslinje",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ikke udfyldt",
+                    "1": "Bym\u00e6ssig bebyggelse f\u00f8r 1968",
+                    "2": "Statslig afg\u00f8relse"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2005-op-aars-k-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2005-op-aars-k-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2005"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2005-op-aars-k-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2003-aendr-kode-id",
+            "attributes": {
+                "name": "aendr-kode-id",
+                "title": "\u00c6ndringsbegrundelse",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ikke udfyldt",
+                    "1": "Besigtigelse",
+                    "2": "Teknisk rettelse",
+                    "3": "Plan\u00e6ndring",
+                    "4": "Generel ajourf\u00f8ring"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2003-aendr-kode-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2003-aendr-kode-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2003"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2003-aendr-kode-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2003-sagsbeh",
+            "attributes": {
+                "name": "sagsbeh",
+                "title": "Sagsbehandler",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2003-sagsbeh/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2003-sagsbeh/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2003"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2003-sagsbeh"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2003-op-aars-k-id",
+            "attributes": {
+                "name": "op-aars-k-id",
+                "title": "\u00c5rsag til oph\u00e6velse af beskyttelseslinje",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ikke udfyldt",
+                    "1": "Bym\u00e6ssig bebyggelse f\u00f8r 1972",
+                    "2": "Statslig afg\u00f8relse"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2003-op-aars-k-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2003-op-aars-k-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2003"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2003-op-aars-k-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2142-status-bnbo-id",
+            "attributes": {
+                "name": "status-bnbo-id",
+                "title": "Status p\u00e5 gennemgang af BNBO",
+                "required": true,
+                "readonly": false,
+                "default": null,
+                "data-type": "domain",
+                "domain": {
+                    "0": "Ikke gennemg\u00e5et (default v\u00e6rdi)",
+                    "1": "Ingen erhvervsm\u00e6ssig anvendelse af pesticider",
+                    "2": "Gennemg\u00e5et, indsats ikke n\u00f8dvendig",
+                    "3": "Gennemg\u00e5et, indsats n\u00f8vendig",
+                    "4": "Frivillig aftale tilbudt",
+                    "5": "Indsats gennemf\u00f8rt"
+                }
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-status-bnbo-id/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-status-bnbo-id/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2142"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-status-bnbo-id"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2142-datoaend",
+            "attributes": {
+                "name": "datoaend",
+                "title": "Datostempel for \u00e6ndring",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "datetime",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-datoaend/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-datoaend/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2142"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-datoaend"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2142-anlaegsnav",
+            "attributes": {
+                "name": "anlaegsnav",
+                "title": "Navn p\u00e5 anl\u00e6g som BNBO er beregnet til",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-anlaegsnav/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-anlaegsnav/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2142"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-anlaegsnav"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2142-dgunr",
+            "attributes": {
+                "name": "dgunr",
+                "title": "Dgu nr. p\u00e5 boring som BNBO er beregnet til",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-dgunr/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-dgunr/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2142"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-dgunr"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2142-kommunenav",
+            "attributes": {
+                "name": "kommunenav",
+                "title": "Navn p\u00e5 kommune som BNBO ligger i ",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-kommunenav/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-kommunenav/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2142"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-kommunenav"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2142-bek",
+            "attributes": {
+                "name": "bek",
+                "title": "Bekendtg\u00f8relse",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-bek/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-bek/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2142"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-bek"
+            }
+        },
+        {
+            "type": "temaattributter",
+            "id": "2142-anlaegid",
+            "attributes": {
+                "name": "anlaegid",
+                "title": "Anl\u00e6gsId",
+                "required": false,
+                "readonly": false,
+                "default": null,
+                "data-type": "string",
+                "domain": null
+            },
+            "relationships": {
+                "temakode": {
+                    "links": {
+                        "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-anlaegid/relationships/temakode",
+                        "related": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-anlaegid/temakode"
+                    },
+                    "data": {
+                        "type": "temakoder",
+                        "id": "2142"
+                    }
+                }
+            },
+            "links": {
+                "self": "https://arealeditering-api.demo.miljoeportal.dk/temaattributter/2142-anlaegid"
+            }
+        }
+    ]
 }
