@@ -14,7 +14,7 @@
         "--ignore=E24,E265,E501,W504",
         "--verbose"
     ],
-
+    "python.analysis.extraPaths": ["C:\\OSGEO4~1\\apps\\qgis-ltr\\bin","C:\\OSGEO4~1\\apps\\qt5\\bin"],
     // Not working yet 
     "python.envFile": "${workspaceFolder}/dev.env",
 
@@ -56,3 +56,4 @@
         "VSI_CACHE_SIZE": "1000000"
     },
 }
+

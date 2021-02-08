@@ -6,7 +6,8 @@ from PyQt5.QtGui import QPolygonF
 from qgis.utils import iface
 from qgis.core import QgsMessageLog, Qgis, QgsVectorLayer, QgsProject, \
     QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsGeometry, \
-    QgsField, QgsExpressionContextUtils, QgsFeature, QgsPointXY
+    QgsField, QgsExpressionContextUtils, QgsFeature, QgsPointXY, \
+    QgsVectorLayerExporter
 
 trClassName = ''
 
@@ -28,11 +29,19 @@ def tr(message):
 def findLayerVariableValue(ename, evalue):
     """Find layer containing specific environment variable value"""
 
-    for ltLayer in QgsProject.instance().layerTreeRoot().findLayers():
-        if evalue == QgsExpressionContextUtils.layerScope(ltLayer.layer()).variable(ename):
-            return ltLayer, ltLayer.layer()
+    if ename and evalue:
+        for ltLayer in QgsProject.instance().layerTreeRoot().findLayers():
+            if evalue == QgsExpressionContextUtils.layerScope(ltLayer.layer()).variable(ename):
+                return ltLayer, ltLayer.layer()
 
     return None, None
+
+
+def assignLayerVariable(layer, ename, evalue):
+    """Assign name/value pair to specific layer"""
+
+    if layer and ename and evalue:
+        QgsExpressionContextUtils.setLayerVariable(layer, ename, evalue)
 
 
 def logI(mess, tab=None):
@@ -144,44 +153,43 @@ def cnvobj2obj(gobj, epsg_in, epsg_out):
         crsSrc = QgsCoordinateReferenceSystem(epsg_in)
         crsDest = QgsCoordinateReferenceSystem(epsg_out)
         xform = QgsCoordinateTransform(crsSrc, crsDest, QgsProject.instance())
-        i = gobj.transform(xform)
-        return gobj
+        return gobj.transform(xform)
 
 
 def cnvobj2wkt(gobj, epsg_in, epsg_out):
-    """Replace with explanation"""
+    """TBD"""
 
     return cnvobj2obj(gobj, epsg_in, epsg_out).asWkt()
 
 
 def cnvwkt2obj(wkt, epsg_in, epsg_out):
-    """Replace with explanation"""
+    """TBD"""
 
     return cnvobj2obj(QgsGeometry.fromWkt(wkt), epsg_in, epsg_out)
 
 
 def cnvwkt2wkt(wkt, epsg_in, epsg_out):
-    """Replace with explanation"""
+    """TBD"""
 
     return cnvobj2wkt(QgsGeometry.fromWkt(wkt), epsg_in, epsg_out)
 
 
 def wkbtype2simple(wtype):
-    """Replace with explanation"""
+    """TBD"""
 
     my_WkbType = {0: 'pnt', 1: 'pnt', 2: 'lin', 3: 'pol', 4: 'pnt', 5: 'lin', 6: 'pol'}
     return my_WkbType[wtype]
 
 
 def wkbtype2str(wtype):
-    """Replace with explanation"""
+    """TBD"""
 
     my_WkbType = {0: 'Unknown', 1: 'Point', 2: 'LineString', 3: 'Polygon', 4: 'MultiPoint', 5: 'MultiLineString', 6: 'MultiPolygon', 100: 'NoGeometry'}
     return my_WkbType[wtype]
 
 
 def read_config(filename):
-    """Replace with explanation"""
+    """TBD"""
 
     file = open(filename)
     dictF = load(file)
@@ -189,12 +197,33 @@ def read_config(filename):
     return dictF
 
 
-def write_config(filename, config):  # functionality not tested; 2019-11-09
-    """Replace with explanation"""
+def write_config(filename, config):
+    """TBD"""
 
     file = open(filename, mode='w', encoding='utf8')
     dump(config, file, indent=4)
     file.close()
+
+
+def createRequestLog(ename, evalue, lname, root=None, top=True, style=None):
+    """TBD"""
+
+    ltl, ml = findLayerVariableValue(ename, evalue)
+
+    if ml is None:
+
+        ml = QgsVectorLayer("None", lname, "memory")
+        ml.dataProvider().addAttributes([QgsField("operation", QVariant.String),
+                                         QgsField("url", QVariant.String),
+                                         QgsField("package", QVariant.String),
+                                         QgsField("status_code", QVariant.String),
+                                         QgsField("dict", QVariant.String),
+                                         QgsField("timestamp", QVariant.String),
+                                         QgsField("module", QVariant.String)])
+        ml.updateFields()
+        ltl = addLayer2Tree(root, ml, top, ename, evalue, style)
+
+    return ltl, ml
 
 
 def handleRequest(url, isPost=False, headers=None, package=None, loglayer=None, module=''):
@@ -266,6 +295,12 @@ def createDateTimeName(name):
     return '{}_{}'.format(xstr(name), QDateTime.currentDateTime().toString('yyyy_MM_dd_hh_mm_ss_zzz'))
 
 
+def createDmpLayer(uristr, contype, dicta, temanr, epsg):
+    """TBD"""
+
+    pass
+
+
 def createMemLayer(dicta, temanr, epsg):
     """TBD"""
 
@@ -287,7 +322,8 @@ def createMemLayer(dicta, temanr, epsg):
         # Create memory layer
         vl = QgsVectorLayer('{}?crs=epsg:{}&index=yes'.format(gtype,
                             str(epsg).upper().replace('EPSG:', '')),
-                            '{}_{}'.format(temanr, createDateTimeName(tname)), 'memory')
+                            tname, 'memory')
+#                            '{}_{}'.format(temanr, createDateTimeName(tname)), 'memory')
 
         pr = vl.dataProvider()
 
@@ -351,9 +387,6 @@ def createField(e):
     f.setName(e["name"])
     f.setAlias(e["title"])
 
-    if e["default"]:
-        f.setDefaultValueDefinition(e["default"])
-
     if e["data-type"] == "string":
         f.setType(QVariant.String)
 
@@ -373,13 +406,17 @@ def createField(e):
     else:
         e.setType(QVariant.String)
 
+    if e["default"]:
+        f.setDefaultValueDefinition(e["default"])
+
     return f, le
 
 
 def createMemLookup(domain, tfield):
     """TBD"""
 
-    vl = QgsVectorLayer('None', createDateTimeName(tfield), 'memory')
+    vl = QgsVectorLayer('None', tfield, 'memory')
+    # vl = QgsVectorLayer('None', createDateTimeName(tfield), 'memory')
 
     pr = vl.dataProvider()
     pr.addAttributes([QgsField("key", QVariant.String), QgsField("value", QVariant.String)])
@@ -399,7 +436,7 @@ def loadLayer(layer, dicto):
     """Converts an object dictionary to a list of features"""
     j = 0
     for fi in layer.fields():
-        logI(' Field no: {} : {}'.format(j, fi.name()))
+        # logI(' Field no: {} : {}'.format(j, fi.name()))
         j += 1
 
     # Iterate object and create features
@@ -417,7 +454,7 @@ def loadLayer(layer, dicto):
                     f.setAttribute(k2, v2)
             elif k == "shape":
                 f.setGeometry(cnvGJ2QgsGeometry(v))
-                logI('GEOMETRI .... k={}, v={}, geometry = {}'.format(k, v, f.geometry().asWkt()))
+                # logI('GEOMETRI .... k={}, v={}, geometry = {}'.format(k, v, f.geometry().asWkt()))
 
             else:
                 f.setAttribute(k, v)
@@ -425,7 +462,7 @@ def loadLayer(layer, dicto):
         layer.addFeatures([f])
 
     layer.updateExtents()
-    logI('No of features: {} {}'.format(j, layer.featureCount()))
+    # logI('No of features: {} {}'.format(j, layer.featureCount()))
     layer.commitChanges()
 
     return layer
@@ -482,18 +519,57 @@ def fArr2QgsPointArr(flist):
     return qpl
 
 
-def addLayer2Tree(tree, layer, tb, name=None, style=None):
+def addLayer2Tree(tree, layer, tb, vname=None, vvalue=None, style=None, tname=None):
     """Replace with explanation"""
 
-    if tb:
-        ltl = tree.insertLayer(0, layer)
-    else:
-        ltl = tree.addLayer(layer)
+    ltl, l2 = findLayerVariableValue(vname, vvalue)
 
-    QgsProject.instance().addMapLayer(layer, False)
-    if style:
-        layer.loadNamedStyle(style)
+    if l2 is None:
 
-    layer.triggerRepaint()
+        if tb:
+            ltl = tree.insertLayer(0, layer)
+        else:
+            ltl = tree.addLayer(layer)
+
+        QgsProject.instance().addMapLayer(layer, False)
+
+        if style:
+            logI('Style = {}'.format(style))
+            layer.loadNamedStyle(style)
+
+        if tname:
+            ltl.setName(tname)
+
+        assignLayerVariable(layer, vname, vvalue)
+
+        layer.triggerRepaint()
 
     return ltl
+
+
+def copyLayer2Layer(lyr, uri, contype):
+
+# my_layer is some QgsVectorLayer
+# con_string = """dbname='postgres' host='some IP adress' port='5432' user='postgres' password='thepassword' key=my_id type=MULTIPOLYGON table="myschema"."mytable" (geom)"""
+# err = QgsVectorLayerExporter.exportLayer(my_layer, con_string, 'postgres', QgsCoordinateReferenceSystem(epsg_no), False)
+
+# import os
+# layers = QgsProject.instance().mapLayers().values()
+# 
+# 
+# for layer in layers:
+#     mytable=layer.name()
+#     con_string = "dbname='RobaNostra' host='localhost' port='5432' user='Daniele' password='Daniele' key=id_urband type=MULTIPOLYGON table='s_500_patprova'." + mytable + " (geom)"
+#     err = QgsVectorLayerExporter.exportLayer(layer, con_string, 'postgres', QgsCoordinateReferenceSystem(3003), False)
+
+
+    logI('Import layer {} uri: {} type: {}'.format(lyr.name(), uri, contype))
+
+    err = QgsVectorLayerExporter.exportLayer(lyr, uri, contype, lyr.crs())
+
+    if err[0] != QgsVectorLayerExporter.NoError:
+        logI('Import layer {} failed with error {}'.format(lyr.name(), err))
+    else:
+        logC('Layer {} import ok'.format(lyr.name()))
+
+    return err

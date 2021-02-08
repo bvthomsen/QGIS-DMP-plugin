@@ -23,16 +23,20 @@
 """
 import os.path
 import webbrowser
+import copy
 
 from PyQt5.QtCore import QSettings, QTranslator, QCoreApplication, Qt, QDateTime
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction
-from qgis.core import QgsProject, QgsProviderRegistry, QgsDataSourceUri, QgsAbstractProviderConnection
-
+from qgis.core import QgsProject, QgsProviderRegistry, QgsDataSourceUri
+#  , \
+#  QgsAbstractProviderConnection
+from qgis.gui import QgsFileWidget
 from .resources import *
 from .helper import tr, trInit, logI, logW, logC, messI, messW, messC, \
     read_config, write_config, handleRequest, mapperExtent, createDateTimeName, \
-    loadLayer, createGroup, addLayer2Tree, createMemLayer
+    loadLayer, createGroup, addLayer2Tree, createMemLayer, createRequestLog, \
+    copyLayer2Layer
 from .dmp_manager_dockwidget import DMPManagerDockWidget
 
 
@@ -196,6 +200,7 @@ class DMPManager:
             sd.pbRefresh.clicked.connect(self.pbRefreshClicked)
             sd.pbDownload.clicked.connect(self.pbDownloadClicked)
             sd.rbDatabase.toggled.connect(self.rbDatabaseToggled)
+            sd.cbFiletype.currentIndexChanged.connect(self.cbFileTypeCurrentIndexChanged)
 
             # connect to provide cleanup on closing of dockwidget
             self.dockwidget.closingPlugin.connect(self.onClosePlugin)
@@ -224,7 +229,7 @@ class DMPManager:
         sd.dtTimeout.setDateTime(QDateTime().fromString(spv["Token time"], Qt.ISODate))
 
         self.loadCbDownload()
-        logI(createDateTimeName('gylle'))
+
         if spd["Use database"]:
             sd.rbDatabase.setChecked(True)
             #sd.rbDirectory.setChecked(False)
@@ -232,10 +237,10 @@ class DMPManager:
             #sd.rbDatabase.setChecked(False)
             sd.rbDirectory.setChecked(True)
 
-        #    sd.rbDirectory.setChecked(False)
         self.loadCbDatabase(spd["Database"])
         sd.leSchema.setText(spd["Schema"])
-        sd.fwDirectory.setFilePath(spd["Directory"])
+        sd.fwDirectory.setFilePath(spd["Directory"] if spd["Directory"] != '' else os.path.expanduser("~"))
+
         self.loadCbFiletype(spd["Filetypes"], spd["Use filetype"])
 
     def pbSaveClicked(self):
@@ -253,7 +258,7 @@ class DMPManager:
         spv["Token time"] = sd.dtTimeout.dateTime().toString(Qt.ISODate)
 
         spd["Use database"] = sd.rbDatabase.isChecked()
-        spd["Database"] = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
+        spd["Database"] = sd.cbDatabase.currentText()
         spd["Schema"] = sd.leSchema.text()
         spd["Directory"] = sd.fwDirectory.filePath()
         spd["Use filetype"] = sd.cbFiletype.itemData(sd.cbFiletype.currentIndex())
@@ -277,14 +282,12 @@ class DMPManager:
     def pbPrefLayerClicked(self):
         """Change preferred layerid to current value from cbDownload combobox item value"""
 
-        spv = self.parm["Values"]
         sd = self.dockwidget
+        spv = self.parm["Values"]
 
-        spv = self.parm["Values"]
-        sd = self.dockwidget
         ci = sd.cbDownload.currentIndex()
         if ci >= 0:
-            spv["Preferred layer"] = sd.cbDownload.itemData(ci)
+            spv["Preferred layer"] = sd.cbDownload.currentText()
             sd.lePrefLayer.setText(spv["Preferred layer"])
 
     def pbRefreshClicked(self):
@@ -298,11 +301,11 @@ class DMPManager:
             spc = self.parm["Commands"]
 
             # Create header information for requests
-            headers = spa['Headers']
+            headers = copy.deepcopy(spa['Headers'])
             headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
-            logI(str(headers))
+            # logI(str(headers))
             url = spa['Address'] + spc['temakoder']
-            logI(url)
+            # logI(url)
             status, result = handleRequest(url, False, headers, None, None, '')
             if status == 200:
                 sa['temakoder'] = result['data']
@@ -312,7 +315,7 @@ class DMPManager:
                 messC('Error {} for download of {}'.format(status, 'temakoder'))
 
             url = spa['Address'] + spc['attributter']
-            logI(url)
+            # logI(url)
             status, result = handleRequest(url, False, headers, None, None, '')
             if status == 200:
                 sa['attributter'] = result['data']
@@ -321,7 +324,7 @@ class DMPManager:
                 messC('Error {} for download of {}'.format(status, 'attributter'))
 
             url = spa['Address'] + spc['temaattributter'] + spc['temaattributfilter 1']
-            logI(url)
+            # logI(url)
             status, result = handleRequest(url, False, headers, None, None, '')
             if status == 200:
                 sa['temaattributter'] = result['data']
@@ -348,83 +351,121 @@ class DMPManager:
         sa = self.attributes
         sd = self.dockwidget
 
-        pref = '' if sd.lePrefLayer.text() is None else sd.lePrefLayer.text()
-
         sd.cbDownload.clear()
-        cndx = 0
-        indx = 0
 
         for d in sa['temakoder']:
-            sd.cbDownload.addItem(d['id'] + ' - ' + d['attributes']['title'], d['id'])
-            if pref == d['id']:
-                cndx = indx
-            indx += 1
+            itm = d['attributes']
+            itm['id'] = d['id']
+            sd.cbDownload.addItem(d['id'] + ' - ' + d['attributes']['title'], itm)
 
-        sd.cbDownload.setCurrentIndex(cndx)
+        pref = '' if sd.lePrefLayer.text() is None else sd.lePrefLayer.text()
+        if pref != "":
+            sd.cbDownload.setCurrentIndex(sd.cbDownload.findText(pref))
 
     def pbDownloadClicked(self):
         """Fetch feature objects from DMP"""
 
+        # Check password, perhaps show logon
         if self.checkToken():
 
+            # set dict vars
             sd = self.dockwidget
             spa = self.parm["Access"]
             spc = self.parm["Commands"]
             spv = self.parm["Values"]
 
-            # Create header information for requests
-            headers = spa['Headers']
-            headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
+            # Create map groups and log layer if they doesn't exist
+            root = QgsProject.instance().layerTreeRoot()
+            mprg = createGroup(spv["Global root"], root)
+            mpag = createGroup(spv["Administration root"], mprg)
+            spath = os.path.join(self.plugin_dir, 'templates')
 
+            ltlog, llog = createRequestLog("DMPManager", "Requestlog", spv["Log layername"], mpag, True, os.path.join(spath, spv["Log layername"] + '.qml'))
+            # theme number from combobox
             indx = sd.cbDownload.currentIndex()
             if indx >= 0:
-                temanr = sd.cbDownload.itemData(indx)
-                extent = spv["Max extent"] if sd.rbNoExtent.isChecked() else mapperExtent(spv["EPSG code"]).asWkt()
-                url = spa['Address'] + spc['objekter'] + spc['objektfilter 1'].format(extent, temanr)
-                logI(url)
 
-                status, result = handleRequest(url, False, headers, None, None, '')
-                if status == 200:
+                # find id + name + layername using combobox index
+                val = sd.cbDownload.itemData(indx)
 
-                    root = QgsProject.instance().layerTreeRoot()
-                    mprg = createGroup(spv["Global root"], root)
-                    mpag = createGroup(spv["Administration root"], mprg)
-                    ml = None
-                    ll = []
-                    
-                    if sd.rbDatabase.isChecked():
-                        # Database based local repository
-                        if sd.cbDatabase.currentIndex() >= 0 and sd.leSchema.text() != '':
-                            setting = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
-                            logI(str(setting))
-                            metadata = QgsProviderRegistry.instance().providerMetadata('postgres')
-                            logI(str(metadata))
-                            connection = metadata.findConnection("dmp-test on localhost")
-                            logI(str(connection))
-                            uri = QgsDataSourceUri(connection.uri())
-                            logI(str(uri))
-                            uri.setSchema(sd.leSchema.text())
-                            ml, ll = createMemLayer(self.attributes, temanr, 25832)
-                            logI(uri.uri())
-                        else:
-                            messC('Database connection or schemaname not set')
-                    else: 
-                        # File based local repository
-                        if sd.fwDirectory.filePath() != "" and sd.cbFiletype.currentIndex() >= 0: 
-                            ml, ll = createMemLayer(self.attributes, temanr, 25832)
-                        else:
-                            messC('Directory path or filetype not set')
+                uristr = ''
+                contype = ''
 
-                    if ml is not None:
-                        for le in ll:
-                            addLayer2Tree(mpag, le, False)
+                # find/check connectype and connection information
+                if sd.rbDatabase.isChecked():
+                    # Database based local repository
+                    if sd.cbDatabase.currentIndex() >= 0 and sd.leSchema.text() != '':
+                        setting = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
+                        contype = setting[0]
+                        metadata = QgsProviderRegistry.instance().providerMetadata(contype)
+                        connection = metadata.findConnection(setting[1])
 
-                        ll = loadLayer(ml, result)
-                        addLayer2Tree(mprg, ml, False)
-
+                        # create uri, database connection
+                        logI('uri 0: '+ connection.uri())
+                        uri = QgsDataSourceUri(connection.uri())
+                        logI('uri 1: '+ uri.uri())
+                        uri.setSchema(sd.leSchema.text())
+                        uri.setTable(val['name'])
+                        uri.setGeometryColumn('geom')
+                        uri.setKeyColumn('objekt-id')
+                        uristr = uri.uri()
+                        logI('uri 2: '+ uri.uri())
+                    else:
+                        messC(tr('"Database" type repository chosen, but database connection or schemaname not set'))
                 else:
 
-                    messC('Error {} for download of {}'.format(status, 'objekter'))
+                    # File based local repository
+                    indx = sd.cbFiletype.currentIndex()
+                    fpth = sd.fwDirectory.filePath()
+                    if fpth != "" and indx >= 0:
+
+                        contype = 'ogr'
+
+                        ftyp = sd.cbFiletype.currentText()
+                        fext = sd.cbFiletype.itemData(indx)
+
+                        # create uri, filename/tablename
+                        if fext == '':  # tab or shape
+                            uristr = os.path.join(fpth, val['name'] + '.tab' if ftyp == 'MapInfo TAB' else '.shp')
+                        else:  # spatialite or geopackage
+                            uristr = '{}|{}'.format(fpth + '.sqlite' if ftyp == 'SpatiaLite' else '.gpkg', val['name'])
+                    else:
+                        messC('Directory path, file path or filetype not set')
+
+                if uristr != '':
+
+                    # Create header information for requests
+                    headers = spa['Headers']
+                    headers = copy.deepcopy(spa['Headers'])
+                    headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
+
+                    extent = spv["Max extent"] if sd.rbNoExtent.isChecked() else mapperExtent(spv["EPSG code"]).asWkt()
+                    url = spa['Address'] + spc['objekter'] + spc['objektfilter 1'].format(extent, val['id'])
+
+                    status, result = handleRequest(url, False, headers, None, llog, '')
+
+                    # download OK
+                    if status == 200:
+
+                        ml = None
+                        ll = []
+
+                        #ml, ll = createDmpLayer(uristr, contype, self.attributes, val['id'], 25832)
+                        ml, ll = createMemLayer(self.attributes, val['id'], 25832)
+                        
+                        if ml is not None:
+                            for le in ll:
+                                # copyLayer2Layer(le, uristr, contype)
+                                addLayer2Tree(mpag, le, False, "DMPManager", le.name(), os.path.join(spath, le.name() + '.qml'))
+                        
+                            loadLayer(ml, result)
+                            addLayer2Tree(mprg, ml, False, "DMPManager", ml.name(), os.path.join(spath, val['title'] + '.qml'), val['title'])
+
+                            copyLayer2Layer(ml, uristr, contype)
+
+                    else:
+
+                        messC('Error {} for download of {}'.format(status, 'objekter'))
 
             else:
                 messC('Error, no selection of download layer')
@@ -444,19 +485,18 @@ class DMPManager:
 
         sd.cbDatabase.clear()
 
-        dbn = ['DB2', 'GeoPackage', 'MSSQL', 'Oracle', 'PostgreSQL', 'SpatiaLite']
-        for d in dbn:
+        dbn = {'MSSQL': 'mssql', 'Oracle': 'oracle', 'PostgreSQL': 'postgres'}
+        for k, v in dbn.items():
 
-            dx = '/{}/connections/'.format(d if d != 'GeoPackage' else 'providers/ogr/GPKG')
-
+            dx = '/{}/connections/'.format(k)
             st.beginGroup(dx)
             conn = st.childGroups()
             st.endGroup()
 
             for c in conn:
-                sd.cbDatabase.addItem('{} - {}'.format(d, c), '{}{}'.format(dx, c))
+                sd.cbDatabase.addItem('{} - {}'.format(k, c), [v, c])
 
-            sd.cbDatabase.setCurrentIndex(sd.cbDatabase.findData(item))
+            sd.cbDatabase.setCurrentIndex(sd.cbDatabase.findText(item))
 
     def loadCbFiletype(self, dft, item):
         """Load cbDatabase combobox from main settings"""
@@ -467,4 +507,28 @@ class DMPManager:
         for key, val in dft.items():
             sd.cbFiletype.addItem(key, val)
 
-        sd.cbFiletype.setCurrentIndex(sd.cbFiletype.findData(item))
+        sd.cbFiletype.setCurrentIndex(sd.cbFiletype.findText(item))
+
+    def cbFileTypeCurrentIndexChanged(self, index):
+        """TBD"""
+
+        if index >= 0:
+
+            sd = self.dockwidget
+            val = sd.cbFiletype.itemData(index)
+            sd.fwDirectory.setFilePath('')
+
+            if val != '':  # New path has to be a filename
+                sd.fwDirectory.setDialogTitle(tr("Select file"))
+                sd.fwDirectory.setStorageMode(QgsFileWidget.SaveFile)
+                sd.fwDirectory.setFilter(val)
+
+            else:  # New path has to be a directory name
+                sd.fwDirectory.setDialogTitle(tr("Select directory"))
+                sd.fwDirectory.setStorageMode(QgsFileWidget.GetDirectory)
+
+    def lookupTemakoder(dtk, temanr):
+        for d in dtk:
+            if d["id"] == str(temanr):
+                return d["attributes"]["title"], d["attributes"]["name"], d["attributes][geometry-type"]
+        return None, None, None

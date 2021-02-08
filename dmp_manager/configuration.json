@@ -16,6 +16,7 @@
     "Values": {
         "Global root" : "Miljøportalen", 
         "Administration root" : "Administration", 
+        "Log layername": "DMP logtable",
         "Use extent": false,
         "Use CVR": true,
         "Preferred layer": "",
@@ -34,9 +35,9 @@
         "Use database": true,
         "Database": "",
         "Schema": "",
-        "Filetypes": {"ESRI Shapefiles":"All Files (*);;Shape Files (*.shp)","MapInfo TAB":"All Files (*);;Tab Files (*.tab)"},
-        "Use filetype": "ESRI Shapefiles",
-        "Directory": "c:\\temp"
+        "Filetypes": {"ESRI Shapefile"   : "","MapInfo TAB":"","SpatiaLite": "SpatiaLite (*.sqlite *.SQLITE)", "GeoPackage": "GeoPackage (*.gpkg *.GPKG)"},
+        "Use filetype": "GeoPackage",
+        "Directory": ""
     }
     
 }
