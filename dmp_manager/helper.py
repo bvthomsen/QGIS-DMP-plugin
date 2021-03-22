@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from json import load, dump, dumps, loads
 import requests
+import os.path
+
 from PyQt5.QtCore import QCoreApplication, Qt, QDateTime, QPointF, QVariant
 from PyQt5.QtGui import QPolygonF
 from qgis.utils import iface
@@ -323,8 +325,8 @@ def createMemLayer(dicta, temanr, epsg):
         vl = QgsVectorLayer('{}?crs=epsg:{}&index=yes'.format(gtype,
                             str(epsg).upper().replace('EPSG:', '')),
                             tname, 'memory')
-#                            '{}_{}'.format(temanr, createDateTimeName(tname)), 'memory')
 
+        ll = {}
         pr = vl.dataProvider()
 
         fl1, ll1 = createFieldListAttributter(dicta["attributter"])
@@ -335,27 +337,30 @@ def createMemLayer(dicta, temanr, epsg):
 
         vl.updateFields()
 
-        return vl, ll1 + ll2
+        ll.update(ll1)
+        ll.update(ll2)
+        
+        return title, vl, ll
 
     # Error, temakode not found
     messC('Error creating memory layer, temanr: {} not found'.format(temanr))
-    return None, None
+    return None, None, None
 
 
 def createFieldListAttributter(dictaa):
     """TBD"""
 
     fl = []
-    ll = []
+    ll = {}
 
     for d in dictaa:
 
         if d["id"] != 'temaattributter':
 
-            f, le = createField(d["attributes"])
+            f, le, tt = createField(d["attributes"])
             fl.append(f)
             if le:
-                ll.append(le)
+                ll[tt] = le
 
     return fl, ll
 
@@ -364,16 +369,16 @@ def createFieldListTemaAttributter(dictata, temanr):
     """TBD"""
 
     fl = []
-    ll = []
+    ll = {}
 
     for d in dictata:
 
         if d["relationships"]["temakode"]["data"]["id"] == str(temanr):
 
-            f, le = createField(d["attributes"])
+            f, le, tf = createField(d["attributes"])
             fl.append(f)
             if le:
-                ll.append(le)
+                ll[tf] = le
 
     return fl, ll
 
@@ -383,6 +388,7 @@ def createField(e):
 
     f = QgsField()
     le = None
+    tf = None
 
     f.setName(e["name"])
     f.setAlias(e["title"])
@@ -401,7 +407,7 @@ def createField(e):
 
     elif e['data-type'] == "domain":
         f.setType(QVariant.String)
-        le = createMemLookup(e["domain"], e["name"])
+        le, tf = createMemLookup(e["domain"], e["name"], e["title"])
 
     else:
         e.setType(QVariant.String)
@@ -409,17 +415,16 @@ def createField(e):
     if e["default"]:
         f.setDefaultValueDefinition(e["default"])
 
-    return f, le
+    return f, le, tf
 
 
-def createMemLookup(domain, tfield):
+def createMemLookup(domain, tfield, ttitle):
     """TBD"""
 
     vl = QgsVectorLayer('None', tfield, 'memory')
-    # vl = QgsVectorLayer('None', createDateTimeName(tfield), 'memory')
 
     pr = vl.dataProvider()
-    pr.addAttributes([QgsField("key", QVariant.String), QgsField("value", QVariant.String)])
+    pr.addAttributes([QgsField("lk_key", QVariant.String), QgsField("lk_value", QVariant.String)])
     vl.updateFields()
 
     fetl = []
@@ -429,7 +434,7 @@ def createMemLookup(domain, tfield):
         fetl.append(fet)
     pr.addFeatures(fetl)
 
-    return vl
+    return vl, ttitle
 
 
 def loadLayer(layer, dicto):
@@ -454,7 +459,7 @@ def loadLayer(layer, dicto):
                     f.setAttribute(k2, v2)
             elif k == "shape":
                 f.setGeometry(cnvGJ2QgsGeometry(v))
-                # logI('GEOMETRI .... k={}, v={}, geometry = {}'.format(k, v, f.geometry().asWkt()))
+                #logI('GEOMETRI .... k={}, v={}, geometry = {}'.format(k, v, f.geometry().asWkt()))
 
             else:
                 f.setAttribute(k, v)
@@ -547,29 +552,49 @@ def addLayer2Tree(tree, layer, tb, vname=None, vvalue=None, style=None, tname=No
     return ltl
 
 
-def copyLayer2Layer(lyr, uri, contype):
+def copyLayer2Layer(lyr, udict, owrite):
 
-# my_layer is some QgsVectorLayer
-# con_string = """dbname='postgres' host='some IP adress' port='5432' user='postgres' password='thepassword' key=my_id type=MULTIPOLYGON table="myschema"."mytable" (geom)"""
-# err = QgsVectorLayerExporter.exportLayer(my_layer, con_string, 'postgres', QgsCoordinateReferenceSystem(epsg_no), False)
+    contype = udict['contype']
+    options = {}
+    if owrite == True: options['overwrite'] = True
 
-# import os
-# layers = QgsProject.instance().mapLayers().values()
-# 
-# 
-# for layer in layers:
-#     mytable=layer.name()
-#     con_string = "dbname='RobaNostra' host='localhost' port='5432' user='Daniele' password='Daniele' key=id_urband type=MULTIPOLYGON table='s_500_patprova'." + mytable + " (geom)"
-#     err = QgsVectorLayerExporter.exportLayer(layer, con_string, 'postgres', QgsCoordinateReferenceSystem(3003), False)
+    if  contype == 'ogr':
 
+        ext = udict['ext'] 
+        
+        if ext in ['.gpkg','.sqlite']:
+            options['update'] = True
+            options['driverName'] = ext.replace('.','')
+            options['layerName'] = udict['tname']
+            uristr = udict['path']+ext
+            logI('gpkg/spatialite: ' + uristr)
+            err = QgsVectorLayerExporter.exportLayer(lyr, uristr, "ogr", lyr.crs(), False, options)
+    
+        elif ext in ['.tab','.shp']:
+            uristr = os.path.join(udict['path'],udict['tname']+ext)
+            logI('tab/shape: ' + uristr)
+            options['driverName'] = 'MapInfo File' if ext == '.tab' else 'ESRI Shapefile'
+            err = QgsVectorLayerExporter.exportLayer(lyr, uristr, "ogr", lyr.crs(), False, options)
 
-    logI('Import layer {} uri: {} type: {}'.format(lyr.name(), uri, contype))
+    else:
 
-    err = QgsVectorLayerExporter.exportLayer(lyr, uri, contype, lyr.crs())
+        uri = udict['uri']
+
+        uri.setTable(udict['tname'])
+        if 'gname' in udict and udict['gname'] != '': uri.setGeometryColumn(udict['gname'])
+        #if udict['pkname'] != '': uri.setKeyColumn(udict['pkname'])
+
+        uristr = uri.uri()
+        logI(uristr)
+
+        err = QgsVectorLayerExporter.exportLayer(lyr, uristr, contype, lyr.crs(), False, options)
+
 
     if err[0] != QgsVectorLayerExporter.NoError:
-        logI('Import layer {} failed with error {}'.format(lyr.name(), err))
+        logW('Import layer {} failed with error {}'.format(lyr.name(), err))
+        return None
     else:
-        logC('Layer {} import ok'.format(lyr.name()))
+        logI('Layer {} import ok'.format(lyr.name()))
+        return QgsVectorLayer(uristr, lyr.name(),contype)
+        
 
-    return err

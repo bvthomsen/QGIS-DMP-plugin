@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>390</width>
-    <height>586</height>
+    <height>824</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -72,25 +72,18 @@
             <widget class="QComboBox" name="cbDownload"/>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <item>
-              <widget class="QRadioButton" name="rbMapExtent">
-               <property name="text">
-                <string>Filter by mapper extent</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="rbNoExtent">
-               <property name="text">
-                <string>No extent filter</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            <widget class="QCheckBox" name="chbMapExtent">
+             <property name="text">
+              <string>Use mapper extend as datafilter</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chbOverwrite">
+             <property name="text">
+              <string>Overwrite existing DMP layer</string>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QPushButton" name="pbDownload">
@@ -273,7 +266,7 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_7">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
               <widget class="QRadioButton" name="rbDatabase">
                <property name="text">
@@ -304,7 +297,7 @@
              <property name="checked">
               <bool>false</bool>
              </property>
-             <layout class="QFormLayout" name="formLayout_4">
+             <layout class="QFormLayout" name="formLayout_3">
               <item row="0" column="0">
                <widget class="QLabel" name="label_7">
                 <property name="text">
@@ -325,6 +318,9 @@
               <item row="1" column="1">
                <widget class="QLineEdit" name="leSchema"/>
               </item>
+              <item row="2" column="1">
+               <widget class="QComboBox" name="dbsSchema"/>
+              </item>
              </layout>
             </widget>
            </item>
@@ -334,7 +330,7 @@
               <bool>false</bool>
              </property>
              <property name="title">
-              <string>Directory source</string>
+              <string>Directory or file source</string>
              </property>
              <property name="checkable">
               <bool>false</bool>

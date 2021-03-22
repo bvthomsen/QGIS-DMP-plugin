@@ -1,28 +1,28 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis maxScale="0" simplifyMaxScale="1" labelsEnabled="0" simplifyDrawingHints="1" simplifyLocal="1" version="3.16.3-Hannover" readOnly="0" simplifyAlgorithm="0" hasScaleBasedVisibilityFlag="0" minScale="100000000" styleCategories="AllStyleCategories" simplifyDrawingTol="1">
+<qgis hasScaleBasedVisibilityFlag="0" simplifyLocal="1" simplifyMaxScale="1" labelsEnabled="0" simplifyDrawingHints="1" readOnly="0" simplifyDrawingTol="1" simplifyAlgorithm="0" version="3.16.3-Hannover" styleCategories="AllStyleCategories" minScale="100000000" maxScale="0">
   <flags>
     <Identifiable>1</Identifiable>
     <Removable>1</Removable>
     <Searchable>1</Searchable>
   </flags>
-  <temporal endExpression="" fixedDuration="0" endField="" durationField="" enabled="0" startExpression="" startField="" accumulate="0" mode="0" durationUnit="min">
+  <temporal endExpression="" durationUnit="min" fixedDuration="0" mode="0" durationField="" accumulate="0" endField="" startField="" startExpression="" enabled="0">
     <fixedRange>
       <start></start>
       <end></end>
     </fixedRange>
   </temporal>
-  <renderer-v2 type="categorizedSymbol" forceraster="0" symbollevels="0" enableorderby="0" attr="cvr-kode-id">
+  <renderer-v2 forceraster="0" symbollevels="0" enableorderby="0" type="categorizedSymbol" attr="cvr-kode-id">
     <categories>
-      <category label="Region Hovedstaden" render="true" value="29190623" symbol="0"/>
-      <category label="Region Sjælland" render="true" value="29190658" symbol="1"/>
-      <category label="Region Syddanmark" render="true" value="29190909" symbol="2"/>
-      <category label="Region Midtjylland" render="true" value="29190925" symbol="3"/>
-      <category label="Region Nordjylland" render="true" value="29190941" symbol="4"/>
-      <category label="" render="true" value="" symbol="5"/>
+      <category value="29190623" render="true" label="Region Hovedstaden" symbol="0"/>
+      <category value="29190658" render="true" label="Region Sjælland" symbol="1"/>
+      <category value="29190909" render="true" label="Region Syddanmark" symbol="2"/>
+      <category value="29190925" render="true" label="Region Midtjylland" symbol="3"/>
+      <category value="29190941" render="true" label="Region Nordjylland" symbol="4"/>
+      <category value="" render="true" label="" symbol="5"/>
     </categories>
     <symbols>
-      <symbol name="0" type="fill" alpha="1" clip_to_extent="1" force_rhr="0">
-        <layer locked="0" pass="0" class="SimpleFill" enabled="1">
+      <symbol clip_to_extent="1" alpha="1" type="fill" force_rhr="0" name="0">
+        <layer class="SimpleFill" locked="0" enabled="1" pass="0">
           <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="color" v="228,122,198,255"/>
           <prop k="joinstyle" v="bevel"/>
@@ -36,15 +36,15 @@
           <prop k="style" v="solid"/>
           <data_defined_properties>
             <Option type="Map">
-              <Option name="name" type="QString" value=""/>
+              <Option value="" type="QString" name="name"/>
               <Option name="properties"/>
-              <Option name="type" type="QString" value="collection"/>
+              <Option value="collection" type="QString" name="type"/>
             </Option>
           </data_defined_properties>
         </layer>
       </symbol>
-      <symbol name="1" type="fill" alpha="1" clip_to_extent="1" force_rhr="0">
-        <layer locked="0" pass="0" class="SimpleFill" enabled="1">
+      <symbol clip_to_extent="1" alpha="1" type="fill" force_rhr="0" name="1">
+        <layer class="SimpleFill" locked="0" enabled="1" pass="0">
           <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="color" v="164,201,71,255"/>
           <prop k="joinstyle" v="bevel"/>
@@ -58,15 +58,15 @@
           <prop k="style" v="solid"/>
           <data_defined_properties>
             <Option type="Map">
-              <Option name="name" type="QString" value=""/>
+              <Option value="" type="QString" name="name"/>
               <Option name="properties"/>
-              <Option name="type" type="QString" value="collection"/>
+              <Option value="collection" type="QString" name="type"/>
             </Option>
           </data_defined_properties>
         </layer>
       </symbol>
-      <symbol name="2" type="fill" alpha="1" clip_to_extent="1" force_rhr="0">
-        <layer locked="0" pass="0" class="SimpleFill" enabled="1">
+      <symbol clip_to_extent="1" alpha="1" type="fill" force_rhr="0" name="2">
+        <layer class="SimpleFill" locked="0" enabled="1" pass="0">
           <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="color" v="51,169,216,255"/>
           <prop k="joinstyle" v="bevel"/>
@@ -80,15 +80,15 @@
           <prop k="style" v="solid"/>
           <data_defined_properties>
             <Option type="Map">
-              <Option name="name" type="QString" value=""/>
+              <Option value="" type="QString" name="name"/>
               <Option name="properties"/>
-              <Option name="type" type="QString" value="collection"/>
+              <Option value="collection" type="QString" name="type"/>
             </Option>
           </data_defined_properties>
         </layer>
       </symbol>
-      <symbol name="3" type="fill" alpha="1" clip_to_extent="1" force_rhr="0">
-        <layer locked="0" pass="0" class="SimpleFill" enabled="1">
+      <symbol clip_to_extent="1" alpha="1" type="fill" force_rhr="0" name="3">
+        <layer class="SimpleFill" locked="0" enabled="1" pass="0">
           <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="color" v="108,67,212,255"/>
           <prop k="joinstyle" v="bevel"/>
@@ -102,15 +102,15 @@
           <prop k="style" v="solid"/>
           <data_defined_properties>
             <Option type="Map">
-              <Option name="name" type="QString" value=""/>
+              <Option value="" type="QString" name="name"/>
               <Option name="properties"/>
-              <Option name="type" type="QString" value="collection"/>
+              <Option value="collection" type="QString" name="type"/>
             </Option>
           </data_defined_properties>
         </layer>
       </symbol>
-      <symbol name="4" type="fill" alpha="1" clip_to_extent="1" force_rhr="0">
-        <layer locked="0" pass="0" class="SimpleFill" enabled="1">
+      <symbol clip_to_extent="1" alpha="1" type="fill" force_rhr="0" name="4">
+        <layer class="SimpleFill" locked="0" enabled="1" pass="0">
           <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="color" v="240,81,17,255"/>
           <prop k="joinstyle" v="bevel"/>
@@ -124,15 +124,15 @@
           <prop k="style" v="solid"/>
           <data_defined_properties>
             <Option type="Map">
-              <Option name="name" type="QString" value=""/>
+              <Option value="" type="QString" name="name"/>
               <Option name="properties"/>
-              <Option name="type" type="QString" value="collection"/>
+              <Option value="collection" type="QString" name="type"/>
             </Option>
           </data_defined_properties>
         </layer>
       </symbol>
-      <symbol name="5" type="fill" alpha="1" clip_to_extent="1" force_rhr="0">
-        <layer locked="0" pass="0" class="SimpleFill" enabled="1">
+      <symbol clip_to_extent="1" alpha="1" type="fill" force_rhr="0" name="5">
+        <layer class="SimpleFill" locked="0" enabled="1" pass="0">
           <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="color" v="81,228,123,255"/>
           <prop k="joinstyle" v="bevel"/>
@@ -146,17 +146,17 @@
           <prop k="style" v="solid"/>
           <data_defined_properties>
             <Option type="Map">
-              <Option name="name" type="QString" value=""/>
+              <Option value="" type="QString" name="name"/>
               <Option name="properties"/>
-              <Option name="type" type="QString" value="collection"/>
+              <Option value="collection" type="QString" name="type"/>
             </Option>
           </data_defined_properties>
         </layer>
       </symbol>
     </symbols>
     <source-symbol>
-      <symbol name="0" type="fill" alpha="1" clip_to_extent="1" force_rhr="0">
-        <layer locked="0" pass="0" class="SimpleFill" enabled="1">
+      <symbol clip_to_extent="1" alpha="1" type="fill" force_rhr="0" name="0">
+        <layer class="SimpleFill" locked="0" enabled="1" pass="0">
           <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
           <prop k="color" v="114,155,111,255"/>
           <prop k="joinstyle" v="bevel"/>
@@ -170,15 +170,14 @@
           <prop k="style" v="solid"/>
           <data_defined_properties>
             <Option type="Map">
-              <Option name="name" type="QString" value=""/>
+              <Option value="" type="QString" name="name"/>
               <Option name="properties"/>
-              <Option name="type" type="QString" value="collection"/>
+              <Option value="collection" type="QString" name="type"/>
             </Option>
           </data_defined_properties>
         </layer>
       </symbol>
     </source-symbol>
-    <colorramp name="[source]" type="randomcolors"/>
     <rotation/>
     <sizescale/>
   </renderer-v2>
@@ -194,11 +193,12 @@
   <featureBlendMode>0</featureBlendMode>
   <layerOpacity>1</layerOpacity>
   <SingleCategoryDiagramRenderer diagramType="Histogram" attributeLegend="1">
-    <DiagramCategory penAlpha="255" lineSizeScale="3x:0,0,0,0,0,0" spacingUnit="MM" height="15" width="15" minScaleDenominator="0" spacing="5" scaleDependency="Area" diagramOrientation="Up" opacity="1" backgroundColor="#ffffff" backgroundAlpha="255" sizeScale="3x:0,0,0,0,0,0" scaleBasedVisibility="0" minimumSize="0" sizeType="MM" penColor="#000000" maxScaleDenominator="1e+08" enabled="0" lineSizeType="MM" showAxis="1" spacingUnitScale="3x:0,0,0,0,0,0" penWidth="0" direction="0" barWidth="5" rotationOffset="270" labelPlacementMethod="XHeight">
-      <fontProperties style="" description="MS Shell Dlg 2,7.8,-1,5,50,0,0,0,0,0"/>
+    <DiagramCategory lineSizeType="MM" scaleDependency="Area" sizeType="MM" showAxis="1" backgroundColor="#ffffff" spacingUnit="MM" height="15" penAlpha="255" spacing="5" diagramOrientation="Up" labelPlacementMethod="XHeight" lineSizeScale="3x:0,0,0,0,0,0" scaleBasedVisibility="0" barWidth="5" direction="0" sizeScale="3x:0,0,0,0,0,0" backgroundAlpha="255" spacingUnitScale="3x:0,0,0,0,0,0" width="15" penColor="#000000" minimumSize="0" penWidth="0" opacity="1" rotationOffset="270" minScaleDenominator="0" enabled="0" maxScaleDenominator="1e+08">
+      <fontProperties description="MS Shell Dlg 2,7.8,-1,5,50,0,0,0,0,0" style=""/>
+      <attribute field="" color="#000000" label=""/>
       <axisSymbol>
-        <symbol name="" type="line" alpha="1" clip_to_extent="1" force_rhr="0">
-          <layer locked="0" pass="0" class="SimpleLine" enabled="1">
+        <symbol clip_to_extent="1" alpha="1" type="line" force_rhr="0" name="">
+          <layer class="SimpleLine" locked="0" enabled="1" pass="0">
             <prop k="align_dash_pattern" v="0"/>
             <prop k="capstyle" v="square"/>
             <prop k="customdash" v="5;2"/>
@@ -222,9 +222,9 @@
             <prop k="width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
             <data_defined_properties>
               <Option type="Map">
-                <Option name="name" type="QString" value=""/>
+                <Option value="" type="QString" name="name"/>
                 <Option name="properties"/>
-                <Option name="type" type="QString" value="collection"/>
+                <Option value="collection" type="QString" name="type"/>
               </Option>
             </data_defined_properties>
           </layer>
@@ -232,60 +232,91 @@
       </axisSymbol>
     </DiagramCategory>
   </SingleCategoryDiagramRenderer>
-  <DiagramLayerSettings showAll="1" zIndex="0" linePlacementFlags="18" dist="0" placement="1" obstacle="0" priority="0">
+  <DiagramLayerSettings dist="0" showAll="1" obstacle="0" linePlacementFlags="18" zIndex="0" priority="0" placement="1">
     <properties>
       <Option type="Map">
-        <Option name="name" type="QString" value=""/>
+        <Option value="" type="QString" name="name"/>
         <Option name="properties"/>
-        <Option name="type" type="QString" value="collection"/>
+        <Option value="collection" type="QString" name="type"/>
       </Option>
     </properties>
   </DiagramLayerSettings>
   <geometryOptions removeDuplicateNodes="0" geometryPrecision="0">
     <activeChecks/>
     <checkConfiguration type="Map">
-      <Option name="QgsGeometryGapCheck" type="Map">
-        <Option name="allowedGapsBuffer" type="double" value="0"/>
-        <Option name="allowedGapsEnabled" type="bool" value="false"/>
-        <Option name="allowedGapsLayer" type="QString" value=""/>
+      <Option type="Map" name="QgsGeometryGapCheck">
+        <Option value="0" type="double" name="allowedGapsBuffer"/>
+        <Option value="false" type="bool" name="allowedGapsEnabled"/>
+        <Option value="" type="QString" name="allowedGapsLayer"/>
       </Option>
     </checkConfiguration>
   </geometryOptions>
   <legend type="default-vector"/>
   <referencedLayers/>
   <fieldConfiguration>
+    <field name="qgs_fid" configurationFlags="None">
+      <editWidget type="Range">
+        <config>
+          <Option/>
+        </config>
+      </editWidget>
+    </field>
     <field name="objekt-id" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
-          <Option/>
+          <Option type="Map">
+            <Option value="false" type="bool" name="IsMultiline"/>
+            <Option value="false" type="bool" name="UseHtml"/>
+          </Option>
         </config>
       </editWidget>
     </field>
     <field name="version-id" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
-          <Option/>
+          <Option type="Map">
+            <Option value="false" type="bool" name="IsMultiline"/>
+            <Option value="false" type="bool" name="UseHtml"/>
+          </Option>
         </config>
       </editWidget>
     </field>
     <field name="systid-fra" configurationFlags="None">
       <editWidget type="DateTime">
         <config>
-          <Option/>
+          <Option type="Map">
+            <Option value="true" type="bool" name="allow_null"/>
+            <Option value="true" type="bool" name="calendar_popup"/>
+            <Option value="yyyy-MM-dd HH:mm:ss" type="QString" name="display_format"/>
+            <Option value="yyyy-MM-dd HH:mm:ss" type="QString" name="field_format"/>
+            <Option value="false" type="bool" name="field_iso_format"/>
+          </Option>
         </config>
       </editWidget>
     </field>
     <field name="systid-til" configurationFlags="None">
       <editWidget type="DateTime">
         <config>
-          <Option/>
+          <Option type="Map">
+            <Option value="true" type="bool" name="allow_null"/>
+            <Option value="true" type="bool" name="calendar_popup"/>
+            <Option value="yyyy-MM-dd HH:mm:ss" type="QString" name="display_format"/>
+            <Option value="yyyy-MM-dd HH:mm:ss" type="QString" name="field_format"/>
+            <Option value="false" type="bool" name="field_iso_format"/>
+          </Option>
         </config>
       </editWidget>
     </field>
     <field name="oprettet" configurationFlags="None">
       <editWidget type="DateTime">
         <config>
-          <Option/>
+          <Option type="Map">
+            <Option value="true" type="bool" name="allow_null"/>
+            <Option value="true" type="bool" name="calendar_popup"/>
+            <Option value="yyyy-MM-dd HH:mm:ss" type="QString" name="display_format"/>
+            <Option value="yyyy-MM-dd HH:mm:ss" type="QString" name="field_format"/>
+            <Option value="false" type="bool" name="field_iso_format"/>
+          </Option>
         </config>
       </editWidget>
     </field>
@@ -293,19 +324,19 @@
       <editWidget type="ValueRelation">
         <config>
           <Option type="Map">
-            <Option name="AllowMulti" type="bool" value="false"/>
-            <Option name="AllowNull" type="bool" value="false"/>
-            <Option name="Description" type="QString" value=""/>
-            <Option name="FilterExpression" type="QString" value=""/>
-            <Option name="Key" type="QString" value="key"/>
-            <Option name="Layer" type="QString" value="oprindkode_id_19d9650f_2a90_467c_8fb8_bf58f023dfb0"/>
-            <Option name="LayerName" type="QString" value="oprindkode-id"/>
-            <Option name="LayerProviderName" type="QString" value="memory"/>
-            <Option name="LayerSource" type="QString" value="None&amp;uid={f353d00c-5928-47d4-bb02-57e4e0277c07}"/>
-            <Option name="NofColumns" type="int" value="1"/>
-            <Option name="OrderByValue" type="bool" value="false"/>
-            <Option name="UseCompleter" type="bool" value="false"/>
-            <Option name="Value" type="QString" value="value"/>
+            <Option value="false" type="bool" name="AllowMulti"/>
+            <Option value="false" type="bool" name="AllowNull"/>
+            <Option value="" type="QString" name="Description"/>
+            <Option value="" type="QString" name="FilterExpression"/>
+            <Option value="lk_key" type="QString" name="Key"/>
+            <Option value="oprindkode_id_640aae28_8f12_4a47_9177_e3f211e9f6dc" type="QString" name="Layer"/>
+            <Option value="Oprindelse" type="QString" name="LayerName"/>
+            <Option value="mssql" type="QString" name="LayerProviderName"/>
+            <Option value="dbname='geodata' host=localhost\SQLEXPRESS estimatedmetadata=true allowGeometrylessTables='true' disableInvalidGeometryHandling='true' geometryColumnsOnly='true' table=&quot;download_data&quot;.&quot;oprindkode-id&quot;" type="QString" name="LayerSource"/>
+            <Option value="1" type="int" name="NofColumns"/>
+            <Option value="false" type="bool" name="OrderByValue"/>
+            <Option value="false" type="bool" name="UseCompleter"/>
+            <Option value="lk_value" type="QString" name="Value"/>
           </Option>
         </config>
       </editWidget>
@@ -314,19 +345,19 @@
       <editWidget type="ValueRelation">
         <config>
           <Option type="Map">
-            <Option name="AllowMulti" type="bool" value="false"/>
-            <Option name="AllowNull" type="bool" value="false"/>
-            <Option name="Description" type="QString" value=""/>
-            <Option name="FilterExpression" type="QString" value=""/>
-            <Option name="Key" type="QString" value="key"/>
-            <Option name="Layer" type="QString" value="statuskode_id_820fda0e_abff_4cab_9e89_b245e4a35968"/>
-            <Option name="LayerName" type="QString" value="statuskode-id"/>
-            <Option name="LayerProviderName" type="QString" value="memory"/>
-            <Option name="LayerSource" type="QString" value="None&amp;uid={f1bd9a7f-1cf0-4c17-9dee-2b2220c2abb4}"/>
-            <Option name="NofColumns" type="int" value="1"/>
-            <Option name="OrderByValue" type="bool" value="false"/>
-            <Option name="UseCompleter" type="bool" value="false"/>
-            <Option name="Value" type="QString" value="value"/>
+            <Option value="false" type="bool" name="AllowMulti"/>
+            <Option value="false" type="bool" name="AllowNull"/>
+            <Option value="" type="QString" name="Description"/>
+            <Option value="" type="QString" name="FilterExpression"/>
+            <Option value="lk_key" type="QString" name="Key"/>
+            <Option value="statuskode_id_7d763803_db0a_4e1b_bb6e_e66832586577" type="QString" name="Layer"/>
+            <Option value="Gældende status" type="QString" name="LayerName"/>
+            <Option value="mssql" type="QString" name="LayerProviderName"/>
+            <Option value="dbname='geodata' host=localhost\SQLEXPRESS estimatedmetadata=true allowGeometrylessTables='true' disableInvalidGeometryHandling='true' geometryColumnsOnly='true' table=&quot;download_data&quot;.&quot;statuskode-id&quot;" type="QString" name="LayerSource"/>
+            <Option value="1" type="int" name="NofColumns"/>
+            <Option value="false" type="bool" name="OrderByValue"/>
+            <Option value="false" type="bool" name="UseCompleter"/>
+            <Option value="lk_value" type="QString" name="Value"/>
           </Option>
         </config>
       </editWidget>
@@ -335,19 +366,19 @@
       <editWidget type="ValueRelation">
         <config>
           <Option type="Map">
-            <Option name="AllowMulti" type="bool" value="false"/>
-            <Option name="AllowNull" type="bool" value="false"/>
-            <Option name="Description" type="QString" value=""/>
-            <Option name="FilterExpression" type="QString" value=""/>
-            <Option name="Key" type="QString" value="key"/>
-            <Option name="Layer" type="QString" value="off_kode_id_19898463_35d6_489e_b49b_58de817a58e3"/>
-            <Option name="LayerName" type="QString" value="off-kode-id"/>
-            <Option name="LayerProviderName" type="QString" value="memory"/>
-            <Option name="LayerSource" type="QString" value="None&amp;uid={421a1067-b9e9-4107-a5f1-d094fdd7211d}"/>
-            <Option name="NofColumns" type="int" value="1"/>
-            <Option name="OrderByValue" type="bool" value="false"/>
-            <Option name="UseCompleter" type="bool" value="false"/>
-            <Option name="Value" type="QString" value="value"/>
+            <Option value="false" type="bool" name="AllowMulti"/>
+            <Option value="false" type="bool" name="AllowNull"/>
+            <Option value="" type="QString" name="Description"/>
+            <Option value="" type="QString" name="FilterExpression"/>
+            <Option value="lk_key" type="QString" name="Key"/>
+            <Option value="off_kode_id_ed63d949_11dd_4785_9ae6_3376e35fd3ea" type="QString" name="Layer"/>
+            <Option value="Tilgængelighed" type="QString" name="LayerName"/>
+            <Option value="mssql" type="QString" name="LayerProviderName"/>
+            <Option value="dbname='geodata' host=localhost\SQLEXPRESS estimatedmetadata=true allowGeometrylessTables='true' disableInvalidGeometryHandling='true' geometryColumnsOnly='true' table=&quot;download_data&quot;.&quot;off-kode-id&quot;" type="QString" name="LayerSource"/>
+            <Option value="1" type="int" name="NofColumns"/>
+            <Option value="false" type="bool" name="OrderByValue"/>
+            <Option value="false" type="bool" name="UseCompleter"/>
+            <Option value="lk_value" type="QString" name="Value"/>
           </Option>
         </config>
       </editWidget>
@@ -356,19 +387,19 @@
       <editWidget type="ValueRelation">
         <config>
           <Option type="Map">
-            <Option name="AllowMulti" type="bool" value="false"/>
-            <Option name="AllowNull" type="bool" value="false"/>
-            <Option name="Description" type="QString" value=""/>
-            <Option name="FilterExpression" type="QString" value=""/>
-            <Option name="Key" type="QString" value="key"/>
-            <Option name="Layer" type="QString" value="cvr_kode_id_8163827b_3f2f_4874_af25_7ef0ce92e54e"/>
-            <Option name="LayerName" type="QString" value="cvr-kode-id"/>
-            <Option name="LayerProviderName" type="QString" value="memory"/>
-            <Option name="LayerSource" type="QString" value="None&amp;uid={8107c017-5692-4e75-a51a-d336d14cb612}"/>
-            <Option name="NofColumns" type="int" value="1"/>
-            <Option name="OrderByValue" type="bool" value="false"/>
-            <Option name="UseCompleter" type="bool" value="false"/>
-            <Option name="Value" type="QString" value="value"/>
+            <Option value="false" type="bool" name="AllowMulti"/>
+            <Option value="false" type="bool" name="AllowNull"/>
+            <Option value="" type="QString" name="Description"/>
+            <Option value="" type="QString" name="FilterExpression"/>
+            <Option value="lk_key" type="QString" name="Key"/>
+            <Option value="cvr_kode_id_40f6fa76_df98_4d6e_9eed_00999720f087" type="QString" name="Layer"/>
+            <Option value="Myndighed" type="QString" name="LayerName"/>
+            <Option value="mssql" type="QString" name="LayerProviderName"/>
+            <Option value="dbname='geodata' host=localhost\SQLEXPRESS estimatedmetadata=true allowGeometrylessTables='true' disableInvalidGeometryHandling='true' geometryColumnsOnly='true' table=&quot;download_data&quot;.&quot;cvr-kode-id&quot;" type="QString" name="LayerSource"/>
+            <Option value="1" type="int" name="NofColumns"/>
+            <Option value="false" type="bool" name="OrderByValue"/>
+            <Option value="false" type="bool" name="UseCompleter"/>
+            <Option value="lk_value" type="QString" name="Value"/>
           </Option>
         </config>
       </editWidget>
@@ -377,8 +408,8 @@
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
-            <Option name="IsMultiline" type="bool" value="false"/>
-            <Option name="UseHtml" type="bool" value="false"/>
+            <Option value="false" type="bool" name="IsMultiline"/>
+            <Option value="false" type="bool" name="UseHtml"/>
           </Option>
         </config>
       </editWidget>
@@ -387,19 +418,19 @@
       <editWidget type="ExternalResource">
         <config>
           <Option type="Map">
-            <Option name="DocumentViewer" type="int" value="0"/>
-            <Option name="DocumentViewerHeight" type="int" value="0"/>
-            <Option name="DocumentViewerWidth" type="int" value="0"/>
-            <Option name="FileWidget" type="bool" value="true"/>
-            <Option name="FileWidgetButton" type="bool" value="true"/>
-            <Option name="FileWidgetFilter" type="QString" value=""/>
-            <Option name="PropertyCollection" type="Map">
-              <Option name="name" type="QString" value=""/>
+            <Option value="0" type="int" name="DocumentViewer"/>
+            <Option value="0" type="int" name="DocumentViewerHeight"/>
+            <Option value="0" type="int" name="DocumentViewerWidth"/>
+            <Option value="true" type="bool" name="FileWidget"/>
+            <Option value="true" type="bool" name="FileWidgetButton"/>
+            <Option value="" type="QString" name="FileWidgetFilter"/>
+            <Option type="Map" name="PropertyCollection">
+              <Option value="" type="QString" name="name"/>
               <Option name="properties"/>
-              <Option name="type" type="QString" value="collection"/>
+              <Option value="collection" type="QString" name="type"/>
             </Option>
-            <Option name="RelativeStorage" type="int" value="0"/>
-            <Option name="StorageMode" type="int" value="0"/>
+            <Option value="0" type="int" name="RelativeStorage"/>
+            <Option value="0" type="int" name="StorageMode"/>
           </Option>
         </config>
       </editWidget>
@@ -408,8 +439,8 @@
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
-            <Option name="IsMultiline" type="bool" value="false"/>
-            <Option name="UseHtml" type="bool" value="false"/>
+            <Option value="false" type="bool" name="IsMultiline"/>
+            <Option value="false" type="bool" name="UseHtml"/>
           </Option>
         </config>
       </editWidget>
@@ -417,7 +448,10 @@
     <field name="omr-navn" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
-          <Option/>
+          <Option type="Map">
+            <Option value="false" type="bool" name="IsMultiline"/>
+            <Option value="false" type="bool" name="UseHtml"/>
+          </Option>
         </config>
       </editWidget>
     </field>
@@ -425,19 +459,19 @@
       <editWidget type="ValueRelation">
         <config>
           <Option type="Map">
-            <Option name="AllowMulti" type="bool" value="false"/>
-            <Option name="AllowNull" type="bool" value="false"/>
-            <Option name="Description" type="QString" value=""/>
-            <Option name="FilterExpression" type="QString" value=""/>
-            <Option name="Key" type="QString" value="key"/>
-            <Option name="Layer" type="QString" value="omr_tkode_id_1180ce6e_c9bc_4b28_a53d_52746d74f51f"/>
-            <Option name="LayerName" type="QString" value="omr-tkode-id"/>
-            <Option name="LayerProviderName" type="QString" value="memory"/>
-            <Option name="LayerSource" type="QString" value="None&amp;uid={1305d2bc-1983-4db1-9045-2230b195621c}"/>
-            <Option name="NofColumns" type="int" value="1"/>
-            <Option name="OrderByValue" type="bool" value="false"/>
-            <Option name="UseCompleter" type="bool" value="false"/>
-            <Option name="Value" type="QString" value="value"/>
+            <Option value="false" type="bool" name="AllowMulti"/>
+            <Option value="false" type="bool" name="AllowNull"/>
+            <Option value="" type="QString" name="Description"/>
+            <Option value="" type="QString" name="FilterExpression"/>
+            <Option value="lk_key" type="QString" name="Key"/>
+            <Option value="omr_tkode_id_f5e9f81a_2684_4c04_89c6_de789144020e" type="QString" name="Layer"/>
+            <Option value="Type" type="QString" name="LayerName"/>
+            <Option value="mssql" type="QString" name="LayerProviderName"/>
+            <Option value="dbname='geodata' host=localhost\SQLEXPRESS estimatedmetadata=true allowGeometrylessTables='true' disableInvalidGeometryHandling='true' geometryColumnsOnly='true' table=&quot;download_data&quot;.&quot;omr-tkode-id&quot;" type="QString" name="LayerSource"/>
+            <Option value="1" type="int" name="NofColumns"/>
+            <Option value="false" type="bool" name="OrderByValue"/>
+            <Option value="false" type="bool" name="UseCompleter"/>
+            <Option value="lk_value" type="QString" name="Value"/>
           </Option>
         </config>
       </editWidget>
@@ -458,100 +492,105 @@
     </field>
   </fieldConfiguration>
   <aliases>
-    <alias name="ObjektId" index="0" field="objekt-id"/>
-    <alias name="VersionId" index="1" field="version-id"/>
-    <alias name="Start systemtid" index="2" field="systid-fra"/>
-    <alias name="Slut systemtid" index="3" field="systid-til"/>
-    <alias name="Systemtid for oprettelse" index="4" field="oprettet"/>
-    <alias name="Oprindelse" index="5" field="oprindkode-id"/>
-    <alias name="Gældende status" index="6" field="statuskode-id"/>
-    <alias name="Tilgængelighed" index="7" field="off-kode-id"/>
-    <alias name="Myndighed" index="8" field="cvr-kode-id"/>
-    <alias name="Brugere" index="9" field="bruger-id"/>
-    <alias name="URL-link" index="10" field="link"/>
-    <alias name="Shape" index="11" field="shape"/>
-    <alias name="Kaldenavn" index="12" field="omr-navn"/>
-    <alias name="Type" index="13" field="omr-tkode-id"/>
-    <alias name="Start på gyldighedsperiode" index="14" field="gyldig-fra"/>
-    <alias name="Slut på gyldighedsperiode" index="15" field="gyldig-til"/>
+    <alias field="qgs_fid" index="0" name=""/>
+    <alias field="objekt-id" index="1" name="ObjektId"/>
+    <alias field="version-id" index="2" name="VersionId"/>
+    <alias field="systid-fra" index="3" name="Start systemtid"/>
+    <alias field="systid-til" index="4" name="Slut systemtid"/>
+    <alias field="oprettet" index="5" name="Systemtid for oprettelse"/>
+    <alias field="oprindkode-id" index="6" name="Oprindelse"/>
+    <alias field="statuskode-id" index="7" name="Gældende status"/>
+    <alias field="off-kode-id" index="8" name="Tilgængelighed"/>
+    <alias field="cvr-kode-id" index="9" name="Myndighed"/>
+    <alias field="bruger-id" index="10" name="Brugere"/>
+    <alias field="link" index="11" name="URL-link"/>
+    <alias field="shape" index="12" name="Shape"/>
+    <alias field="omr-navn" index="13" name="Kaldenavn"/>
+    <alias field="omr-tkode-id" index="14" name="Type"/>
+    <alias field="gyldig-fra" index="15" name="Start på gyldighedsperiode"/>
+    <alias field="gyldig-til" index="16" name="Slut på gyldighedsperiode"/>
   </aliases>
   <defaults>
-    <default expression="" applyOnUpdate="0" field="objekt-id"/>
-    <default expression="" applyOnUpdate="0" field="version-id"/>
-    <default expression="" applyOnUpdate="0" field="systid-fra"/>
-    <default expression="" applyOnUpdate="0" field="systid-til"/>
-    <default expression="" applyOnUpdate="0" field="oprettet"/>
-    <default expression="" applyOnUpdate="0" field="oprindkode-id"/>
-    <default expression="" applyOnUpdate="0" field="statuskode-id"/>
-    <default expression="" applyOnUpdate="0" field="off-kode-id"/>
-    <default expression="" applyOnUpdate="0" field="cvr-kode-id"/>
-    <default expression="" applyOnUpdate="0" field="bruger-id"/>
-    <default expression="" applyOnUpdate="0" field="link"/>
-    <default expression="" applyOnUpdate="0" field="shape"/>
-    <default expression="" applyOnUpdate="0" field="omr-navn"/>
-    <default expression="" applyOnUpdate="0" field="omr-tkode-id"/>
-    <default expression="" applyOnUpdate="0" field="gyldig-fra"/>
-    <default expression="" applyOnUpdate="0" field="gyldig-til"/>
+    <default field="qgs_fid" expression="" applyOnUpdate="0"/>
+    <default field="objekt-id" expression="" applyOnUpdate="0"/>
+    <default field="version-id" expression="" applyOnUpdate="0"/>
+    <default field="systid-fra" expression="" applyOnUpdate="0"/>
+    <default field="systid-til" expression="" applyOnUpdate="0"/>
+    <default field="oprettet" expression="" applyOnUpdate="0"/>
+    <default field="oprindkode-id" expression="" applyOnUpdate="0"/>
+    <default field="statuskode-id" expression="" applyOnUpdate="0"/>
+    <default field="off-kode-id" expression="" applyOnUpdate="0"/>
+    <default field="cvr-kode-id" expression="" applyOnUpdate="0"/>
+    <default field="bruger-id" expression="" applyOnUpdate="0"/>
+    <default field="link" expression="" applyOnUpdate="0"/>
+    <default field="shape" expression="" applyOnUpdate="0"/>
+    <default field="omr-navn" expression="" applyOnUpdate="0"/>
+    <default field="omr-tkode-id" expression="" applyOnUpdate="0"/>
+    <default field="gyldig-fra" expression="" applyOnUpdate="0"/>
+    <default field="gyldig-til" expression="" applyOnUpdate="0"/>
   </defaults>
   <constraints>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="objekt-id"/>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="version-id"/>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="systid-fra"/>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="systid-til"/>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="oprettet"/>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="oprindkode-id"/>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="statuskode-id"/>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="off-kode-id"/>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="cvr-kode-id"/>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="bruger-id"/>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="link"/>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="shape"/>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="omr-navn"/>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="omr-tkode-id"/>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="gyldig-fra"/>
-    <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="gyldig-til"/>
+    <constraint field="qgs_fid" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="objekt-id" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="version-id" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="systid-fra" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="systid-til" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="oprettet" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="oprindkode-id" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="statuskode-id" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="off-kode-id" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="cvr-kode-id" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="bruger-id" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="link" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="shape" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="omr-navn" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="omr-tkode-id" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="gyldig-fra" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
+    <constraint field="gyldig-til" exp_strength="0" constraints="0" unique_strength="0" notnull_strength="0"/>
   </constraints>
   <constraintExpressions>
-    <constraint desc="" field="objekt-id" exp=""/>
-    <constraint desc="" field="version-id" exp=""/>
-    <constraint desc="" field="systid-fra" exp=""/>
-    <constraint desc="" field="systid-til" exp=""/>
-    <constraint desc="" field="oprettet" exp=""/>
-    <constraint desc="" field="oprindkode-id" exp=""/>
-    <constraint desc="" field="statuskode-id" exp=""/>
-    <constraint desc="" field="off-kode-id" exp=""/>
-    <constraint desc="" field="cvr-kode-id" exp=""/>
-    <constraint desc="" field="bruger-id" exp=""/>
-    <constraint desc="" field="link" exp=""/>
-    <constraint desc="" field="shape" exp=""/>
-    <constraint desc="" field="omr-navn" exp=""/>
-    <constraint desc="" field="omr-tkode-id" exp=""/>
-    <constraint desc="" field="gyldig-fra" exp=""/>
-    <constraint desc="" field="gyldig-til" exp=""/>
+    <constraint field="qgs_fid" exp="" desc=""/>
+    <constraint field="objekt-id" exp="" desc=""/>
+    <constraint field="version-id" exp="" desc=""/>
+    <constraint field="systid-fra" exp="" desc=""/>
+    <constraint field="systid-til" exp="" desc=""/>
+    <constraint field="oprettet" exp="" desc=""/>
+    <constraint field="oprindkode-id" exp="" desc=""/>
+    <constraint field="statuskode-id" exp="" desc=""/>
+    <constraint field="off-kode-id" exp="" desc=""/>
+    <constraint field="cvr-kode-id" exp="" desc=""/>
+    <constraint field="bruger-id" exp="" desc=""/>
+    <constraint field="link" exp="" desc=""/>
+    <constraint field="shape" exp="" desc=""/>
+    <constraint field="omr-navn" exp="" desc=""/>
+    <constraint field="omr-tkode-id" exp="" desc=""/>
+    <constraint field="gyldig-fra" exp="" desc=""/>
+    <constraint field="gyldig-til" exp="" desc=""/>
   </constraintExpressions>
   <expressionfields/>
   <attributeactions>
     <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
   </attributeactions>
-  <attributetableconfig sortOrder="0" sortExpression="" actionWidgetStyle="dropDown">
+  <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
     <columns>
-      <column name="objekt-id" hidden="0" type="field" width="-1"/>
-      <column name="version-id" hidden="0" type="field" width="-1"/>
-      <column name="systid-fra" hidden="0" type="field" width="-1"/>
-      <column name="systid-til" hidden="0" type="field" width="-1"/>
-      <column name="oprettet" hidden="0" type="field" width="-1"/>
-      <column name="oprindkode-id" hidden="0" type="field" width="-1"/>
-      <column name="statuskode-id" hidden="0" type="field" width="-1"/>
-      <column name="off-kode-id" hidden="0" type="field" width="-1"/>
-      <column name="cvr-kode-id" hidden="0" type="field" width="-1"/>
-      <column name="bruger-id" hidden="0" type="field" width="-1"/>
-      <column name="link" hidden="0" type="field" width="-1"/>
-      <column name="shape" hidden="0" type="field" width="-1"/>
-      <column name="omr-navn" hidden="0" type="field" width="-1"/>
-      <column name="omr-tkode-id" hidden="0" type="field" width="-1"/>
-      <column name="gyldig-fra" hidden="0" type="field" width="-1"/>
-      <column name="gyldig-til" hidden="0" type="field" width="-1"/>
-      <column hidden="1" type="actions" width="-1"/>
+      <column width="-1" hidden="0" type="field" name="objekt-id"/>
+      <column width="-1" hidden="0" type="field" name="version-id"/>
+      <column width="-1" hidden="0" type="field" name="systid-fra"/>
+      <column width="-1" hidden="0" type="field" name="systid-til"/>
+      <column width="-1" hidden="0" type="field" name="oprettet"/>
+      <column width="-1" hidden="0" type="field" name="oprindkode-id"/>
+      <column width="-1" hidden="0" type="field" name="statuskode-id"/>
+      <column width="-1" hidden="0" type="field" name="off-kode-id"/>
+      <column width="-1" hidden="0" type="field" name="cvr-kode-id"/>
+      <column width="-1" hidden="0" type="field" name="bruger-id"/>
+      <column width="-1" hidden="0" type="field" name="link"/>
+      <column width="-1" hidden="0" type="field" name="shape"/>
+      <column width="-1" hidden="0" type="field" name="omr-navn"/>
+      <column width="-1" hidden="0" type="field" name="omr-tkode-id"/>
+      <column width="-1" hidden="0" type="field" name="gyldig-fra"/>
+      <column width="-1" hidden="0" type="field" name="gyldig-til"/>
+      <column width="-1" hidden="1" type="actions"/>
+      <column width="-1" hidden="0" type="field" name="qgs_fid"/>
     </columns>
   </attributetableconfig>
   <conditionalstyles>
@@ -583,42 +622,44 @@ def my_form_open(dialog, layer, feature):
   <featformsuppress>0</featformsuppress>
   <editorlayout>generatedlayout</editorlayout>
   <editable>
-    <field name="bruger-id" editable="1"/>
-    <field name="cvr-kode-id" editable="1"/>
-    <field name="cvr-kode-id_value" editable="0"/>
-    <field name="gyldig-fra" editable="1"/>
-    <field name="gyldig-til" editable="1"/>
-    <field name="link" editable="1"/>
-    <field name="objekt-id" editable="1"/>
-    <field name="off-kode-id" editable="1"/>
-    <field name="omr-navn" editable="1"/>
-    <field name="omr-tkode-id" editable="1"/>
-    <field name="oprettet" editable="1"/>
-    <field name="oprindkode-id" editable="1"/>
-    <field name="shape" editable="1"/>
-    <field name="statuskode-id" editable="1"/>
-    <field name="systid-fra" editable="1"/>
-    <field name="systid-til" editable="1"/>
-    <field name="version-id" editable="1"/>
+    <field editable="1" name="bruger-id"/>
+    <field editable="1" name="cvr-kode-id"/>
+    <field editable="0" name="cvr-kode-id_value"/>
+    <field editable="1" name="gyldig-fra"/>
+    <field editable="1" name="gyldig-til"/>
+    <field editable="1" name="link"/>
+    <field editable="1" name="objekt-id"/>
+    <field editable="1" name="off-kode-id"/>
+    <field editable="1" name="omr-navn"/>
+    <field editable="1" name="omr-tkode-id"/>
+    <field editable="1" name="oprettet"/>
+    <field editable="1" name="oprindkode-id"/>
+    <field editable="1" name="qgs_fid"/>
+    <field editable="1" name="shape"/>
+    <field editable="1" name="statuskode-id"/>
+    <field editable="1" name="systid-fra"/>
+    <field editable="1" name="systid-til"/>
+    <field editable="1" name="version-id"/>
   </editable>
   <labelOnTop>
-    <field name="bruger-id" labelOnTop="0"/>
-    <field name="cvr-kode-id" labelOnTop="0"/>
-    <field name="cvr-kode-id_value" labelOnTop="0"/>
-    <field name="gyldig-fra" labelOnTop="0"/>
-    <field name="gyldig-til" labelOnTop="0"/>
-    <field name="link" labelOnTop="0"/>
-    <field name="objekt-id" labelOnTop="0"/>
-    <field name="off-kode-id" labelOnTop="0"/>
-    <field name="omr-navn" labelOnTop="0"/>
-    <field name="omr-tkode-id" labelOnTop="0"/>
-    <field name="oprettet" labelOnTop="0"/>
-    <field name="oprindkode-id" labelOnTop="0"/>
-    <field name="shape" labelOnTop="0"/>
-    <field name="statuskode-id" labelOnTop="0"/>
-    <field name="systid-fra" labelOnTop="0"/>
-    <field name="systid-til" labelOnTop="0"/>
-    <field name="version-id" labelOnTop="0"/>
+    <field labelOnTop="0" name="bruger-id"/>
+    <field labelOnTop="0" name="cvr-kode-id"/>
+    <field labelOnTop="0" name="cvr-kode-id_value"/>
+    <field labelOnTop="0" name="gyldig-fra"/>
+    <field labelOnTop="0" name="gyldig-til"/>
+    <field labelOnTop="0" name="link"/>
+    <field labelOnTop="0" name="objekt-id"/>
+    <field labelOnTop="0" name="off-kode-id"/>
+    <field labelOnTop="0" name="omr-navn"/>
+    <field labelOnTop="0" name="omr-tkode-id"/>
+    <field labelOnTop="0" name="oprettet"/>
+    <field labelOnTop="0" name="oprindkode-id"/>
+    <field labelOnTop="0" name="qgs_fid"/>
+    <field labelOnTop="0" name="shape"/>
+    <field labelOnTop="0" name="statuskode-id"/>
+    <field labelOnTop="0" name="systid-fra"/>
+    <field labelOnTop="0" name="systid-til"/>
+    <field labelOnTop="0" name="version-id"/>
   </labelOnTop>
   <dataDefinedFieldProperties/>
   <widgets/>

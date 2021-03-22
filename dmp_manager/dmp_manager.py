@@ -224,7 +224,7 @@ class DMPManager:
 
         sd.leCVRNo.setText(str(spv["CVR number"]))
         sd.lePrefLayer.setText(spv["Preferred layer"])
-        sd.rbMapExtent.setChecked(spv["Use extent"])
+        sd.chbMapExtent.setChecked(spv["Use extent"])
         sd.leToken.setText(spv["Token value"])
         sd.dtTimeout.setDateTime(QDateTime().fromString(spv["Token time"], Qt.ISODate))
 
@@ -253,7 +253,7 @@ class DMPManager:
 
         spv["CVR number"] = int(sd.leCVRNo.text())
         spv["Preferred layer"] = sd.lePrefLayer.text()
-        spv["Use extent"] = sd.rbMapExtent.isChecked()
+        spv["Use extent"] = sd.chbMapExtent.isChecked()
         spv["Token value"] = sd.leToken.text()
         spv["Token time"] = sd.dtTimeout.dateTime().toString(Qt.ISODate)
 
@@ -362,6 +362,114 @@ class DMPManager:
         if pref != "":
             sd.cbDownload.setCurrentIndex(sd.cbDownload.findText(pref))
 
+
+    def createUriDict(self, tname, gname = 'geom', pkname='objekt-id'):
+
+        sd = self.dockwidget
+        
+        udict = {}
+
+        # find/check connectype and connection information
+        if sd.rbDatabase.isChecked():
+    
+            # Database based local repository
+            if sd.cbDatabase.currentIndex() >= 0 and sd.leSchema.text() != '':
+
+                setting = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
+                metadata = QgsProviderRegistry.instance().providerMetadata(setting[0])
+                connection = metadata.findConnection(setting[1])
+                uri = QgsDataSourceUri(connection.uri())
+                uri.setSchema(sd.leSchema.text())
+
+                udict['uri']= uri
+                udict['gname'] = gname
+                udict['pkname'] = pkname
+                udict['tname'] = tname
+                udict['contype'] = setting[0]
+
+            else:
+                messC(tr('"Database" type repository chosen, but database connection or schemaname not set'))
+        else:
+    
+            # File based local repository
+            indx = sd.cbFiletype.currentIndex()
+            fpth = sd.fwDirectory.filePath()
+            if fpth != "" and indx >= 0:
+    
+                ftyp = sd.cbFiletype.currentText()
+                fext = sd.cbFiletype.itemData(indx)
+    
+                # create uri, filename/tablename
+
+                udict['gname'] = gname
+                udict['pkname'] = pkname
+                udict['path'] = fpth
+                udict['tname'] = tname
+                udict['contype'] = 'ogr'
+                if fext == '':  # tab or shape
+                    udict['ext'] = '.tab' if ftyp == 'MapInfo TAB' else '.shp'
+                else:  # spatialite or geopackage
+                    udict['ext'] = '.sqlite' if ftyp == 'SpatiaLite' else '.gpkg'
+
+            else:
+                messC('Directory path, file path or filetype not set')
+
+        return udict
+
+
+
+    def createUri(self, tname, gname = 'geom', pkname='objekt-id'):
+    
+        sd = self.dockwidget
+
+        uristr = ''
+        contype = ''
+    
+        # find/check connectype and connection information
+        if sd.rbDatabase.isChecked():
+    
+            # Database based local repository
+            if sd.cbDatabase.currentIndex() >= 0 and sd.leSchema.text() != '':
+                setting = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
+                contype = setting[0]
+                metadata = QgsProviderRegistry.instance().providerMetadata(contype)
+                connection = metadata.findConnection(setting[1])
+    
+                # create uri, database connection
+                logI('uri 0: '+ connection.uri())
+                uri = QgsDataSourceUri(connection.uri())
+                logI('uri 1: '+ uri.uri())
+                uri.setSchema(sd.leSchema.text())
+                uri.setTable(tname)
+                uri.setGeometryColumn(gname)
+                uri.setKeyColumn(pkname)
+                uristr = uri.uri()
+                logI('uri 2: '+ uri.uri())
+            else:
+                messC(tr('"Database" type repository chosen, but database connection or schemaname not set'))
+        else:
+    
+            # File based local repository
+            indx = sd.cbFiletype.currentIndex()
+            fpth = sd.fwDirectory.filePath()
+            if fpth != "" and indx >= 0:
+    
+                contype = 'ogr'
+    
+                ftyp = sd.cbFiletype.currentText()
+                fext = sd.cbFiletype.itemData(indx)
+    
+                # create uri, filename/tablename
+                if fext == '':  # tab or shape
+                    uristr = os.path.join(fpth, val['name'] + '.tab' if ftyp == 'MapInfo TAB' else '.shp')
+                else:  # spatialite or geopackage
+                    uristr = '{}|{}'.format(fpth + '.sqlite' if ftyp == 'SpatiaLite' else '.gpkg', val['name'])
+            else:
+                messC('Directory path, file path or filetype not set')
+
+        return uristr, contype
+ 
+
     def pbDownloadClicked(self):
         """Fetch feature objects from DMP"""
 
@@ -381,65 +489,24 @@ class DMPManager:
             spath = os.path.join(self.plugin_dir, 'templates')
 
             ltlog, llog = createRequestLog("DMPManager", "Requestlog", spv["Log layername"], mpag, True, os.path.join(spath, spv["Log layername"] + '.qml'))
+
             # theme number from combobox
             indx = sd.cbDownload.currentIndex()
+
             if indx >= 0:
 
                 # find id + name + layername using combobox index
                 val = sd.cbDownload.itemData(indx)
 
-                uristr = ''
-                contype = ''
+                udict = self.createUriDict(val['name'])
 
-                # find/check connectype and connection information
-                if sd.rbDatabase.isChecked():
-                    # Database based local repository
-                    if sd.cbDatabase.currentIndex() >= 0 and sd.leSchema.text() != '':
-                        setting = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
-                        contype = setting[0]
-                        metadata = QgsProviderRegistry.instance().providerMetadata(contype)
-                        connection = metadata.findConnection(setting[1])
-
-                        # create uri, database connection
-                        logI('uri 0: '+ connection.uri())
-                        uri = QgsDataSourceUri(connection.uri())
-                        logI('uri 1: '+ uri.uri())
-                        uri.setSchema(sd.leSchema.text())
-                        uri.setTable(val['name'])
-                        uri.setGeometryColumn('geom')
-                        uri.setKeyColumn('objekt-id')
-                        uristr = uri.uri()
-                        logI('uri 2: '+ uri.uri())
-                    else:
-                        messC(tr('"Database" type repository chosen, but database connection or schemaname not set'))
-                else:
-
-                    # File based local repository
-                    indx = sd.cbFiletype.currentIndex()
-                    fpth = sd.fwDirectory.filePath()
-                    if fpth != "" and indx >= 0:
-
-                        contype = 'ogr'
-
-                        ftyp = sd.cbFiletype.currentText()
-                        fext = sd.cbFiletype.itemData(indx)
-
-                        # create uri, filename/tablename
-                        if fext == '':  # tab or shape
-                            uristr = os.path.join(fpth, val['name'] + '.tab' if ftyp == 'MapInfo TAB' else '.shp')
-                        else:  # spatialite or geopackage
-                            uristr = '{}|{}'.format(fpth + '.sqlite' if ftyp == 'SpatiaLite' else '.gpkg', val['name'])
-                    else:
-                        messC('Directory path, file path or filetype not set')
-
-                if uristr != '':
+                if udict != {}:
 
                     # Create header information for requests
-                    headers = spa['Headers']
                     headers = copy.deepcopy(spa['Headers'])
                     headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
 
-                    extent = spv["Max extent"] if sd.rbNoExtent.isChecked() else mapperExtent(spv["EPSG code"]).asWkt()
+                    extent = mapperExtent(spv["EPSG code"]).asWkt() if sd.chbMapExtent.isChecked() else spv["Max extent"]
                     url = spa['Address'] + spc['objekter'] + spc['objektfilter 1'].format(extent, val['id'])
 
                     status, result = handleRequest(url, False, headers, None, llog, '')
@@ -450,18 +517,29 @@ class DMPManager:
                         ml = None
                         ll = []
 
-                        #ml, ll = createDmpLayer(uristr, contype, self.attributes, val['id'], 25832)
-                        ml, ll = createMemLayer(self.attributes, val['id'], 25832)
+                        title, ml, ll = createMemLayer(self.attributes, val['id'], 25832)
                         
                         if ml is not None:
-                            for le in ll:
-                                # copyLayer2Layer(le, uristr, contype)
-                                addLayer2Tree(mpag, le, False, "DMPManager", le.name(), os.path.join(spath, le.name() + '.qml'))
+
+                            for tt, le in ll.items():
+                              
+                                udict['tname'] = le.name() 
+                                udict['gname'] = '' 
+                                udict['pkname'] = ''
+                                le2 = copyLayer2Layer(le, udict, True)
+                                if le2: addLayer2Tree(mpag, le2, False, "DMPManager", le2.name(), os.path.join(spath, tt + '.qml'), tt)
                         
                             loadLayer(ml, result)
-                            addLayer2Tree(mprg, ml, False, "DMPManager", ml.name(), os.path.join(spath, val['title'] + '.qml'), val['title'])
 
-                            copyLayer2Layer(ml, uristr, contype)
+
+                            udict['tname'] = ml.name() 
+                            udict['gname'] = 'geom' 
+                            udict['pkname'] = ''
+                            ml2 = copyLayer2Layer(ml, udict, sd.chbOverwrite.isChecked())
+                            if ml2: 
+                                addLayer2Tree(mprg, ml2, False, "DMPManager", ml2.name(), os.path.join(spath, val['title'] + '.qml'), title)
+                            else: 
+                                messC('Creation of layer {} ({}) failed. It might already exist'.format(title,ml.name())) 
 
                     else:
 
