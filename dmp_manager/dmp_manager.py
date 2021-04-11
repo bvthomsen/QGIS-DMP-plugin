@@ -306,7 +306,8 @@ class DMPManager:
             # logI(str(headers))
             url = spa['Address'] + spc['temakoder']
             # logI(url)
-            status, result = handleRequest(url, False, headers, None, None, '')
+            #status, result = handleRequest(url, False, headers, None, None, '', 'dmptest')
+            status, result = handleRequest(url, False, {"accept": "application/vnd.api+json"}, None, None, '', 'dmptest')
             if status == 200:
                 sa['temakoder'] = result['data']
                 self.loadCbDownload()
@@ -316,7 +317,8 @@ class DMPManager:
 
             url = spa['Address'] + spc['attributter']
             # logI(url)
-            status, result = handleRequest(url, False, headers, None, None, '')
+            #status, result = handleRequest(url, False, headers, None, None, '', 'dmptest')
+            status, result = handleRequest(url, False, {"accept": "application/vnd.api+json"}, None, None, '', 'dmptest')
             if status == 200:
                 sa['attributter'] = result['data']
                 messI('Download of {} done'.format('attributter'))
@@ -325,7 +327,8 @@ class DMPManager:
 
             url = spa['Address'] + spc['temaattributter'] + spc['temaattributfilter 1']
             # logI(url)
-            status, result = handleRequest(url, False, headers, None, None, '')
+            #status, result = handleRequest(url, False, headers, None, None, '', 'dmptest')
+            status, result = handleRequest(url, False, {"accept": "application/vnd.api+json"}, None, None, '', 'dmptest')
             if status == 200:
                 sa['temaattributter'] = result['data']
                 messI('Download of {} done'.format('temaattributter'))
@@ -335,13 +338,13 @@ class DMPManager:
     def checkToken(self):
         """Check if token still is valid (not to old)"""
 
-        sd = self.dockwidget
-        spa = self.parm["Access"]
-        if sd.dtTimeout.dateTime() < QDateTime.currentDateTime():
-            # Missing code to start openId process....
-            messW('Timeout for token - refresh token using logon at DMP')
-            webbrowser.open(spa['Logon'])
-            return False
+        #sd = self.dockwidget
+        #spa = self.parm["Access"]
+        #if sd.dtTimeout.dateTime() < QDateTime.currentDateTime():
+        #    # Missing code to start openId process....
+        #    messW('Timeout for token - refresh token using logon at DMP')
+        #    webbrowser.open(spa['Logon'])
+        #    return False
 
         return True
 
@@ -509,7 +512,8 @@ class DMPManager:
                     extent = mapperExtent(spv["EPSG code"]).asWkt() if sd.chbMapExtent.isChecked() else spv["Max extent"]
                     url = spa['Address'] + spc['objekter'] + spc['objektfilter 1'].format(extent, val['id'])
 
-                    status, result = handleRequest(url, False, headers, None, llog, '')
+                    #status, result = handleRequest(url, False, headers, None, llog, '', 'dmptest')
+                    status, result = handleRequest(url, False, {"accept": "application/vnd.api+json"}, None, llog, '', 'dmptest')
 
                     # download OK
                     if status == 200:

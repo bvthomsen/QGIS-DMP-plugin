@@ -3,13 +3,28 @@ from json import load, dump, dumps, loads
 import requests
 import os.path
 
-from PyQt5.QtCore import QCoreApplication, Qt, QDateTime, QPointF, QVariant
+from PyQt5.QtCore import (QCoreApplication,
+                          Qt,
+                          QDateTime,
+                          QPointF,
+                          QVariant,
+                          QUrl)
+                          
 from PyQt5.QtGui import QPolygonF
+from PyQt5.QtNetwork import QNetworkRequest 
+
 from qgis.utils import iface
-from qgis.core import QgsMessageLog, Qgis, QgsVectorLayer, QgsProject, \
-    QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsGeometry, \
-    QgsField, QgsExpressionContextUtils, QgsFeature, QgsPointXY, \
-    QgsVectorLayerExporter
+from qgis.core import (QgsMessageLog,
+                       Qgis,
+                       QgsVectorLayer,
+                       QgsProject,
+                       QgsCoordinateReferenceSystem,
+                       QgsCoordinateTransform,QgsGeometry,
+                       QgsField, 
+                       QgsExpressionContextUtils,
+                       QgsFeature,QgsPointXY,
+                       QgsVectorLayerExporter,
+                       QgsNetworkAccessManager)
 
 trClassName = ''
 
@@ -228,7 +243,37 @@ def createRequestLog(ename, evalue, lname, root=None, top=True, style=None):
     return ltl, ml
 
 
-def handleRequest(url, isPost=False, headers=None, package=None, loglayer=None, module=''):
+def handleRequest(urlstr, isPost=False, headers=None, package=None, loglayer=None, module='', authconf = ''):
+    """TBD"""
+
+    nam = QgsNetworkAccessManager()
+    url = QUrl(urlstr)
+    req = QNetworkRequest(url)
+
+    if headers:
+        for key, value in headers.items():
+            req.setRawHeader(bytes(key, "utf-8"), bytes(value, "utf-8"))
+ 
+    resp = nam.blockingPost(req, bytes(json.dumps(package) if package else None, "utf-8"), authconf) if isPost else nam.blockingGet(req, authconf)
+    scode = resp.attribute(QNetworkRequest.HttpStatusCodeAttribute)
+    dictR = loads(str(resp.content(), "utf-8" )) if scode == 200 else None
+
+    if loglayer:
+
+        stime = QDateTime.currentDateTime().toString(Qt.ISODate)
+        feat = QgsFeature(loglayer.fields())
+        feat['operation'] = 'post' if isPost else 'get'
+        feat['url'] = urlstr
+        feat['package'] = dumps(package, indent=2) if package else ''
+        feat['status_code'] = str(scode)
+        feat['dict'] = dumps(dictR, indent=2)[:100000] if dictR else ''
+        feat['timestamp'] = stime
+        feat['module'] = module
+        loglayer.dataProvider().addFeatures([feat])
+
+    return scode, dictR
+
+def handleRequest_old(url, isPost=False, headers=None, package=None, loglayer=None, module=''):
     """TBD"""
 
     if isPost:

@@ -33,20 +33,6 @@ namespace NetCoreConsoleApp
         static readonly string _scope = "openid http://www.miljoeportal.dk/roles";
         static readonly string _api = "https://arealeditering-api.test.miljoeportal.dk/";
 
-        // *** Original constants...
-        //static readonly string _clientId = "my_client_id";
-        //
-        //static readonly string _host = "http://localhost";
-        //static readonly int _port = 5001;
-        //static readonly string _redirectUri = $"{_host}:{_port}/login";
-        //static readonly string _postLogoutRedirectUri = $"{_host}:{_port}/login";
-        //
-        //static readonly string _authority = "https://log-in.test.miljoeportal.dk/runtime/oauth2";
-        //static readonly string _scope = "openid http://www.miljoeportal.dk/roles";
-        ////static readonly string _api = "https://arealeditering-v2-api.test.miljoeportal.dk/";
-        //static readonly string _api = "https://arealeditering-api.test.miljoeportal.dk/";
-        // ... Original constants ***
-
         static OidcClient _oidcClient;
         static HttpClient _apiClient = new HttpClient { BaseAddress = new Uri(_api) };
 
