@@ -14,9 +14,6 @@
         "temaattributfilter 1 duer ikke" : "?filter=equals(temakode.id,'{}')&include=temakode"
     },
     "Values": {
-        "Global root" : "Miljøportalen", 
-        "Administration root" : "Administration", 
-        "Log layername": "DMP logtable",
         "Use extent": false,
         "Use CVR": true,
         "Preferred layer": "",
@@ -30,6 +27,20 @@
         "Pnt_reference": {"uri":"point?crs=epsg:{}&field=id:integer&field=name:string(20)&index=yes","name":"elements_pnt_ref","type":"memory"},
         "Lin_reference": {"uri":"linestring?crs=epsg:{}&field=id:integer&field=name:string(20)&index=yes","name":"elements_pnt_ref","type":"memory"},
         "Pol_reference": {"uri":"polygon?crs=epsg:{}&field=id:integer&field=name:string(20)&index=yes","name":"elements_pnt_ref","type":"memory"}
+    },
+    "Names": {
+        "Global root" : "Miljøportalen", 
+        "Administration root" : "Administration", 
+        "Edited root" : "Rettede data", 
+        "Log layername": "DMP logtable",
+        "Inserted" : "Oprettede elementer", 
+        "Deleted" : "Slettede elementer", 
+        "Modified" : "Rettede elementer"
+    },
+    "Selections": {
+        "Inserted" : "select cur.* from cur left join ref on cur.\"objekt-id\" = ref.\"objekt-id\" where ref.\"objekt-id\" is NULL", 
+        "Deleted" : "select ref.* from ref left join cur on ref.\"objekt-id\" = cur.\"objekt-id\" where cur.\"objekt-id\" is NULL", 
+        "Modified" : "select cur.* from cur join ref on cur.\"objekt-id\" = ref.\"objekt-id\" where {}"
     },
     "Data": {
         "Use database": true,

@@ -25,20 +25,52 @@ import os.path
 import webbrowser
 import copy
 
-from PyQt5.QtCore import QSettings, QTranslator, QCoreApplication, Qt, QDateTime
+from PyQt5.QtCore import (QSettings,
+                          QTranslator,
+                          QCoreApplication,
+                          Qt,
+                          QUrl,
+                          QDateTime)
+                          
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QAction
-from qgis.core import QgsProject, QgsProviderRegistry, QgsDataSourceUri
-#  , \
-#  QgsAbstractProviderConnection
+from PyQt5.QtWidgets import (QAction,
+                             QMenu)
+
+from PyQt5.Qt import (QStandardItemModel,
+                      QStandardItem)
+
+from qgis.core import (QgsProject,
+                       QgsProviderRegistry,
+                       QgsDataSourceUri,
+                       QgsVectorLayer)
+
 from qgis.gui import QgsFileWidget
 from .resources import *
-from .helper import tr, trInit, logI, logW, logC, messI, messW, messC, \
-    read_config, write_config, handleRequest, mapperExtent, createDateTimeName, \
-    loadLayer, createGroup, addLayer2Tree, createMemLayer, createRequestLog, \
-    copyLayer2Layer
-from .dmp_manager_dockwidget import DMPManagerDockWidget
 
+from .helper import (tr,
+                     trInit,
+                     logI,
+                     logW,
+                     logC,
+                     messI,
+                     messW,
+                     messC,
+                     read_config,
+                     write_config,
+                     handleRequest,
+                     mapperExtent,
+                     createDateTimeName,
+                     loadLayer,
+                     createGroup,
+                     addLayer2Tree,
+                     createMemLayer,
+                     createRequestLog,
+                     copyLayer2Layer,
+                     findLayerVariableValue,
+                     evalLayerVariable,
+                     zoomToFeature)
+
+from .dmp_manager_dockwidget import DMPManagerDockWidget
 
 class DMPManager:
     """QGIS Plugin Implementation."""
@@ -201,6 +233,15 @@ class DMPManager:
             sd.pbDownload.clicked.connect(self.pbDownloadClicked)
             sd.rbDatabase.toggled.connect(self.rbDatabaseToggled)
             sd.cbFiletype.currentIndexChanged.connect(self.cbFileTypeCurrentIndexChanged)
+            sd.twMain.currentChanged.connect(self.twMainCurrentChanged)
+            sd.pbClearCompare.clicked.connect(self.pbClearCompareClicked)
+            sd.pbCompare.clicked.connect(self.pbCompareClicked)
+            sd.tvCompare.doubleClicked.connect(self.tvCompareDoubleClicked)
+
+            sd.tvCompare.setContextMenuPolicy(Qt.CustomContextMenu)
+            sd.tvCompare.customContextMenuRequested.connect(self.tvCompareOpenMenu)
+           
+
 
             # connect to provide cleanup on closing of dockwidget
             self.dockwidget.closingPlugin.connect(self.onClosePlugin)
@@ -211,6 +252,224 @@ class DMPManager:
 
             # Set initial values
             self.pbResetClicked()
+            self.twMainCurrentChanged(1)
+
+    def tvCompareOpenMenu(self, position):
+    
+        sd = self.dockwidget
+        indexes = sd.tvCompare.selectedIndexes()
+        if len(indexes) > 0:
+        
+            index = indexes[0]
+            crawler = index.model().itemFromIndex(index)
+
+            level = 0
+            while index.parent().isValid():
+                index = index.parent()
+                level += 1
+    
+            menu = QMenu()
+            if level == 0:
+                menu.addAction(tr("Rollback all posts in {}").format(crawler.text()))
+                menu.addAction(tr("Commit all posts in {}").format(crawler.text()))
+            elif level == 1:
+                menu.addAction(tr("Rollback post: {}").format(crawler.text()))
+                menu.addAction(tr("Commit post: {}").format(crawler.text()))
+                menu.addAction(tr("Zoom/Pan to post :{}").format(crawler.text()))
+        
+            menu.exec_(sd.tvCompare.viewport().mapToGlobal(position))
+        
+    def genDictWhere(self, name, expr=r'cur."{0}" {1} ref."{0}"', opr = r'!=', conc='or'):
+        """Generate where part from dictCompare chosen """
+
+        saa = self.attributes["attributter"]
+        sat = self.attributes["temaattributter"]
+        satk = self.attributes["temakoder"]
+
+        temanr = "-9999"
+        
+        for tk in satk:
+            logI('{} ==  {} ?????'.format(tk["attributes"]["name"],name))
+            if tk["attributes"]["name"] == name: 
+                temanr = tk["id"]
+                break        
+
+        whr = ''
+        logI('temanr = {} '.format(temanr))
+
+        if temanr != "-9999":
+
+            fl = []
+    
+            for d in saa:
+                if d["id"] != 'temaattributter': 
+                    fl.append(d["attributes"]["name"])
+    
+            for d in sat:
+                if d["relationships"]["temakode"]["data"]["id"] == temanr: 
+                    fl.append(d["attributes"]["name"])
+    
+            whr = expr.format(fl[0],opr) 
+            for f in fl[1:]:
+                whr += ' ' + conc + ' ' + expr.format(f,opr)
+
+        return whr
+    
+    def pbCompareClicked(self):
+        """Compare chosen datalayer with its reference layer"""
+
+        sd = self.dockwidget
+        spn = self.parm["Names"]        
+        sps = self.parm["Selections"]        
+
+        # Clear current model
+        self.pbClearCompareClicked()
+
+        # Find layer to be compared
+        indx = sd.cbLayerCheck.currentIndex()        
+
+        if indx >=0:
+
+            # Generate string for Current layer...         
+            data = sd.cbLayerCheck.itemData(indx)
+            mlayer = data[0]
+            layer = mlayer.layer()       
+            cur = "{pt}:{sc}:cur:UTF-8".format(pt=layer.providerType(),sc=layer.source())
+            ldel = None
+            lins = None
+            lmod = None
+            
+
+            # Generate string for Reference layer ...
+            ref = 'ogr:{gf}|layername={nm}:ref:UTF-8'.format(gf=os.path.join(self.plugin_dir,'dmp_reference.gpkg'),nm=data[1].replace('DATA - ',''))
+
+            # Generate Inserted virtual layer ...
+            ivl = '?layer={cl}&layer={rl}&query=select cur.* from cur left join ref on cur."objekt-id" = ref."objekt-id" where ref."objekt-id" is NULL'.format(cl=cur,rl=ref)
+            lvins = QgsVectorLayer(ivl, sps["Inserted"], "virtual" )
+            if lvins.featureCount() > 0:
+                dins = self.createUriDictFile(os.path.join(self.plugin_dir,'dmp_reference.gpkg'), 'GeoPackage', 'inserted', 'geom', '')
+                lins = copyLayer2Layer(lvins, dins, True)
+
+            # Generate Deleted virtual layer ...
+            dvl = '?layer={cl}&layer={rl}&query=select ref.* from ref left join cur on ref."objekt-id" = cur."objekt-id" where cur."objekt-id" is NULL'.format(cl=cur,rl=ref)
+            lvdel = QgsVectorLayer(dvl, sps["Deleted"], "virtual" )
+            if lvdel.featureCount() > 0:
+                ddel = self.createUriDictFile(os.path.join(self.plugin_dir,'dmp_reference.gpkg'), 'GeoPackage', 'deleted', 'geom', '')
+                ldel = copyLayer2Layer(lvdel, ddel, True)
+
+            # Generate Modified virtual layer ...
+            whr = self.genDictWhere(data[1].replace('DATA - ',''))
+            mvl = '?layer={cl}&layer={rl}&query=select cur.* from cur left join ref on cur."objekt-id" = ref."objekt-id" where {wh}'.format(cl=cur, rl=ref, wh=whr)
+            lvmod = QgsVectorLayer(mvl, sps["Modified"], "virtual" )
+            if lvmod.featureCount() > 0:
+                dmod = self.createUriDictFile(os.path.join(self.plugin_dir,'dmp_reference.gpkg'), 'GeoPackage', 'modified', 'geom', '')
+                lmod = copyLayer2Layer(lvmod, dmod, True)
+
+            # Show virtual layers i map window
+            if ldel or lmod or lins:
+
+                mprg = createGroup(spn["Global root"], QgsProject.instance().layerTreeRoot())
+                mpeg = createGroup(spn["Edited root"], mprg, True)
+                spath = os.path.join(self.plugin_dir, 'templates')
+
+                rins = None
+                rdel = None
+                rmod = None
+
+                # Create general empty treemodel
+
+                if lins: 
+
+                    ltins = addLayer2Tree(mpeg, lins, False, "DMPManager","INSERTED", os.path.join(spath, spn["Inserted"] + '.qml'), spn["Inserted"])
+
+                    rins = QStandardItem(spn["Inserted"]) 
+                    rins.setData(str(ltins.layerId()), Qt.UserRole+2)
+                    rins.setEditable(False)
+ 
+                    for f in lins.getFeatures():
+                    
+                        iins = QStandardItem(str(f['objekt-id'])) 
+                        iins.setData(str(f.id()), Qt.UserRole+2)
+                        iins.setEditable(False)
+                        rins.appendRow(iins)
+                    #   selected_id = tv.model().itemFromIndex(tv).data().toString() #getting data 
+
+                    # Add to general model
+
+                if ldel: 
+
+                    ltdel = addLayer2Tree(mpeg, ldel, False, "DMPManager","DELETED", os.path.join(spath, spn["Deleted"] + '.qml'),  spn["Deleted"])
+
+                    rdel = QStandardItem(spn["Deleted"]) 
+                    rdel.setData(str(ltdel.layerId()), Qt.UserRole+2)
+                    rdel.setEditable(False)
+ 
+                    for f in ldel.getFeatures():
+                        idel = QStandardItem(str(f['objekt-id'])) 
+                        idel.setData(str(f.id()), Qt.UserRole+2)
+                        idel.setEditable(False)
+                        rdel.appendRow(idel)
+
+                if lmod: 
+
+                    ltmod = addLayer2Tree(mpeg, lmod, False, "DMPManager","MODIFIED", os.path.join(spath, spn["Modified"] + '.qml'), spn["Modified"])
+
+                    rmod = QStandardItem(spn["Modified"]) 
+                    rmod.setData(str(ltmod.layerId()), Qt.UserRole+2)
+                    rmod.setEditable(False)
+
+                    for f in lmod.getFeatures():
+                        imod = QStandardItem(str(f['objekt-id'])) 
+                        imod.setData(str(f.id()), Qt.UserRole+2)
+                        imod.setEditable(False)
+                        rmod.appendRow(imod)
+                     
+                # Add general model to treeview            
+
+                tmc = QStandardItemModel()
+                tmcr = tmc.invisibleRootItem()
+                if rins: tmcr.appendRow(rins)
+                if rdel: tmcr.appendRow(rdel)
+                if rins: tmcr.appendRow(rmod)
+                sd.tvCompare.setModel(tmc)
+
+            else:
+                messI('No inserts, deletes og modifications in layer: {}'.format(layer.name()))
+                
+    def tvCompareDoubleClicked(self, val):
+        messI('Layer id: {}, feature id: {}'.format(str(val.parent().data(Qt.UserRole+2)), str(val.data(Qt.UserRole+2))))
+        zoomToFeature(str(val.parent().data(Qt.UserRole+2)),int(str(val.data(Qt.UserRole+2)))) 
+                
+    def restoreOriginalFeature(self, layer, fid, mode):
+        """Restore original feature using fid, mode and layerCompare chosen datalayer with its reference layer"""
+
+        pass    
+
+    def setMapViewUsingFeature(self, layer, fid):
+        """Set view for mapper window """
+
+        pass    
+
+    def pbClearCompareClicked(self):
+        """Clear compare reseults"""
+        sd = self.dockwidget
+        sd.tvCompare.setModel(None)
+
+        # Removed layers inserted, modified and deleted layers from project.
+        for e in ['INSERTED','MODIFIED','DELETED']:
+            pl, l = findLayerVariableValue("DMPManager", e)
+            if pl:
+                root = pl.parent()
+                root.removeLayer(l)
+                if len(root.children()) == 0: 
+                    parent = root.parent()
+                    if parent: parent.removeChildNode(root)
+
+    def twMainCurrentChanged(self, indx):
+    
+        if indx == 1: # "Checks" tab
+            self.loadcbLayerCheck()
+
 
     def pbResetClicked(self):
         """Reread configuration json file and set the self.parm dict"""
@@ -303,7 +562,6 @@ class DMPManager:
             # Create header information for requests
             headers = copy.deepcopy(spa['Headers'])
             headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
-            # logI(str(headers))
             url = spa['Address'] + spc['temakoder']
             # logI(url)
             #status, result = handleRequest(url, False, headers, None, None, '', 'dmptest')
@@ -347,6 +605,26 @@ class DMPManager:
         #    return False
 
         return True
+
+    def loadcbUpload(self):
+    
+        sd = self.dockwidget
+        sd.cbUpload.clear()
+        
+        for ltLayer in QgsProject.instance().layerTreeRoot().findLayers():
+            evalue = evalLayerVariable(ltLayer.layer(), 'DMPManager')
+            if evalue and evalue[:7]=="DATA - ":
+                sd.cbUpload.addItem(ltLayer.name(),[ltLayer.layer(),evalue])
+
+    def loadcbLayerCheck(self):
+    
+        sd = self.dockwidget
+        sd.cbLayerCheck.clear()
+        
+        for ltLayer in QgsProject.instance().layerTreeRoot().findLayers():
+            evalue = evalLayerVariable(ltLayer.layer(), 'DMPManager')
+            if evalue and evalue[:7]=="DATA - ":
+                sd.cbLayerCheck.addItem(ltLayer.name(),[ltLayer,evalue])
 
     def loadCbDownload(self):
         """Load cbDownload combobox from attributes dict"""
@@ -400,22 +678,25 @@ class DMPManager:
             if fpth != "" and indx >= 0:
     
                 ftyp = sd.cbFiletype.currentText()
-                fext = sd.cbFiletype.itemData(indx)
-    
-                # create uri, filename/tablename
-
-                udict['gname'] = gname
-                udict['pkname'] = pkname
-                udict['path'] = fpth
-                udict['tname'] = tname
-                udict['contype'] = 'ogr'
-                if fext == '':  # tab or shape
-                    udict['ext'] = '.tab' if ftyp == 'MapInfo TAB' else '.shp'
-                else:  # spatialite or geopackage
-                    udict['ext'] = '.sqlite' if ftyp == 'SpatiaLite' else '.gpkg'
+                udict = self.createUriDictFile(fpth, ftyp, tname, gname, pkname)
 
             else:
                 messC('Directory path, file path or filetype not set')
+
+        return udict
+
+    def createUriDictFile(self, fpth, ftyp, tname, gname = 'geom', pkname='objekt-id'):
+
+        rdict = {'MapInfo TAB':'.tab', 'ESRI Shapefile':'.shp', 'SpatiaLite':'.sqlite','GeoPackage':'.gpkg'}        
+
+        udict = {}
+        udict['gname'] = gname
+        udict['pkname'] = pkname
+        udict['path'] = fpth
+        udict['tname'] = tname
+        udict['contype'] = 'ogr'
+        udict['filetype'] = ftyp
+        udict['ext'] = rdict[ftyp]
 
         return udict
 
@@ -484,14 +765,15 @@ class DMPManager:
             spa = self.parm["Access"]
             spc = self.parm["Commands"]
             spv = self.parm["Values"]
+            spn = self.parm["Names"]
 
             # Create map groups and log layer if they doesn't exist
             root = QgsProject.instance().layerTreeRoot()
-            mprg = createGroup(spv["Global root"], root)
-            mpag = createGroup(spv["Administration root"], mprg)
+            mprg = createGroup(spn["Global root"], root)
+            mpag = createGroup(spn["Administration root"], mprg)
             spath = os.path.join(self.plugin_dir, 'templates')
 
-            ltlog, llog = createRequestLog("DMPManager", "Requestlog", spv["Log layername"], mpag, True, os.path.join(spath, spv["Log layername"] + '.qml'))
+            ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
 
             # theme number from combobox
             indx = sd.cbDownload.currentIndex()
@@ -513,7 +795,8 @@ class DMPManager:
                     url = spa['Address'] + spc['objekter'] + spc['objektfilter 1'].format(extent, val['id'])
 
                     #status, result = handleRequest(url, False, headers, None, llog, '', 'dmptest')
-                    status, result = handleRequest(url, False, {"accept": "application/vnd.api+json"}, None, llog, '', 'dmptest')
+                    #status, result = handleRequest(url, False, {"accept": "application/vnd.api+json"}, None, llog, '', 'dmptest')
+                    status, result = handleRequest(url, False, headers, None, llog, '')
 
                     # download OK
                     if status == 200:
@@ -531,7 +814,7 @@ class DMPManager:
                                 udict['gname'] = '' 
                                 udict['pkname'] = ''
                                 le2 = copyLayer2Layer(le, udict, True)
-                                if le2: addLayer2Tree(mpag, le2, False, "DMPManager", le2.name(), os.path.join(spath, tt + '.qml'), tt)
+                                if le2: addLayer2Tree(mpag, le2, False, "DMPManager", "LOOKUP - " + le2.name(), os.path.join(spath, tt + '.qml'), tt)
                         
                             loadLayer(ml, result)
 
@@ -541,7 +824,9 @@ class DMPManager:
                             udict['pkname'] = ''
                             ml2 = copyLayer2Layer(ml, udict, sd.chbOverwrite.isChecked())
                             if ml2: 
-                                addLayer2Tree(mprg, ml2, False, "DMPManager", ml2.name(), os.path.join(spath, val['title'] + '.qml'), title)
+                                rdict = self.createUriDictFile(os.path.join(self.plugin_dir,'dmp_reference.gpkg'), 'GeoPackage', ml.name(), 'geom', '')
+                                addLayer2Tree(mprg, ml2, False, "DMPManager","DATA - " + ml2.name(), os.path.join(spath, val['title'] + '.qml'), title)
+                                ml3 = copyLayer2Layer(ml, rdict, True)
                             else: 
                                 messC('Creation of layer {} ({}) failed. It might already exist'.format(title,ml.name())) 
 

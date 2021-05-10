@@ -24,10 +24,28 @@ from qgis.core import (QgsMessageLog,
                        QgsExpressionContextUtils,
                        QgsFeature,QgsPointXY,
                        QgsVectorLayerExporter,
-                       QgsNetworkAccessManager)
+                       QgsNetworkAccessManager,
+                       QgsLayerTreeGroup)
 
 trClassName = ''
 
+def zoomToFeature (lid, fid):
+    """Replace with explanation"""
+
+    layer = QgsProject.instance().mapLayer(lid)
+    feat = layer.getFeature(fid)
+    geom = feat.geometry()
+    
+    sourceCrs = layer.crs().authid()
+    destCrs = iface.mapCanvas().mapSettings().destinationCrs().authid()
+    if sourceCrs != destCrs:
+        x = QgsCoordinateTransform(QgsCoordinateReferenceSystem(sourceCrs), QgsCoordinateReferenceSystem(destCrs), QgsProject.instance())
+        geom.transform(x)
+
+    box = geom.boundingBox()
+
+    iface.mapCanvas().setExtent(box)
+    iface.mapCanvas().refresh()
 
 def trInit(className):
     """Replace with explanation"""
@@ -60,6 +78,13 @@ def assignLayerVariable(layer, ename, evalue):
     if layer and ename and evalue:
         QgsExpressionContextUtils.setLayerVariable(layer, ename, evalue)
 
+def evalLayerVariable(layer, ename):
+    """Evaluate variable by name for specific layer"""
+
+    if layer and ename:
+        if QgsExpressionContextUtils.layerScope(layer).hasVariable(ename):
+            return QgsExpressionContextUtils.layerScope(layer).variable(ename)
+    return None
 
 def logI(mess, tab=None):
     """Replace with explanation"""
@@ -118,13 +143,16 @@ def xstr(s, r=''):
     return r if not s else str(s)
 
 
-def createGroup(groupName, root):
+def createGroup(groupName, root, top=False):
     """TBD"""
 
     group = root.findGroup(groupName)
 
     if group is None:
-        group = root.addGroup(groupName)
+        if top:
+            group = root.insertGroup(0, groupName)            
+        else:
+            group = root.addGroup(groupName)
     return group
 
 
@@ -611,10 +639,10 @@ def copyLayer2Layer(lyr, udict, owrite):
             options['update'] = True
             options['driverName'] = ext.replace('.','')
             options['layerName'] = udict['tname']
-            uristr = udict['path']+ext
+            uristr = udict['path']
             logI('gpkg/spatialite: ' + uristr)
             err = QgsVectorLayerExporter.exportLayer(lyr, uristr, "ogr", lyr.crs(), False, options)
-    
+            uristr += '|layername={}'.format(udict['tname'])
         elif ext in ['.tab','.shp']:
             uristr = os.path.join(udict['path'],udict['tname']+ext)
             logI('tab/shape: ' + uristr)
@@ -639,7 +667,7 @@ def copyLayer2Layer(lyr, udict, owrite):
         logW('Import layer {} failed with error {}'.format(lyr.name(), err))
         return None
     else:
-        logI('Layer {} import ok'.format(lyr.name()))
+        logI('Layer {} : {} : import ok'.format(lyr.name(),uristr))
         return QgsVectorLayer(uristr, lyr.name(),contype)
         
 

@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GitHub\\QGIS-DMP-plugin\\NetCoreConsoleApp\\NetCoreConsoleApp.csproj": {}
+    "D:\\GitHub\\QGIS-DMP-plugin\\NetCoreConsoleApp\\NetCoreConsoleApp.csproj": {}
   },
   "projects": {
-    "C:\\GitHub\\QGIS-DMP-plugin\\NetCoreConsoleApp\\NetCoreConsoleApp.csproj": {
+    "D:\\GitHub\\QGIS-DMP-plugin\\NetCoreConsoleApp\\NetCoreConsoleApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\QGIS-DMP-plugin\\NetCoreConsoleApp\\NetCoreConsoleApp.csproj",
+        "projectUniqueName": "D:\\GitHub\\QGIS-DMP-plugin\\NetCoreConsoleApp\\NetCoreConsoleApp.csproj",
         "projectName": "NetCoreConsoleApp",
-        "projectPath": "C:\\GitHub\\QGIS-DMP-plugin\\NetCoreConsoleApp\\NetCoreConsoleApp.csproj",
-        "packagesPath": "C:\\Users\\dlt265\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\QGIS-DMP-plugin\\NetCoreConsoleApp\\obj\\",
+        "projectPath": "D:\\GitHub\\QGIS-DMP-plugin\\NetCoreConsoleApp\\NetCoreConsoleApp.csproj",
+        "packagesPath": "C:\\Users\\Bo Victor Thomsen\\.nuget\\packages\\",
+        "outputPath": "D:\\GitHub\\QGIS-DMP-plugin\\NetCoreConsoleApp\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\dlt265\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Bo Victor Thomsen\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -87,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

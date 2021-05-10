@@ -6,7 +6,7 @@
     "pyqt-integration.pyuic.cmd": "C:\\OSGEO4~1\\apps\\Python37\\Scripts\\pyuic5.bat",
     "pyqt-integration.pyrcc.cmd": "C:\\OSGEO4~1\\apps\\Python37\\Scripts\\pyrcc5.bat",
     "pyqt-integration.pyrcc.compile.filepath": "${workspace}/${qrc_name}.py",
-
+C:\Program Files\QGIS 3.18CC:\Program Files\QGIS 3.18\apps\Python37\Scripts:\Program Files\QGIS 3.18\apps\Python37\ScriptsC:\Program Files\QGIS 3.18\apps\Python37\ScriptsC:\Program Files\QGIS 3.18\apps\Python37\Scripts\apps\Python37\Scripts
     // Linter
     "python.linting.enabled": true,
     "python.linting.flake8Enabled": true,
@@ -20,7 +20,7 @@
 
     // Set Python interpreter
     //"python.pythonPath": "${workspaceFolder}/.venv_tests/Scripts/python.exe",
-    "python.pythonPath": "C:/OSGeo4W64/bin/python-qgis-ltr.bat",
+    "python.pythonPath": "c:\\Program Files\\QGIS 3.18\\apps\\Python37\\python.exe",
 
     // Formatting with black
     "python.formatting.provider": "black",
@@ -55,5 +55,8 @@
         "VSI_CACHE": "TRUE",
         "VSI_CACHE_SIZE": "1000000"
     },
+"python.linting.pylintArgs": [
+    "--extension-pkg-whitelist=PyQt5"
+]
 }
 
