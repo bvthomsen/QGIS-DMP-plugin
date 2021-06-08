@@ -262,23 +262,70 @@ class DMPManager:
         
             index = indexes[0]
             crawler = index.model().itemFromIndex(index)
-
             level = 0
             while index.parent().isValid():
-                index = index.parent()
                 level += 1
+                index = index.parent()
     
             menu = QMenu()
             if level == 0:
-                menu.addAction(tr("Rollback all posts in {}").format(crawler.text()))
-                menu.addAction(tr("Commit all posts in {}").format(crawler.text()))
+
+                rollbacklistAction = QAction(tr('Rollback all posts in "{}"').format(crawler.text()), sd.tvCompare)
+                rollbacklistAction.triggered.connect(lambda:self.rightClickAction('rollbacklist', crawler))
+                menu.addAction(rollbacklistAction)
+
+                commitlistAction = QAction(tr('Commit all posts in "{}"').format(crawler.text()), sd.tvCompare)
+                commitlistAction.triggered.connect(lambda:self.rightClickAction('commitlist', crawler))
+                menu.addAction(commitlistAction)
+
             elif level == 1:
-                menu.addAction(tr("Rollback post: {}").format(crawler.text()))
-                menu.addAction(tr("Commit post: {}").format(crawler.text()))
-                menu.addAction(tr("Zoom/Pan to post :{}").format(crawler.text()))
+
+                rollbackAction = QAction(tr('Rollback post: "{}"').format(crawler.text()), sd.tvCompare)
+                rollbackAction.triggered.connect(lambda:self.rightClickAction('rollback', crawler))
+                menu.addAction(rollbackAction)
+
+                commitAction = QAction(tr('Commit post: "{}"').format(crawler.text()), sd.tvCompare)
+                commitAction.triggered.connect(lambda:self.rightClickAction('commit', crawler))
+                menu.addAction(commitAction)
+
+                zoomAction = QAction(tr('Zoom/Pan to post: "{}"').format(crawler.text()), sd.tvCompare)
+                zoomAction.triggered.connect(lambda:self.rightClickAction('zoom', crawler))
+                menu.addAction(zoomAction)
         
             menu.exec_(sd.tvCompare.viewport().mapToGlobal(position))
-        
+    
+    def rightClickAction (self, operation, crawler):
+
+        sd = self.dockwidget
+        spd = self.parm["Data"]
+        spn = self.parm["Names"]
+ 
+        if operation == 'zoom':
+            self.tvCompareDoubleClicked(crawler)
+
+        elif operation == 'rollbacklist':
+            messI('{}.. Layer id: {}'.format(operation, str(crawler.data(Qt.UserRole+2))))
+
+
+        elif operation == 'commitlist':
+            messI('{}.. Layer id: {}'.format(operation, str(crawler.data(Qt.UserRole+2))))
+
+
+        elif operation == 'rollback':
+            messI('{}.. Layer id: {}, feature id: {}'.format(operation, str(crawler.parent().data(Qt.UserRole+2)), str(crawler.data(Qt.UserRole+2))))
+
+            layerSrc = QgsProject.instance().layerTreeRoot().findLayer(str(crawler.parent().data(Qt.UserRole+2)))
+            layerDest = sd.cbLayerCheck.itemData(sd.cbLayerCheck.currentIndex())[0].layer()
+
+            restoreOriginalFeature(self, layerSrc, str(crawler.data(Qt.UserRole+2)), layerDest, spd["PKName"], spd["PKQuote"])
+            
+        elif operation == 'commit':
+            messI('{}.. Layer id: {}, feature id: {}'.format(operation, str(crawler.parent().data(Qt.UserRole+2)), str(crawler.data(Qt.UserRole+2))))
+            
+    def rollBackElement (self, cur, ref, idname, idvalueoperation, crawler, crawler2):
+        pass    
+    
+    
     def genDictWhere(self, name, expr=r'cur."{0}" {1} ref."{0}"', opr = r'!=', conc='or'):
         """Generate where part from dictCompare chosen """
 
@@ -320,7 +367,8 @@ class DMPManager:
 
         sd = self.dockwidget
         spn = self.parm["Names"]        
-        sps = self.parm["Selections"]        
+        sps = self.parm["Selections"]
+        pkid = self.parm["Data"]["PKName"]
 
         # Clear current model
         self.pbClearCompareClicked()
@@ -344,14 +392,14 @@ class DMPManager:
             ref = 'ogr:{gf}|layername={nm}:ref:UTF-8'.format(gf=os.path.join(self.plugin_dir,'dmp_reference.gpkg'),nm=data[1].replace('DATA - ',''))
 
             # Generate Inserted virtual layer ...
-            ivl = '?layer={cl}&layer={rl}&query=select cur.* from cur left join ref on cur."objekt-id" = ref."objekt-id" where ref."objekt-id" is NULL'.format(cl=cur,rl=ref)
+            ivl = '?layer={cl}&layer={rl}&query=select cur.* from cur left join ref on cur."{pkid}" = ref."{pkid}" where ref."{pkid}" is NULL'.format(cl=cur, rl=ref, pkid=pkid)
             lvins = QgsVectorLayer(ivl, sps["Inserted"], "virtual" )
             if lvins.featureCount() > 0:
                 dins = self.createUriDictFile(os.path.join(self.plugin_dir,'dmp_reference.gpkg'), 'GeoPackage', 'inserted', 'geom', '')
                 lins = copyLayer2Layer(lvins, dins, True)
 
             # Generate Deleted virtual layer ...
-            dvl = '?layer={cl}&layer={rl}&query=select ref.* from ref left join cur on ref."objekt-id" = cur."objekt-id" where cur."objekt-id" is NULL'.format(cl=cur,rl=ref)
+            dvl = '?layer={cl}&layer={rl}&query=select ref.* from ref left join cur on ref."{pkid}" = cur."{pkid}" where cur."{pkid}" is NULL'.format(cl=cur, rl=ref, pkid=pkid)
             lvdel = QgsVectorLayer(dvl, sps["Deleted"], "virtual" )
             if lvdel.featureCount() > 0:
                 ddel = self.createUriDictFile(os.path.join(self.plugin_dir,'dmp_reference.gpkg'), 'GeoPackage', 'deleted', 'geom', '')
@@ -359,7 +407,7 @@ class DMPManager:
 
             # Generate Modified virtual layer ...
             whr = self.genDictWhere(data[1].replace('DATA - ',''))
-            mvl = '?layer={cl}&layer={rl}&query=select cur.* from cur left join ref on cur."objekt-id" = ref."objekt-id" where {wh}'.format(cl=cur, rl=ref, wh=whr)
+            mvl = '?layer={cl}&layer={rl}&query=select cur.* from cur left join ref on cur."{pkid}" = ref."{pkid}" where {wh}'.format(cl=cur, rl=ref, wh=whr, pkid=pkid)
             lvmod = QgsVectorLayer(mvl, sps["Modified"], "virtual" )
             if lvmod.featureCount() > 0:
                 dmod = self.createUriDictFile(os.path.join(self.plugin_dir,'dmp_reference.gpkg'), 'GeoPackage', 'modified', 'geom', '')
@@ -376,8 +424,6 @@ class DMPManager:
                 rdel = None
                 rmod = None
 
-                # Create general empty treemodel
-
                 if lins: 
 
                     ltins = addLayer2Tree(mpeg, lins, False, "DMPManager","INSERTED", os.path.join(spath, spn["Inserted"] + '.qml'), spn["Inserted"])
@@ -388,13 +434,10 @@ class DMPManager:
  
                     for f in lins.getFeatures():
                     
-                        iins = QStandardItem(str(f['objekt-id'])) 
+                        iins = QStandardItem(str(f.id())) 
                         iins.setData(str(f.id()), Qt.UserRole+2)
                         iins.setEditable(False)
                         rins.appendRow(iins)
-                    #   selected_id = tv.model().itemFromIndex(tv).data().toString() #getting data 
-
-                    # Add to general model
 
                 if ldel: 
 
@@ -405,7 +448,7 @@ class DMPManager:
                     rdel.setEditable(False)
  
                     for f in ldel.getFeatures():
-                        idel = QStandardItem(str(f['objekt-id'])) 
+                        idel = QStandardItem(str(f.id())) 
                         idel.setData(str(f.id()), Qt.UserRole+2)
                         idel.setEditable(False)
                         rdel.appendRow(idel)
@@ -419,18 +462,17 @@ class DMPManager:
                     rmod.setEditable(False)
 
                     for f in lmod.getFeatures():
-                        imod = QStandardItem(str(f['objekt-id'])) 
+                        imod = QStandardItem(str(f.id())) 
                         imod.setData(str(f.id()), Qt.UserRole+2)
                         imod.setEditable(False)
                         rmod.appendRow(imod)
                      
                 # Add general model to treeview            
-
                 tmc = QStandardItemModel()
                 tmcr = tmc.invisibleRootItem()
                 if rins: tmcr.appendRow(rins)
                 if rdel: tmcr.appendRow(rdel)
-                if rins: tmcr.appendRow(rmod)
+                if rmod: tmcr.appendRow(rmod)
                 sd.tvCompare.setModel(tmc)
 
             else:
@@ -440,10 +482,21 @@ class DMPManager:
         messI('Layer id: {}, feature id: {}'.format(str(val.parent().data(Qt.UserRole+2)), str(val.data(Qt.UserRole+2))))
         zoomToFeature(str(val.parent().data(Qt.UserRole+2)),int(str(val.data(Qt.UserRole+2)))) 
                 
-    def restoreOriginalFeature(self, layer, fid, mode):
+                
+    def restoreOriginalFeature(self, layerSrc, id, layerDest, val, cit=''):
         """Restore original feature using fid, mode and layerCompare chosen datalayer with its reference layer"""
 
-        pass    
+
+        # Inserted: slet element fra layerdest
+        # Deleted : copy element fra layersrc til layerdest
+        # Modified: slet element fra layerdest + copy element fra layersrc til layerdst
+        expression = '"{id}" = {cit}{val}{cit}'.format(id=id, val=val, cit=cit)
+        request = QgsFeatureRequest().setFilterExpression(expression)
+
+        f = layerSrc.getFeature(id)        
+        with edit(layerDest):
+            for g in layerDest.getFeatures(request): layerDest.deleteFeature(g.id())            
+            layerDest.addFeature(f)
 
     def setMapViewUsingFeature(self, layer, fid):
         """Set view for mapper window """

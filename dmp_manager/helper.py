@@ -43,7 +43,7 @@ def zoomToFeature (lid, fid):
         geom.transform(x)
 
     box = geom.boundingBox()
-
+    box.scale(1.2)
     iface.mapCanvas().setExtent(box)
     iface.mapCanvas().refresh()
 

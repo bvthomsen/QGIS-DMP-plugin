@@ -48,7 +48,9 @@
         "Schema": "",
         "Filetypes": {"ESRI Shapefile"   : "","MapInfo TAB":"","SpatiaLite": "SpatiaLite (*.sqlite *.SQLITE)", "GeoPackage": "GeoPackage (*.gpkg *.GPKG)"},
         "Use filetype": "GeoPackage",
-        "Directory": ""
+        "Directory": "",
+		"PKName": "objekt-id",
+		"PKQuote": "'"
     }
     
 }
