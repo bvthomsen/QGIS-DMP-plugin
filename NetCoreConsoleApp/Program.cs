@@ -31,7 +31,10 @@ namespace NetCoreConsoleApp
 
         static readonly string _authority = "https://log-in.test.miljoeportal.dk/runtime/oauth2";
         static readonly string _scope = "openid http://www.miljoeportal.dk/roles";
+        //static readonly string _api = "https://arealeditering-api.test.miljoeportal.dk/";
         static readonly string _api = "https://arealeditering-api.test.miljoeportal.dk/";
+//        static readonly string _api = "https://arealeditering-api.miljoeportal.dk/";
+
 
         static OidcClient _oidcClient;
         static HttpClient _apiClient = new HttpClient { BaseAddress = new Uri(_api) };
