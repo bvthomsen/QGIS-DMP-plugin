@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from json import load, dump, dumps, loads
-import requests
-import os.path
+import requests, string, os.path, random
 
 from PyQt5.QtCore import (QCoreApplication,
                           Qt,
@@ -28,6 +27,10 @@ from qgis.core import (QgsMessageLog,
                        QgsLayerTreeGroup)
 
 trClassName = ''
+
+def get_random_string(length):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(length))
 
 def zoomToFeature (lid, fid):
     """Replace with explanation"""

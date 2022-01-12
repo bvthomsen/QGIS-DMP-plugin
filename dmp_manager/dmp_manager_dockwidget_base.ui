@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="twMain">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -28,22 +28,29 @@
         <item>
          <widget class="QGroupBox" name="groupBox_5">
           <property name="title">
-           <string>Access token </string>
+           <string>Tokens </string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
-            <widget class="QLineEdit" name="leToken"/>
-           </item>
-           <item>
             <layout class="QFormLayout" name="formLayout">
              <item row="0" column="0">
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>Access token</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="leToken"/>
+             </item>
+             <item row="1" column="0">
               <widget class="QLabel" name="label">
                <property name="text">
                 <string>Token timeout:</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
+             <item row="1" column="1">
               <widget class="QDateTimeEdit" name="dtTimeout">
                <property name="displayFormat">
                 <string>yyyy-MM-dd HH:mm</string>
@@ -55,7 +62,7 @@
            <item>
             <widget class="QPushButton" name="pbReqToken">
              <property name="text">
-              <string>Request token</string>
+              <string>Login to DMP </string>
              </property>
             </widget>
            </item>
@@ -175,32 +182,41 @@
        <attribute name="title">
         <string>Upload</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <layout class="QVBoxLayout" name="verticalLayout_11">
+        <item>
+         <widget class="QGroupBox" name="groupBox_9">
+          <property name="title">
+           <string>Choose layer</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QComboBox" name="cbUpload"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
         <item>
          <widget class="QGroupBox" name="groupBox_4">
           <property name="title">
            <string>Upload local edit layer to DMP</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
-           <item row="1" column="0" colspan="2">
+           <item row="0" column="0" colspan="2">
             <widget class="QTreeView" name="tvUpload"/>
            </item>
-           <item row="2" column="0">
+           <item row="1" column="0">
             <widget class="QPushButton" name="pbUpload">
              <property name="text">
               <string>Upload</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
+           <item row="1" column="1">
             <widget class="QPushButton" name="pbClearUpload">
              <property name="text">
               <string>Clear</string>
              </property>
             </widget>
-           </item>
-           <item row="0" column="0" colspan="2">
-            <widget class="QComboBox" name="cbUpload"/>
            </item>
           </layout>
          </widget>

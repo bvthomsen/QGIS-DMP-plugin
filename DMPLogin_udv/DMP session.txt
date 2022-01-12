@@ -1,0 +1,353 @@
++-----------------------+
+|  Sign in with OIDC    |
++-----------------------+
+
+Press any key to sign in...
+[13:35:18 Information] IdentityModel.OidcClient.OidcClient
+Starting authentication request.
+
+[13:35:35 Information] IdentityModel.OidcClient.OidcClient
+Processing response.
+
+[13:35:36 Information] IdentityModel.OidcClient.OidcClient
+Authentication request success.
+
+
+
+Claims:
+sub: 1085aesta
+uiId: a46fa7ec-fc04-45b3-bed5-8bccfe3ea5e7
+token_usage: identity_token
+jti: bb3aff27-dffc-4627-8ecb-15aa153dac90
+aud: qgisplugin-integration-daiedittest
+aud: https://log-in.test.miljoeportal.dk/resources
+nonce: GDhMWmaLsIvpStHOpd4-rA
+at_hash: 7cqJs0Ze6x3zC5ePaDAqAA
+azp: qgisplugin-integration-daiedittest
+iat: 1625744135
+nbf: 1625744135
+exp: 1625747735
+iss: https://log-in.test.miljoeportal.dk/runtime/oauth2
+name: 1085aesta
+http://www.miljoeportal.dk/roles: Region
+http://www.miljoeportal.dk/roles: Offentlig
+http://www.miljoeportal.dk/roles: 29190658
+http://www.miljoeportal.dk/roles: miljoe_arealinfo_skriv_reg
+http://www.miljoeportal.dk/roles: Domain Users
+http://www.miljoeportal.dk/roles: miljoe_arealinfo_raastofomraader_skriv_reg
+http://www.miljoeportal.dk/roles: Brugere
+
+identity token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjIzTF9NdlhLWndXUW8xeGdRZkVoWk50Z2tZZyIsIng1dCI6IjIzTF9NdlhLWndXUW8xeGdRZkVoWk50Z2tZZyIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMDg1YWVzdGEiLCJ1aUlkIjoiYTQ2ZmE3ZWMtZmMwNC00NWIzLWJlZDUtOGJjY2ZlM2VhNWU3IiwidG9rZW5fdXNhZ2UiOiJpZGVudGl0eV90b2tlbiIsImp0aSI6ImJiM2FmZjI3LWRmZmMtNDYyNy04ZWNiLTE1YWExNTNkYWM5MCIsImF1ZCI6WyJxZ2lzcGx1Z2luLWludGVncmF0aW9uLWRhaWVkaXR0ZXN0IiwiaHR0cHM6Ly9sb2ctaW4udGVzdC5taWxqb2Vwb3J0YWwuZGsvcmVzb3VyY2VzIl0sIm5vbmNlIjoiR0RoTVdtYUxzSXZwU3RIT3BkNC1yQSIsImF0X2hhc2giOiI3Y3FKczBaZTZ4M3pDNWVQYURBcUFBIiwiYXpwIjoicWdpc3BsdWdpbi1pbnRlZ3JhdGlvbi1kYWllZGl0dGVzdCIsImlhdCI6MTYyNTc0NDEzNSwibmJmIjoxNjI1NzQ0MTM1LCJleHAiOjE2MjU3NDc3MzUsImlzcyI6Imh0dHBzOi8vbG9nLWluLnRlc3QubWlsam9lcG9ydGFsLmRrL3J1bnRpbWUvb2F1dGgyIn0.Wk6RyacNWgPnSlIJaVUlqU3tfHkq4OsFKG0vHiV5awI9mU_zb9RBh0hIA8ouCt6jpQypnTVVjenLazV3nm6Y--Y4w4yzfueZFKH5ajKeOdfELwQ8Ve9pRNjWc6OiGJsdgjw0czzwFBYNiNgpxWyBb3XP_aje3tYmpEJeJrytNB9AmEk_6sKEKAiY8ygzcx3w9Ny8RQK1l3WHp_OP_lEg_DdqeeLTpytiIspeqyiikWypoDLRtwFFybvKeg0OUuvyNw2UdSINhXrBQShjoL9EKnGueH18ynKP-Zg6COcgoQ45RS2iEQL6kpfe0ouy5VaMkxl40GFJ68d3qITdHXuAiQ
+access token:   eyJhbGciOiJSUzI1NiIsImtpZCI6IjIzTF9NdlhLWndXUW8xeGdRZkVoWk50Z2tZZyIsIng1dCI6IjIzTF9NdlhLWndXUW8xeGdRZkVoWk50Z2tZZyIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMDg1YWVzdGEiLCJ1aUlkIjoiYTQ2ZmE3ZWMtZmMwNC00NWIzLWJlZDUtOGJjY2ZlM2VhNWU3IiwidW5pcXVlX25hbWUiOiIxMDg1YWVzdGEiLCJkazpnb3Y6c2FtbDphdHRyaWJ1dGU6VW5pcXVlQWNjb3VudEtleSI6IlhyaTovL0BESy1YUkkqMjkxOTA2NTgvMjAyMDExMDUxMjI3NTAuMFova2FJdCs1TEdxMHlySFJCU1ptRk5XZz09IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2F1dGhlbnRpY2F0aW9ubWV0aG9kIjoiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2F1dGhlbnRpY2F0aW9ubWV0aG9kL3Bhc3N3b3JkIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2F1dGhlbnRpY2F0aW9uaW5zdGFudCI6IjIwMjEtMDctMDhUMTE6MzU6MzUuMDQxWiIsImRrOmdvdjpzYW1sOmF0dHJpYnV0ZTpBc3N1cmFuY2VMZXZlbCI6IjIiLCJkazpnb3Y6c2FtbDphdHRyaWJ1dGU6U3BlY1ZlciI6IkRLLVNBTUwtMi4wIiwiZGs6Z292OnNhbWw6YXR0cmlidXRlOkN2ck51bWJlcklkZW50aWZpZXIiOiIyOTE5MDY1OCIsInVybjpvaWQ6Mi41LjQuMyI6IjEwODVhZXN0YSIsInVybjpvaWQ6MC45LjIzNDIuMTkyMDAzMDAuMTAwLjEuMyI6ImJ2dEBhZXN0YXMuZGsiLCJodHRwOi8vd3d3Lm1pbGpvZXBvcnRhbC5kay9lbXBsb3llZUlEIjoiYWVzdGEiLCJodHRwOi8vd3d3Lm1pbGpvZXBvcnRhbC5kay9vcmdhbml6YXRpb25OdW1iZXIiOiIxMDg1IiwiaHR0cDovL3d3dy5taWxqb2Vwb3J0YWwuZGsvZ2l2ZW5OYW1lIjoiQm8iLCJodHRwOi8vd3d3Lm1pbGpvZXBvcnRhbC5kay9vYmplY3RHVUlEIjoiZmIyZGEyOTEtYzY5Mi00Y2FiLWFiMWQtMTA1MjY2NjE0ZDVhIiwidXJuOm9pZDowLjkuMjM0Mi4xOTIwMDMwMC4xMDAuMS4xIjoiMTA4NWFlc3RhIiwidXJuOm9pZDoyLjUuNC40IjoiVGhvbXNlbiIsImh0dHA6Ly93d3cubWlsam9lcG9ydGFsLmRrL3VzZXJQcmluY2lwYWxOYW1lIjoiMTA4NWFlc3RhQG1ic2RrLmRrIiwidXBuIjoiMTA4NWFlc3RhQG1ic2RrLmRrIiwiaHR0cDovL3d3dy5taWxqb2Vwb3J0YWwuZGsvd2hlbkNyZWF0ZWQiOiIyMDIwMTEwNTEyMjc1MC4wWiIsIndpbmFjY291bnRuYW1lIjoibWJzZGtpbnRcXDEwODVhZXN0YSIsInJvbGUiOlsiQnJ1Z2VyZSIsIlJlZ2lvbiIsIk9mZmVudGxpZyIsIjI5MTkwNjU4IiwibWlsam9lX2FyZWFsaW5mb19za3Jpdl9yZWciLCJEb21haW4gVXNlcnMiXSwiaHR0cDovL3d3dy5taWxqb2Vwb3J0YWwuZGsvcm9sZXMiOlsiUmVnaW9uIiwiT2ZmZW50bGlnIiwiMjkxOTA2NTgiLCJtaWxqb2VfYXJlYWxpbmZvX3Nrcml2X3JlZyIsIkRvbWFpbiBVc2VycyIsIm1pbGpvZV9hcmVhbGluZm9fcmFhc3RvZm9tcmFhZGVyX3Nrcml2X3JlZyIsIkJydWdlcmUiXSwibmFtZSI6IjEwODVhZXN0YSIsInRva2VuX3VzYWdlIjoiYWNjZXNzX3Rva2VuIiwianRpIjoiZDVhNTEzMTEtNTI0Mi00YzE2LTkwZDUtOTIzZDYyMzczMjk5Iiwic2NvcGUiOlsiaHR0cDovL3d3dy5taWxqb2Vwb3J0YWwuZGsvcm9sZXMiLCJvcGVuaWQiLCJvZmZsaW5lX2FjY2VzcyJdLCJhdWQiOiJodHRwczovL2xvZy1pbi50ZXN0Lm1pbGpvZXBvcnRhbC5kay9yZXNvdXJjZXMiLCJhenAiOiJxZ2lzcGx1Z2luLWludGVncmF0aW9uLWRhaWVkaXR0ZXN0IiwiaWF0IjoxNjI1NzQ0MTM1LCJuYmYiOjE2MjU3NDQxMzUsImV4cCI6MTYyNTc0NzczNSwiaXNzIjoiaHR0cHM6Ly9sb2ctaW4udGVzdC5taWxqb2Vwb3J0YWwuZGsvcnVudGltZS9vYXV0aDIifQ.M13Qn5g0fN24YhgLZi1i1OVhpLbW3LNd5TAKB0KoVq3YIaFi387MIvXPz1jVtaKH9wxDJQniqflwTEzM_5QcId9qJv0Shc7S2oyzwVb2jjqzCJme0oLorAWT5Gu2aaZCaGaLd_iAkS79mQHGdV3HJEMkO5EtgxLrIO8LtFudXfM54aJ7b1uD3rxzvYqj9tpIBUDU_961M8OhjxVwYJ8qwpf1Pd5x4gZd9yhm58IXF-WXudC_h-C4DPREjPGzi-hY3yutkQPH1BHCNYbKoaPyBDJLWHHrJjbpVBXhNDvSfhiJKhSaAHWRnRCFkNC2RRm53JM843vkBfpQP6dowyaOXg
+refresh token:  CfDJ8E2AnnvbwdBPm7kqdtEbRHpmYO0Y49AoAZ9dnaDe-cMJpErk14h1Q3NI1Xq41BqbjQIeDX2bBk-0yC98UhkjYPVpnZ0f2DCpCqehIiqlElSUGoruhBAXwRTuKHKeeNk-OHGQwVa4u78ZCKjgQYVVtK8IgVlpPXxvjI-QY55RLNP3_6JFrWzRldTe7h-b6R-5dXOrnyRG3tGOWJqbgJNUCltVfiMugneJvY7NOgmNbX2pq0tuH-vkNW4z0Cyi74CUKzjP963F4Y0KByOVEuM6yfe9XYPGdfdjWLPXoerRJROSpwKurRhdkYKJzElb8JaobEz3wTQuV60SweDof1sNEdMoIJxCRpA7km-ZahkCgX82HBH1FZ7kjWZJ9bO28etN9JT3J35NPsw_hZHKs0QTEwlAEFBp7SXgiJtDbjQWYm1nEKP0SjQxhnvpCu00bVrFQHdB-vIGzWtgxXYRxTE_QUzfQTuLIPrHaFM-sE2gpIoxPJhooPp2KKYSGnU_jjNNKDW9hYcYlFt8-dkCu5rzgc1LxDD6CFR7sXeE8PlUX5b6nO9QaJ2ZXfoyIXLMtwWFUI-UrXl8GQSB0v_qxof3p8wgxbcTcDE0Odf_7qiNEx64ckQC3NbfL2mCipYRreynpKtHsg_74wPR4jjS6wWq6JfwIUyMuCL8p3xIenp00vQmlYhs_DpDroCghskpNjevDxdcO3uIrEeQSK1ByEzAAabZph1U_zkDS4ph-1pXLmYuRDDUWUMLq2_vQg6vzjBshYe3hvKk-sai8bHKFLcqm4rgM4olHceYreR71aLlOQQkcmRAcAxkOfngAzcotRM32pUgXBZxIgCP6DjHiG_wDgHdaEqUKUkIfv1igKnVIWplbfLAy-WmYNaA5eiJyz7SLwrRRUzznpNeOVMVvRiP_383JggZ8vyuGEp4YlR6bdQDIxTqRxA62_AJNYl7XWRBhC2sQqa1-fYGgP1KiM7DfnfMrpiVWYLh6DpJyRC0k5qEvIT7G3K-7rdrkhRpaWunA4NAP5-LIBWyekE73SbCOW2E1qibDRU_Ozk55eD8V0rt9Nt3hXSrE5qwZn38c6Uw4TmjNZDQJpWctDD7ZloIWo781xqSUvyHZvHmC4Jpalocw2otwjbrssLuLnUhLyi8vUeCUtEoxEdqtUmI50l3bDkxVb24HF1F2hcaAtMF6cdI7LjVSUjMdka5OXQ-zPb_5ThBZlRyB5L8grzCR0iVPFdN6-hJVNlxwZZ91mIK0ke6BzmKwRmdgSAl1P0QYt5zjpSdexJawOmlsbI9Mg-sTR-EI2RLR7bQQavMdIfsy6EzUSrRV9U1wsG1w_4JmQ-Um_DVyLTSOXxP9IPN2JQoYfbbJ8Dz9KpPfQaLhnFOs3L6HM28gWyUG5Z1GoPpnWpx_Zy5UmyioyBGYz6jUqQlIM4-sTH9UOn_3IPVuLkptL3IvaSBtAO7XMxBjEhTNwBfvQEE06Q9u0ynd3OXAOc9Mi06yt4Jrvhd24-kHK90sbsGJ80kfFWJVVAdiP6zsiVdgNsHuR-KxGoM1SxAu9wd0rI_2o8YBSQCqpstSRfSn9QDWWTkjDOA-NuhiUi32CAb5cE2LxCwJ2ZWWIAVr-L47rtnfd0SWawNm5Mvok64EuxeN3dXs-CApbL-TPh5olMtpk7H99RDjZ_0KOSnMWnSo2Aij3xo_gZQEkCPVmzIH3h-2Yr5XU7mUoxhEdTCPrVdZdZ3avyIDW4gUTuEUDjFaMkpfK39wPpv73hWrEjTyYEsPMGuA8Qa4xug2UD8zuUCgFzzXIerrv9SHD9sneSNNRQ4ZbREHLjAltgCNeTIyJu1_fGEleetzl6c-t1lxwX92QexH_bfLCAAqZLEMPrICx9FlDuTvgQVtXN4xDExXhuEqI3T-wXY6UeRr9YyoIApeD9FpdCoqNP27u8xFomfEe2Zsd2mS0ts-yGPMj6DXPfbK0y_99EXkVg9a5IRbk71YpEimwwoj6LcnOs-2oBM-y5k5ZOKfrX0zlfvILlZMFCdm0DCEE5CtqvC1GGiW-6kPNCZGMt0N3sgc6bJo6GSnGvo9aAxX06VxIdac8dKPXnxXIaBr8MBFA7lTDDMNgZDiI1ZNT0p6K8-QSCQDd5izKEKi1RZ97hYJk3cZzdxiK2PMUODgmMwy8JrwiKFhyUdpWtSryOHTgJOcpgDiyffIjlO0_p18qwkiyL5zaSjkjmW9KEn-PbZwbsMNMG5Bem5aDH_vSzv9LnUJ0CucgILkNBfQUXOk8kv-aMhkW_Qd69AHBj6ZDj2KggRuhWFToKjQfePa76ve9mPAfhRbfQqzpZW8scrErCD2twHd4_Zo0JckJ8mKeKOcGbTTfD2iyc6jmpZEIOXNplwkrCIxnhs80Hp8BUyOGBCZNoRnX2I9CQ87FNJbQWD4OOro80dibWyNol_9UtOAYx1GT8jhKUyFowwoWfZqVzdLjsdJFhTud6nuDmVWS2U4h1pVwIGOH_mgODmrOkZmYmj9jVdYy-idgm0k205tebw0mDwYU1cIP6cop038kppzVWq6RBlSkBIUsY3YFYoRwCr_sQF2ixtCnsTKchO7cR7c4knfi1onxypaoijzERPWrG4A_K0qXunZ-w36pclxZAJ9c3Yue3IEyl0i_eg9BBcLYh4t6_B2KqOpItbpndBKxWG1kQBpHtXqFRe6SwlW195-OEPyxQdcz74UW8pJY6Qt8Bl273WJ8_CFp-mMWObm8IJdhdrIHrOQ6xqNImwCHB4tWhSEhOkpedkFSFW2ZmWPaUNMjjOhULp4XiLb6z9tTFtnvmewb7uXkWuGIq6H1EKtvtLWbYRJOB5RquY250oOqggjz3AL7-ipu5XC4hS4a6urhYFN48sZ7-rgmtsfAA0_ucKTF5LCJlJRg5fMldjGhBmJx_EAaNpXjwAPYIypXL-Ejnl0ONDyOAuJOrwdUKtKbSIKGQhvcPLkI7hFoXhJXkyIqJp2gJ0tQgPuj7K4t4yy3oOGR-tJo2WOOgf2qt4pSMiiC2o0Rw0rlQdYWwni8HgdM3E1Em3Y-o7bma3CdKSUXgDZdMNqaKHY5l1gThB5KbfDLyojzNS71LdXuonE6xbLuiIpAI_3XRWJSYOIktWuqe2oHYEom8Gyn-3l04agMs3mSQcqtXAWmHLA8ZSQV-bG3pWCqmeQ0iN5ET6KsNKaSor7EcY11yKfMp73x7aLnD6TakPtyu0M2zoEYwp2maj8e8lPpXiCfnliQP-4VYf_vqHgaAqVWI3_ld6ys7CAte6HhlRIifTdRKQrezVjrUtrfFEm6OZv94t5nk_m2N_dRTt2pEHkcFpcP951w4V1x9Fl0FyRW0eLfDtsfe_KZq7dlk7AMhtiQMRAcSBCsqeBI9WnLq_zQt1wQommNnZrsJX2_1aZPTzcVw795FrkP_0aPfgGY1VlzPVEZ_4tYqLsWxGkrrjgdYiFYO7gqPC4GR6cFnfkL4z4fbUXAZlGC4TxOsLRYddxLInoDUp9QwOJe3OvBXvob0JtHFOw9ChahVk2M-58_DwR03ppHS_lj7mPMGCI_gT2WWabF5_WC12bEA99MQl7VjPF-j1IKWgVL3rj-tMaO6seD92dTIla6L1MNBlc2YGVXlSX99Jl5gLihMfBQIw_ASCO6yA5YHEYKu-3M7QlcKrGliTQSXpCdlC8_rhs1UZjm4E-J_zVIiSTuKHX10J1fnXLtaI3h49QNSsBBENcs-HDT69i_b81G3axJy4nrMhhz7fVpY3-fGtc2UTwLSmLCyk7GXn5A_m0GY1096W6-9gKlDmLY9WZGWXpphuaNyxpY5sMTw0wZpFLCH8dR-sTXoTEXyNNT6yg1DGw42jzI7WQDoa6lm6_PHI-v3-Sp42MI2sZnjSTn_rKn7J2KOYzryHzIkNAtlWXsUbCRB9W_T7KDDO4rKKD9GMzyVV8mT1MfJCA4vRK6WjalvrhuRJhKIu4qj3OaLvY3mLjmhfNhu4FTbNsmrl6Oy7tENgi7tfL_f_I0fbS7FoCf_2aaf-3JKsAm64iTz7NTLPFbBI-zieZPnUHJqEio2uCUud8DFEqRCuByRVPAlj9yOhMZEuxKQ-WCaPQbP7EaHhnqkP-9z9ElySI7GnnGabdTSJYLbYhOCruMK8QS8KknsFs3cVz2cUh-kDNRd3dltjkQSA23G8TtFSHrbz58w2nUhyUCNs1Uy6kEaYkauafPTKAIkXTcGb0yMGysD-RBSVCLMGpbE9b2obCE9Na6DVS8HQ9Bib02ZbnP-jlReMjEkFgSHlBRE_6-TZhBE-kdqD0_DW3VTrNPhVhiOpzr7QW513yGtUSv4LuvDTgSEdfvEVP3uaRlyDdph-HikiMITlsrr5653UgbBoA9_3ezpCnq4GPpaYsrpizRHXaf9qsDOlOMXnkKH8uXLbxVwnO_u9RzB5a5gq7dVmhyJrTy3A456bF-S03NN_TzSeag0ippgGNGsghllesC2y4Y7dyQxkf6BgZDCmLn01etBnsXjGOEALFH0ExVFUIpUCCgh6Rbo7vNROCYDhufnIfAVqhbiBN-L0YzdViQbZMRwbGt6sN_xp9PnJrCQHJcU-b_mpgz6ER0zOMIBxH7B9VEsQipDfkEaBnzvMSChKCIoFOoU9Zyrewhe8jWlxALy6F5z2CThTGlwaMACkgHjyISst1Fn3JxLiVa4VzpNuCdllEhsn0mDYTTuK-NZBw2d5KxuKeEYiqVE5Nq94KQ5jKFzmYPj1H-s7nDMCBRWzLack7ubsSxPUoZy3EJHA7KAlVwgaM2_WnUem8tVfs-buUPhg-5QX1TeI5ymw1CbFp9nXL1qBpG_B1lDKMXT5KYhv2CNHiIyY25vMaVJdjlM72IR-DPz-M8ztEebvn9H5JLGLxfnIKQp20TfRcZ4qGIMEZkN3V8_2OSVOaT9aeOyNZi2L7dvfAYlN3aNY2oGXaGf8FyhBEdMAOVmcrBnCbDCmQ2ZcfCBIPYKuOUoYC05tRa9tXL3AgNFWn_u1_2rvwx5AVmGT-nc8fBfLaBQU47d4NbUejgKTa8Ti5EOH3bNuMZ2xJ8laF76WzF8FPM3QkF9943rVHvvRh9b7aZ2xpqQ29aP8Q7xFxYh7jqNIHL5BktNkEOAJnRBoGs8iyA1ewZU1bmCE7A_wwNJ7yELch4d4zV7IHxzYJkmNA-i0szdvfb7LrsOBtbUFPGb8T5BzbK2ORdnZtrW8jxPGpaDVUQlNE5dRpC9BL418xVnuMary6g56eZr7u1XQxCsfrVqwxEwBOUYRuiEjdg22_mJKEXzhZ_-aQqgL7pSV9_6AVR_IhR6SDLFL_rhVIOg
+Raw TokenResponse ...
+scope: http://www.miljoeportal.dk/roles openid offline_access
+token_type: Bearer
+access_token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjIzTF9NdlhLWndXUW8xeGdRZkVoWk50Z2tZZyIsIng1dCI6IjIzTF9NdlhLWndXUW8xeGdRZkVoWk50Z2tZZyIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMDg1YWVzdGEiLCJ1aUlkIjoiYTQ2ZmE3ZWMtZmMwNC00NWIzLWJlZDUtOGJjY2ZlM2VhNWU3IiwidW5pcXVlX25hbWUiOiIxMDg1YWVzdGEiLCJkazpnb3Y6c2FtbDphdHRyaWJ1dGU6VW5pcXVlQWNjb3VudEtleSI6IlhyaTovL0BESy1YUkkqMjkxOTA2NTgvMjAyMDExMDUxMjI3NTAuMFova2FJdCs1TEdxMHlySFJCU1ptRk5XZz09IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2F1dGhlbnRpY2F0aW9ubWV0aG9kIjoiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2F1dGhlbnRpY2F0aW9ubWV0aG9kL3Bhc3N3b3JkIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2F1dGhlbnRpY2F0aW9uaW5zdGFudCI6IjIwMjEtMDctMDhUMTE6MzU6MzUuMDQxWiIsImRrOmdvdjpzYW1sOmF0dHJpYnV0ZTpBc3N1cmFuY2VMZXZlbCI6IjIiLCJkazpnb3Y6c2FtbDphdHRyaWJ1dGU6U3BlY1ZlciI6IkRLLVNBTUwtMi4wIiwiZGs6Z292OnNhbWw6YXR0cmlidXRlOkN2ck51bWJlcklkZW50aWZpZXIiOiIyOTE5MDY1OCIsInVybjpvaWQ6Mi41LjQuMyI6IjEwODVhZXN0YSIsInVybjpvaWQ6MC45LjIzNDIuMTkyMDAzMDAuMTAwLjEuMyI6ImJ2dEBhZXN0YXMuZGsiLCJodHRwOi8vd3d3Lm1pbGpvZXBvcnRhbC5kay9lbXBsb3llZUlEIjoiYWVzdGEiLCJodHRwOi8vd3d3Lm1pbGpvZXBvcnRhbC5kay9vcmdhbml6YXRpb25OdW1iZXIiOiIxMDg1IiwiaHR0cDovL3d3dy5taWxqb2Vwb3J0YWwuZGsvZ2l2ZW5OYW1lIjoiQm8iLCJodHRwOi8vd3d3Lm1pbGpvZXBvcnRhbC5kay9vYmplY3RHVUlEIjoiZmIyZGEyOTEtYzY5Mi00Y2FiLWFiMWQtMTA1MjY2NjE0ZDVhIiwidXJuOm9pZDowLjkuMjM0Mi4xOTIwMDMwMC4xMDAuMS4xIjoiMTA4NWFlc3RhIiwidXJuOm9pZDoyLjUuNC40IjoiVGhvbXNlbiIsImh0dHA6Ly93d3cubWlsam9lcG9ydGFsLmRrL3VzZXJQcmluY2lwYWxOYW1lIjoiMTA4NWFlc3RhQG1ic2RrLmRrIiwidXBuIjoiMTA4NWFlc3RhQG1ic2RrLmRrIiwiaHR0cDovL3d3dy5taWxqb2Vwb3J0YWwuZGsvd2hlbkNyZWF0ZWQiOiIyMDIwMTEwNTEyMjc1MC4wWiIsIndpbmFjY291bnRuYW1lIjoibWJzZGtpbnRcXDEwODVhZXN0YSIsInJvbGUiOlsiQnJ1Z2VyZSIsIlJlZ2lvbiIsIk9mZmVudGxpZyIsIjI5MTkwNjU4IiwibWlsam9lX2FyZWFsaW5mb19za3Jpdl9yZWciLCJEb21haW4gVXNlcnMiXSwiaHR0cDovL3d3dy5taWxqb2Vwb3J0YWwuZGsvcm9sZXMiOlsiUmVnaW9uIiwiT2ZmZW50bGlnIiwiMjkxOTA2NTgiLCJtaWxqb2VfYXJlYWxpbmZvX3Nrcml2X3JlZyIsIkRvbWFpbiBVc2VycyIsIm1pbGpvZV9hcmVhbGluZm9fcmFhc3RvZm9tcmFhZGVyX3Nrcml2X3JlZyIsIkJydWdlcmUiXSwibmFtZSI6IjEwODVhZXN0YSIsInRva2VuX3VzYWdlIjoiYWNjZXNzX3Rva2VuIiwianRpIjoiZDVhNTEzMTEtNTI0Mi00YzE2LTkwZDUtOTIzZDYyMzczMjk5Iiwic2NvcGUiOlsiaHR0cDovL3d3dy5taWxqb2Vwb3J0YWwuZGsvcm9sZXMiLCJvcGVuaWQiLCJvZmZsaW5lX2FjY2VzcyJdLCJhdWQiOiJodHRwczovL2xvZy1pbi50ZXN0Lm1pbGpvZXBvcnRhbC5kay9yZXNvdXJjZXMiLCJhenAiOiJxZ2lzcGx1Z2luLWludGVncmF0aW9uLWRhaWVkaXR0ZXN0IiwiaWF0IjoxNjI1NzQ0MTM1LCJuYmYiOjE2MjU3NDQxMzUsImV4cCI6MTYyNTc0NzczNSwiaXNzIjoiaHR0cHM6Ly9sb2ctaW4udGVzdC5taWxqb2Vwb3J0YWwuZGsvcnVudGltZS9vYXV0aDIifQ.M13Qn5g0fN24YhgLZi1i1OVhpLbW3LNd5TAKB0KoVq3YIaFi387MIvXPz1jVtaKH9wxDJQniqflwTEzM_5QcId9qJv0Shc7S2oyzwVb2jjqzCJme0oLorAWT5Gu2aaZCaGaLd_iAkS79mQHGdV3HJEMkO5EtgxLrIO8LtFudXfM54aJ7b1uD3rxzvYqj9tpIBUDU_961M8OhjxVwYJ8qwpf1Pd5x4gZd9yhm58IXF-WXudC_h-C4DPREjPGzi-hY3yutkQPH1BHCNYbKoaPyBDJLWHHrJjbpVBXhNDvSfhiJKhSaAHWRnRCFkNC2RRm53JM843vkBfpQP6dowyaOXg
+expires_in: 3600
+refresh_token: CfDJ8E2AnnvbwdBPm7kqdtEbRHpmYO0Y49AoAZ9dnaDe-cMJpErk14h1Q3NI1Xq41BqbjQIeDX2bBk-0yC98UhkjYPVpnZ0f2DCpCqehIiqlElSUGoruhBAXwRTuKHKeeNk-OHGQwVa4u78ZCKjgQYVVtK8IgVlpPXxvjI-QY55RLNP3_6JFrWzRldTe7h-b6R-5dXOrnyRG3tGOWJqbgJNUCltVfiMugneJvY7NOgmNbX2pq0tuH-vkNW4z0Cyi74CUKzjP963F4Y0KByOVEuM6yfe9XYPGdfdjWLPXoerRJROSpwKurRhdkYKJzElb8JaobEz3wTQuV60SweDof1sNEdMoIJxCRpA7km-ZahkCgX82HBH1FZ7kjWZJ9bO28etN9JT3J35NPsw_hZHKs0QTEwlAEFBp7SXgiJtDbjQWYm1nEKP0SjQxhnvpCu00bVrFQHdB-vIGzWtgxXYRxTE_QUzfQTuLIPrHaFM-sE2gpIoxPJhooPp2KKYSGnU_jjNNKDW9hYcYlFt8-dkCu5rzgc1LxDD6CFR7sXeE8PlUX5b6nO9QaJ2ZXfoyIXLMtwWFUI-UrXl8GQSB0v_qxof3p8wgxbcTcDE0Odf_7qiNEx64ckQC3NbfL2mCipYRreynpKtHsg_74wPR4jjS6wWq6JfwIUyMuCL8p3xIenp00vQmlYhs_DpDroCghskpNjevDxdcO3uIrEeQSK1ByEzAAabZph1U_zkDS4ph-1pXLmYuRDDUWUMLq2_vQg6vzjBshYe3hvKk-sai8bHKFLcqm4rgM4olHceYreR71aLlOQQkcmRAcAxkOfngAzcotRM32pUgXBZxIgCP6DjHiG_wDgHdaEqUKUkIfv1igKnVIWplbfLAy-WmYNaA5eiJyz7SLwrRRUzznpNeOVMVvRiP_383JggZ8vyuGEp4YlR6bdQDIxTqRxA62_AJNYl7XWRBhC2sQqa1-fYGgP1KiM7DfnfMrpiVWYLh6DpJyRC0k5qEvIT7G3K-7rdrkhRpaWunA4NAP5-LIBWyekE73SbCOW2E1qibDRU_Ozk55eD8V0rt9Nt3hXSrE5qwZn38c6Uw4TmjNZDQJpWctDD7ZloIWo781xqSUvyHZvHmC4Jpalocw2otwjbrssLuLnUhLyi8vUeCUtEoxEdqtUmI50l3bDkxVb24HF1F2hcaAtMF6cdI7LjVSUjMdka5OXQ-zPb_5ThBZlRyB5L8grzCR0iVPFdN6-hJVNlxwZZ91mIK0ke6BzmKwRmdgSAl1P0QYt5zjpSdexJawOmlsbI9Mg-sTR-EI2RLR7bQQavMdIfsy6EzUSrRV9U1wsG1w_4JmQ-Um_DVyLTSOXxP9IPN2JQoYfbbJ8Dz9KpPfQaLhnFOs3L6HM28gWyUG5Z1GoPpnWpx_Zy5UmyioyBGYz6jUqQlIM4-sTH9UOn_3IPVuLkptL3IvaSBtAO7XMxBjEhTNwBfvQEE06Q9u0ynd3OXAOc9Mi06yt4Jrvhd24-kHK90sbsGJ80kfFWJVVAdiP6zsiVdgNsHuR-KxGoM1SxAu9wd0rI_2o8YBSQCqpstSRfSn9QDWWTkjDOA-NuhiUi32CAb5cE2LxCwJ2ZWWIAVr-L47rtnfd0SWawNm5Mvok64EuxeN3dXs-CApbL-TPh5olMtpk7H99RDjZ_0KOSnMWnSo2Aij3xo_gZQEkCPVmzIH3h-2Yr5XU7mUoxhEdTCPrVdZdZ3avyIDW4gUTuEUDjFaMkpfK39wPpv73hWrEjTyYEsPMGuA8Qa4xug2UD8zuUCgFzzXIerrv9SHD9sneSNNRQ4ZbREHLjAltgCNeTIyJu1_fGEleetzl6c-t1lxwX92QexH_bfLCAAqZLEMPrICx9FlDuTvgQVtXN4xDExXhuEqI3T-wXY6UeRr9YyoIApeD9FpdCoqNP27u8xFomfEe2Zsd2mS0ts-yGPMj6DXPfbK0y_99EXkVg9a5IRbk71YpEimwwoj6LcnOs-2oBM-y5k5ZOKfrX0zlfvILlZMFCdm0DCEE5CtqvC1GGiW-6kPNCZGMt0N3sgc6bJo6GSnGvo9aAxX06VxIdac8dKPXnxXIaBr8MBFA7lTDDMNgZDiI1ZNT0p6K8-QSCQDd5izKEKi1RZ97hYJk3cZzdxiK2PMUODgmMwy8JrwiKFhyUdpWtSryOHTgJOcpgDiyffIjlO0_p18qwkiyL5zaSjkjmW9KEn-PbZwbsMNMG5Bem5aDH_vSzv9LnUJ0CucgILkNBfQUXOk8kv-aMhkW_Qd69AHBj6ZDj2KggRuhWFToKjQfePa76ve9mPAfhRbfQqzpZW8scrErCD2twHd4_Zo0JckJ8mKeKOcGbTTfD2iyc6jmpZEIOXNplwkrCIxnhs80Hp8BUyOGBCZNoRnX2I9CQ87FNJbQWD4OOro80dibWyNol_9UtOAYx1GT8jhKUyFowwoWfZqVzdLjsdJFhTud6nuDmVWS2U4h1pVwIGOH_mgODmrOkZmYmj9jVdYy-idgm0k205tebw0mDwYU1cIP6cop038kppzVWq6RBlSkBIUsY3YFYoRwCr_sQF2ixtCnsTKchO7cR7c4knfi1onxypaoijzERPWrG4A_K0qXunZ-w36pclxZAJ9c3Yue3IEyl0i_eg9BBcLYh4t6_B2KqOpItbpndBKxWG1kQBpHtXqFRe6SwlW195-OEPyxQdcz74UW8pJY6Qt8Bl273WJ8_CFp-mMWObm8IJdhdrIHrOQ6xqNImwCHB4tWhSEhOkpedkFSFW2ZmWPaUNMjjOhULp4XiLb6z9tTFtnvmewb7uXkWuGIq6H1EKtvtLWbYRJOB5RquY250oOqggjz3AL7-ipu5XC4hS4a6urhYFN48sZ7-rgmtsfAA0_ucKTF5LCJlJRg5fMldjGhBmJx_EAaNpXjwAPYIypXL-Ejnl0ONDyOAuJOrwdUKtKbSIKGQhvcPLkI7hFoXhJXkyIqJp2gJ0tQgPuj7K4t4yy3oOGR-tJo2WOOgf2qt4pSMiiC2o0Rw0rlQdYWwni8HgdM3E1Em3Y-o7bma3CdKSUXgDZdMNqaKHY5l1gThB5KbfDLyojzNS71LdXuonE6xbLuiIpAI_3XRWJSYOIktWuqe2oHYEom8Gyn-3l04agMs3mSQcqtXAWmHLA8ZSQV-bG3pWCqmeQ0iN5ET6KsNKaSor7EcY11yKfMp73x7aLnD6TakPtyu0M2zoEYwp2maj8e8lPpXiCfnliQP-4VYf_vqHgaAqVWI3_ld6ys7CAte6HhlRIifTdRKQrezVjrUtrfFEm6OZv94t5nk_m2N_dRTt2pEHkcFpcP951w4V1x9Fl0FyRW0eLfDtsfe_KZq7dlk7AMhtiQMRAcSBCsqeBI9WnLq_zQt1wQommNnZrsJX2_1aZPTzcVw795FrkP_0aPfgGY1VlzPVEZ_4tYqLsWxGkrrjgdYiFYO7gqPC4GR6cFnfkL4z4fbUXAZlGC4TxOsLRYddxLInoDUp9QwOJe3OvBXvob0JtHFOw9ChahVk2M-58_DwR03ppHS_lj7mPMGCI_gT2WWabF5_WC12bEA99MQl7VjPF-j1IKWgVL3rj-tMaO6seD92dTIla6L1MNBlc2YGVXlSX99Jl5gLihMfBQIw_ASCO6yA5YHEYKu-3M7QlcKrGliTQSXpCdlC8_rhs1UZjm4E-J_zVIiSTuKHX10J1fnXLtaI3h49QNSsBBENcs-HDT69i_b81G3axJy4nrMhhz7fVpY3-fGtc2UTwLSmLCyk7GXn5A_m0GY1096W6-9gKlDmLY9WZGWXpphuaNyxpY5sMTw0wZpFLCH8dR-sTXoTEXyNNT6yg1DGw42jzI7WQDoa6lm6_PHI-v3-Sp42MI2sZnjSTn_rKn7J2KOYzryHzIkNAtlWXsUbCRB9W_T7KDDO4rKKD9GMzyVV8mT1MfJCA4vRK6WjalvrhuRJhKIu4qj3OaLvY3mLjmhfNhu4FTbNsmrl6Oy7tENgi7tfL_f_I0fbS7FoCf_2aaf-3JKsAm64iTz7NTLPFbBI-zieZPnUHJqEio2uCUud8DFEqRCuByRVPAlj9yOhMZEuxKQ-WCaPQbP7EaHhnqkP-9z9ElySI7GnnGabdTSJYLbYhOCruMK8QS8KknsFs3cVz2cUh-kDNRd3dltjkQSA23G8TtFSHrbz58w2nUhyUCNs1Uy6kEaYkauafPTKAIkXTcGb0yMGysD-RBSVCLMGpbE9b2obCE9Na6DVS8HQ9Bib02ZbnP-jlReMjEkFgSHlBRE_6-TZhBE-kdqD0_DW3VTrNPhVhiOpzr7QW513yGtUSv4LuvDTgSEdfvEVP3uaRlyDdph-HikiMITlsrr5653UgbBoA9_3ezpCnq4GPpaYsrpizRHXaf9qsDOlOMXnkKH8uXLbxVwnO_u9RzB5a5gq7dVmhyJrTy3A456bF-S03NN_TzSeag0ippgGNGsghllesC2y4Y7dyQxkf6BgZDCmLn01etBnsXjGOEALFH0ExVFUIpUCCgh6Rbo7vNROCYDhufnIfAVqhbiBN-L0YzdViQbZMRwbGt6sN_xp9PnJrCQHJcU-b_mpgz6ER0zOMIBxH7B9VEsQipDfkEaBnzvMSChKCIoFOoU9Zyrewhe8jWlxALy6F5z2CThTGlwaMACkgHjyISst1Fn3JxLiVa4VzpNuCdllEhsn0mDYTTuK-NZBw2d5KxuKeEYiqVE5Nq94KQ5jKFzmYPj1H-s7nDMCBRWzLack7ubsSxPUoZy3EJHA7KAlVwgaM2_WnUem8tVfs-buUPhg-5QX1TeI5ymw1CbFp9nXL1qBpG_B1lDKMXT5KYhv2CNHiIyY25vMaVJdjlM72IR-DPz-M8ztEebvn9H5JLGLxfnIKQp20TfRcZ4qGIMEZkN3V8_2OSVOaT9aeOyNZi2L7dvfAYlN3aNY2oGXaGf8FyhBEdMAOVmcrBnCbDCmQ2ZcfCBIPYKuOUoYC05tRa9tXL3AgNFWn_u1_2rvwx5AVmGT-nc8fBfLaBQU47d4NbUejgKTa8Ti5EOH3bNuMZ2xJ8laF76WzF8FPM3QkF9943rVHvvRh9b7aZ2xpqQ29aP8Q7xFxYh7jqNIHL5BktNkEOAJnRBoGs8iyA1ewZU1bmCE7A_wwNJ7yELch4d4zV7IHxzYJkmNA-i0szdvfb7LrsOBtbUFPGb8T5BzbK2ORdnZtrW8jxPGpaDVUQlNE5dRpC9BL418xVnuMary6g56eZr7u1XQxCsfrVqwxEwBOUYRuiEjdg22_mJKEXzhZ_-aQqgL7pSV9_6AVR_IhR6SDLFL_rhVIOg
+id_token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjIzTF9NdlhLWndXUW8xeGdRZkVoWk50Z2tZZyIsIng1dCI6IjIzTF9NdlhLWndXUW8xeGdRZkVoWk50Z2tZZyIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMDg1YWVzdGEiLCJ1aUlkIjoiYTQ2ZmE3ZWMtZmMwNC00NWIzLWJlZDUtOGJjY2ZlM2VhNWU3IiwidG9rZW5fdXNhZ2UiOiJpZGVudGl0eV90b2tlbiIsImp0aSI6ImJiM2FmZjI3LWRmZmMtNDYyNy04ZWNiLTE1YWExNTNkYWM5MCIsImF1ZCI6WyJxZ2lzcGx1Z2luLWludGVncmF0aW9uLWRhaWVkaXR0ZXN0IiwiaHR0cHM6Ly9sb2ctaW4udGVzdC5taWxqb2Vwb3J0YWwuZGsvcmVzb3VyY2VzIl0sIm5vbmNlIjoiR0RoTVdtYUxzSXZwU3RIT3BkNC1yQSIsImF0X2hhc2giOiI3Y3FKczBaZTZ4M3pDNWVQYURBcUFBIiwiYXpwIjoicWdpc3BsdWdpbi1pbnRlZ3JhdGlvbi1kYWllZGl0dGVzdCIsImlhdCI6MTYyNTc0NDEzNSwibmJmIjoxNjI1NzQ0MTM1LCJleHAiOjE2MjU3NDc3MzUsImlzcyI6Imh0dHBzOi8vbG9nLWluLnRlc3QubWlsam9lcG9ydGFsLmRrL3J1bnRpbWUvb2F1dGgyIn0.Wk6RyacNWgPnSlIJaVUlqU3tfHkq4OsFKG0vHiV5awI9mU_zb9RBh0hIA8ouCt6jpQypnTVVjenLazV3nm6Y--Y4w4yzfueZFKH5ajKeOdfELwQ8Ve9pRNjWc6OiGJsdgjw0czzwFBYNiNgpxWyBb3XP_aje3tYmpEJeJrytNB9AmEk_6sKEKAiY8ygzcx3w9Ny8RQK1l3WHp_OP_lEg_DdqeeLTpytiIspeqyiikWypoDLRtwFFybvKeg0OUuvyNw2UdSINhXrBQShjoL9EKnGueH18ynKP-Zg6COcgoQ45RS2iEQL6kpfe0ouy5VaMkxl40GFJ68d3qITdHXuAiQ
+session_state: 9xeMkeXjy+aJbOtiwJu7vvN7jydNGaeqshFkp81i9zI=.N20suwE=
+
+
+
+Press...
+x -> exit
+k -> list all 'temakoder'
+a -> list all 'attributter'
+t -> list all 'temaattributter'
+o -> list 'objekter'
+p -> create fredede_omr_bk objekt
+
+r -> refresh token
+c -> logout
+k
+
+#temakoder: 22
+Id: 2001  GeomType: MultiLineString      Name: bes_sten_jorddiger        Title: Beskyttede sten- og jorddiger
+Id: 2003  GeomType: MultiPolygon         Name: soe_bes_linjer            Title: Søbeskyttelseslinjer
+Id: 2004  GeomType: MultiPolygon         Name: aa_bes_linjer             Title: Åbeskyttelseslinjer
+Id: 2005  GeomType: MultiPolygon         Name: skovbyggelinjer           Title: Skovbyggelinjer
+Id: 2008  GeomType: MultiPolygon         Name: kirkebyggelinjer          Title: Kirkebyggelinjer
+Id: 2009  GeomType: MultiPolygon         Name: fredede_omr               Title: Fredede områder
+Id: 2010  GeomType: MultiPolygon         Name: fredede_omr_forslag       Title: Fredede områder, forslag
+Id: 2013  GeomType: MultiPolygon         Name: bes_naturtyper            Title: Beskyttede naturtyper
+Id: 2014  GeomType: MultiLineString      Name: bes_vandloeb              Title: Beskyttede vandløb
+Id: 2018  GeomType: MultiPolygon         Name: fugle_bes_omr             Title: NATURA 2000 - Fuglebeskyttelse
+Id: 2019  GeomType: MultiPolygon         Name: habitat_omr               Title: NATURA 2000 - Habitatområder
+Id: 2020  GeomType: MultiPolygon         Name: ramsar_omr                Title: Ramsar områder
+Id: 2037  GeomType: MultiPolygon         Name: natur_vildt_reservat      Title: Natur- og vildtreservater
+Id: 2038  GeomType: LineString           Name: kystnaerhedszone          Title: Kystnærhedszone
+Id: 2054  GeomType: MultiPolygon         Name: omr_klassificering        Title: Områdeklassificering
+Id: 2055  GeomType: MultiPolygon         Name: raastofomr                Title: Råstofområder
+Id: 2079  GeomType: MultiPolygon         Name: kvaelstof_red_pot         Title: Kvælstofreduktionspotentialer
+Id: 2097  GeomType: MultiPolygon         Name: paabud_jfl                Title: Igangværende påbud JFL
+Id: 2112  GeomType: MultiPolygon         Name: indsatsplaner             Title: Indsatsplaner for grundvandsbeskyttelse
+Id: 2140  GeomType: MultiPolygon         Name: fredede_omr_bk            Title: Bekendtgørelsesfredninger
+Id: 2141  GeomType: MultiPolygon         Name: aftarea_grvbes            Title: Aftalearealer for grundvandsbeskyttelse
+Id: 2142  GeomType: MultiPolygon         Name: status_bnbo               Title: Status på BNBO
+
+
+
+Press...
+x -> exit
+k -> list all 'temakoder'
+a -> list all 'attributter'
+t -> list all 'temaattributter'
+o -> list 'objekter'
+p -> create fredede_omr_bk objekt
+
+r -> refresh token
+c -> logout
+
+
+
+Press...
+x -> exit
+k -> list all 'temakoder'
+a -> list all 'attributter'
+t -> list all 'temaattributter'
+o -> list 'objekter'
+p -> create fredede_omr_bk objekt
+
+r -> refresh token
+c -> logout
+a
+
+#attributter: 13
+Id: bruger-id                  Name: bruger-id                 Title: Brugere                        DataType: uuid       Required: True    Readonly: True
+Id: cvr-kode-id                Name: cvr-kode-id               Title: Myndighed                      DataType: domain     Required: True    Readonly: True
+Id: link                       Name: link                      Title: URL-link                       DataType: string     Required: False   Readonly: False
+Id: objekt-id                  Name: objekt-id                 Title: ObjektId                       DataType: uuid       Required: True    Readonly: True
+Id: off-kode-id                Name: off-kode-id               Title: Tilgængelighed                 DataType: domain     Required: True    Readonly: False
+Id: oprettet                   Name: oprettet                  Title: Systemtid for oprettelse       DataType: datetime   Required: True    Readonly: True
+Id: oprindkode-id              Name: oprindkode-id             Title: Oprindelse                     DataType: domain     Required: False   Readonly: False
+Id: shape                      Name: shape                     Title: Shape                          DataType: string     Required: True    Readonly: False
+Id: statuskode-id              Name: statuskode-id             Title: Gældende status                DataType: domain     Required: True    Readonly: False
+Id: systid-fra                 Name: systid-fra                Title: Start systemtid                DataType: datetime   Required: True    Readonly: True
+Id: systid-til                 Name: systid-til                Title: Slut systemtid                 DataType: datetime   Required: False   Readonly: True
+Id: temaattributter            Name: temaattributter           Title: Temaattributter                DataType: string     Required: False   Readonly: False
+Id: version-id                 Name: version-id                Title: VersionId                      DataType: uuid       Required: True    Readonly: True
+
+
+
+Press...
+x -> exit
+k -> list all 'temakoder'
+a -> list all 'attributter'
+t -> list all 'temaattributter'
+o -> list 'objekter'
+p -> create fredede_omr_bk objekt
+
+r -> refresh token
+c -> logout
+t
+
+#attributter: 104
+Id: 2001-dige-id               Name: dige-id                   Title: DigeId                         DataType: number     Required: True    Readonly: True
+Id: 2003-aendr-kode-id         Name: aendr-kode-id             Title: Ændringsbegrundelse            DataType: domain     Required: True    Readonly: False
+Id: 2003-op-aars-k-id          Name: op-aars-k-id              Title: Årsag til ophævelse af beskyttelseslinje DataType: domain     Required: False   Readonly: False
+Id: 2003-sagsbeh               Name: sagsbeh                   Title: Sagsbehandler                  DataType: string     Required: False   Readonly: False
+Id: 2004-aendr-kode-id         Name: aendr-kode-id             Title: Ændringsbegrundelse            DataType: domain     Required: True    Readonly: False
+Id: 2004-op-aars-k-id          Name: op-aars-k-id              Title: Årsag til ophævelse af beskyttelseslinje DataType: domain     Required: True    Readonly: False
+Id: 2004-sagsbeh               Name: sagsbeh                   Title: Navn på den faglige sagsbehandler DataType: string     Required: False   Readonly: False
+Id: 2005-aendr-kode-id         Name: aendr-kode-id             Title: Ændringsbegrundelse            DataType: domain     Required: True    Readonly: False
+Id: 2005-op-aars-k-id          Name: op-aars-k-id              Title: Årsag til ophævelse af beskyttelseslinje DataType: domain     Required: False   Readonly: False
+Id: 2005-sagsbeh               Name: sagsbeh                   Title: Sagsbehandler                  DataType: string     Required: False   Readonly: False
+Id: 2005-skov-eje-k-id         Name: skov-eje-k-id             Title: Ejerskab                       DataType: domain     Required: False   Readonly: False
+Id: 2005-skovs-kode-id         Name: skovs-kode-id             Title: Gyldighed                      DataType: domain     Required: True    Readonly: False
+Id: 2008-aendr-kode-id         Name: aendr-kode-id             Title: Ændringsbegrundelse            DataType: domain     Required: True    Readonly: False
+Id: 2008-sagsbeh               Name: sagsbeh                   Title: Sagsbehandler                  DataType: string     Required: False   Readonly: False
+Id: 2009-aendr-kode-id         Name: aendr-kode-id             Title: Ændringsbegrundelse            DataType: domain     Required: True    Readonly: False
+Id: 2009-fred-navn             Name: fred-navn                 Title: Kaldenavn                      DataType: string     Required: False   Readonly: False
+Id: 2009-fred-tkode-id         Name: fred-tkode-id             Title: Fredning                       DataType: domain     Required: True    Readonly: False
+Id: 2009-gyldig-fra            Name: gyldig-fra                Title: Start på gyldighedsperiode     DataType: datetime   Required: True    Readonly: False
+Id: 2009-gyldig-til            Name: gyldig-til                Title: Slut på gyldighedsperiode      DataType: datetime   Required: False   Readonly: False
+Id: 2009-reg-nr                Name: reg-nr                    Title: Registreringsnummer            DataType: string     Required: True    Readonly: False
+Id: 2009-aar-fredn             Name: aar-fredn                 Title: Årstal for endelig afgørelse   DataType: number     Required: False   Readonly: False
+Id: 2010-forsl-dato            Name: forsl-dato                Title: Dato for hvornår forslaget er rejst DataType: datetime   Required: False   Readonly: False
+Id: 2010-fred-navn             Name: fred-navn                 Title: Kaldenavn                      DataType: string     Required: False   Readonly: False
+Id: 2010-fred-tkode-id         Name: fred-tkode-id             Title: Fredning                       DataType: domain     Required: True    Readonly: False
+Id: 2010-gyldig-fra            Name: gyldig-fra                Title: Start på gyldighedsperiode     DataType: datetime   Required: True    Readonly: False
+Id: 2010-gyldig-til            Name: gyldig-til                Title: Slut på gyldighedsperiode      DataType: datetime   Required: False   Readonly: False
+Id: 2010-reg-nr                Name: reg-nr                    Title: Registreringsnummer            DataType: string     Required: True    Readonly: False
+Id: 2013-aendr-kode-id         Name: aendr-kode-id             Title: Ændringsbegrundelse            DataType: domain     Required: True    Readonly: False
+Id: 2013-besig-dato            Name: besig-dato                Title: Dato for seneste besigtigelse  DataType: datetime   Required: False   Readonly: False
+Id: 2013-gl-sys-ref            Name: gl-sys-ref                Title: Betegnelse (GlSysRef)          DataType: string     Required: False   Readonly: False
+Id: 2013-journalnr             Name: journalnr                 Title: Journalnumre                   DataType: string     Required: False   Readonly: False
+Id: 2013-natyp-kode-id         Name: natyp-kode-id             Title: Naturtype                      DataType: domain     Required: True    Readonly: False
+Id: 2013-sagsbeh               Name: sagsbeh                   Title: Sagsbehandler                  DataType: string     Required: False   Readonly: False
+Id: 2013-vedligehold-status-id  Name: vedligehold-status-id     Title: Vedligehold status             DataType: domain     Required: False   Readonly: False
+Id: 2013-vedligehold-tid       Name: vedligehold-tid           Title: Vedligehold tidspunkt          DataType: datetime   Required: False   Readonly: False
+Id: 2014-aendr-kode-id         Name: aendr-kode-id             Title: Ændringsbegrundelse            DataType: domain     Required: True    Readonly: False
+Id: 2018-gyldig-fra            Name: gyldig-fra                Title: Start på gyldighedsperiode     DataType: datetime   Required: True    Readonly: False
+Id: 2018-gyldig-til            Name: gyldig-til                Title: Slut på gyldighedsperiode      DataType: datetime   Required: False   Readonly: False
+Id: 2018-loc-ident             Name: loc-ident                 Title: SPA + identifikation af objektet DataType: string     Required: True    Readonly: False
+Id: 2018-objektnavn            Name: objektnavn                Title: Objektnavn                     DataType: string     Required: True    Readonly: False
+Id: 2018-site-ident            Name: site-ident                Title: Officiel EU Sitecode fra bekendtgørelse DataType: string     Required: True    Readonly: False
+Id: 2018-site-nr               Name: site-nr                   Title: SiteNr (Kodeværdi for GIS objekt) DataType: number     Required: True    Readonly: False
+Id: 2019-gyldig-fra            Name: gyldig-fra                Title: Start på gyldighedsperiode     DataType: datetime   Required: True    Readonly: False
+Id: 2019-gyldig-til            Name: gyldig-til                Title: Slut på gyldighedsperiode      DataType: datetime   Required: False   Readonly: False
+Id: 2019-loc-ident             Name: loc-ident                 Title: SPA + identifikation af objektet DataType: string     Required: True    Readonly: False
+Id: 2019-objektnavn            Name: objektnavn                Title: Objektnavn                     DataType: string     Required: True    Readonly: False
+Id: 2019-site-ident            Name: site-ident                Title: Officiel EU Sitecode fra bekendtgørelse DataType: string     Required: True    Readonly: False
+Id: 2019-site-nr               Name: site-nr                   Title: SiteNr (Kodeværdi for GIS objekt) DataType: number     Required: True    Readonly: False
+Id: 2020-gyldig-fra            Name: gyldig-fra                Title: Start på gyldighedsperiode     DataType: datetime   Required: True    Readonly: False
+Id: 2020-gyldig-til            Name: gyldig-til                Title: Slut på gyldighedsperiode      DataType: datetime   Required: False   Readonly: False
+Id: 2020-loc-ident             Name: loc-ident                 Title: SPA + identifikation af objektet DataType: string     Required: True    Readonly: False
+Id: 2020-objektnavn            Name: objektnavn                Title: Objektnavn                     DataType: string     Required: True    Readonly: False
+Id: 2020-site-nr               Name: site-nr                   Title: SiteNr (Kodeværdi for GIS objekt) DataType: number     Required: True    Readonly: False
+Id: 2037-ansv-enhed            Name: ansv-enhed                Title: Angivelse af den ansvarlige enhed DataType: string     Required: True    Readonly: False
+Id: 2037-beken-dato            Name: beken-dato                Title: Bekendtgørelsens ikrafttræden  DataType: datetime   Required: True    Readonly: False
+Id: 2037-beken-form            Name: beken-form                Title: Formålet med bekendtgørelsen   DataType: string     Required: True    Readonly: False
+Id: 2037-beken-navn            Name: beken-navn                Title: Navn                           DataType: string     Required: True    Readonly: False
+Id: 2037-gyldig-fra            Name: gyldig-fra                Title: Start på gyldighedsperiode     DataType: datetime   Required: True    Readonly: False
+Id: 2037-gyldig-til            Name: gyldig-til                Title: Slut på gyldighedsperiode      DataType: datetime   Required: False   Readonly: False
+Id: 2037-res-tkode-id          Name: res-tkode-id              Title: Type af reservat               DataType: domain     Required: True    Readonly: False
+Id: 2054-ana-krkode-id         Name: ana-krkode-id             Title: AnalyseKravKode                DataType: domain     Required: True    Readonly: False
+Id: 2054-gyldig-fra            Name: gyldig-fra                Title: Start på gyldighedsperiode     DataType: datetime   Required: True    Readonly: False
+Id: 2054-gyldig-til            Name: gyldig-til                Title: Slut på gyldighedsperiode      DataType: datetime   Required: False   Readonly: False
+Id: 2054-inbegrkode-id         Name: inbegrkode-id             Title: Inddragelsesbegrundelse        DataType: domain     Required: False   Readonly: False
+Id: 2054-komemailad            Name: komemailad                Title: Kommunens e-mail-adresse       DataType: string     Required: True    Readonly: False
+Id: 2054-komtlf                Name: komtlf                    Title: Kommunens telefonnummer        DataType: number     Required: True    Readonly: False
+Id: 2054-komurl-link           Name: komurl-link               Title: Link til kommunens hjemmeside  DataType: string     Required: True    Readonly: False
+Id: 2054-unbegrkode-id         Name: unbegrkode-id             Title: Undtagelsesbegrundelse         DataType: domain     Required: False   Readonly: False
+Id: 2054-zonekode-id           Name: zonekode-id               Title: Zonekode                       DataType: domain     Required: True    Readonly: False
+Id: 2055-gyldig-fra            Name: gyldig-fra                Title: Start på gyldighedsperiode     DataType: datetime   Required: True    Readonly: False
+Id: 2055-gyldig-til            Name: gyldig-til                Title: Slut på gyldighedsperiode      DataType: datetime   Required: False   Readonly: False
+Id: 2055-omr-navn              Name: omr-navn                  Title: Kaldenavn                      DataType: string     Required: True    Readonly: False
+Id: 2055-omr-tkode-id          Name: omr-tkode-id              Title: Type                           DataType: domain     Required: True    Readonly: False
+Id: 2079-natyp-kode-id         Name: natyp-kode-id             Title: Kategorisering                 DataType: domain     Required: True    Readonly: False
+Id: 2097-andre-kode-id         Name: andre-kode-id             Title: Andre krav                     DataType: domain     Required: False   Readonly: False
+Id: 2097-dato-delvis-slut      Name: dato-delvis-slut          Title: Hvornår påbuddet er delvist afsluttet DataType: datetime   Required: False   Readonly: False
+Id: 2097-dato-start            Name: dato-start                Title: Hvornår påbuddet er meddelt endeligt til ansøger DataType: datetime   Required: True    Readonly: False
+Id: 2097-grundvand-kode-id     Name: grundvand-kode-id         Title: Grundvand                      DataType: domain     Required: False   Readonly: False
+Id: 2097-hjemmel-kode-id       Name: hjemmel-kode-id           Title: Hjemmel                        DataType: domain     Required: True    Readonly: False
+Id: 2097-indeklima-kode-id     Name: indeklima-kode-id         Title: Indeklima                      DataType: domain     Required: False   Readonly: False
+Id: 2097-journalnr             Name: journalnr                 Title: Journalnr                      DataType: string     Required: False   Readonly: False
+Id: 2097-kontakt-kode-id       Name: kontakt-kode-id           Title: Kontakt                        DataType: domain     Required: False   Readonly: False
+Id: 2097-type-kode-id          Name: type-kode-id              Title: Type                           DataType: domain     Required: True    Readonly: False
+Id: 2112-dato-pol-vedt         Name: dato-pol-vedt             Title: Politisk vedtagelse            DataType: datetime   Required: True    Readonly: False
+Id: 2112-indsatsplan           Name: indsatsplan               Title: Navn                           DataType: string     Required: True    Readonly: False
+Id: 2112-plan-oprin-kode-id    Name: plan-oprin-kode-id        Title: Insatsplanens oprindelse       DataType: domain     Required: True    Readonly: False
+Id: 2112-revisionsdato         Name: revisionsdato             Title: Revisionsdato                  DataType: datetime   Required: False   Readonly: False
+Id: 2140-aendr-kode-id         Name: aendr-kode-id             Title: Ændringsbegrundelse            DataType: domain     Required: True    Readonly: False
+Id: 2140-fred-navn             Name: fred-navn                 Title: Kaldenavn                      DataType: string     Required: False   Readonly: False
+Id: 2140-fred-tkode-id         Name: fred-tkode-id             Title: Fredning                       DataType: domain     Required: True    Readonly: False
+Id: 2140-gyldig-fra            Name: gyldig-fra                Title: Start på gyldighedsperiode     DataType: datetime   Required: True    Readonly: False
+Id: 2140-gyldig-til            Name: gyldig-til                Title: Slut på gyldighedsperiode      DataType: datetime   Required: False   Readonly: False
+Id: 2140-reg-nr                Name: reg-nr                    Title: Registreringsnummer            DataType: string     Required: True    Readonly: False
+Id: 2140-aar-fredn             Name: aar-fredn                 Title: Årstal for endelig afgørelse   DataType: number     Required: False   Readonly: False
+Id: 2141-aftdat                Name: aftdat                    Title: Aftaledato                     DataType: datetime   Required: False   Readonly: False
+Id: 2141-afttyp-id             Name: afttyp-id                 Title: Aftaletype                     DataType: domain     Required: True    Readonly: False
+Id: 2141-resttyp-id            Name: resttyp-id                Title: Restriktionstype               DataType: domain     Required: True    Readonly: False
+Id: 2142-anlaegid              Name: anlaegid                  Title: AnlægsId                       DataType: string     Required: False   Readonly: False
+Id: 2142-anlaegsnav            Name: anlaegsnav                Title: Navn på anlæg som BNBO er beregnet til DataType: string     Required: False   Readonly: False
+Id: 2142-bek                   Name: bek                       Title: Bekendtgørelse                 DataType: string     Required: False   Readonly: False
+Id: 2142-datoaend              Name: datoaend                  Title: Datostempel for ændring        DataType: datetime   Required: False   Readonly: False
+Id: 2142-dgunr                 Name: dgunr                     Title: Dgu nr. på boring som BNBO er beregnet til DataType: string     Required: False   Readonly: False
+Id: 2142-kommunenav            Name: kommunenav                Title: Navn på kommune som BNBO ligger i  DataType: string     Required: False   Readonly: False
+Id: 2142-status-bnbo-id        Name: status-bnbo-id            Title: Status på gennemgang af BNBO   DataType: domain     Required: True    Readonly: False
+
+
+
+Press...
+x -> exit
+k -> list all 'temakoder'
+a -> list all 'attributter'
+t -> list all 'temaattributter'
+o -> list 'objekter'
+p -> create fredede_omr_bk objekt
+
+r -> refresh token
+c -> logout
+6
+
+
+Press...
+x -> exit
+k -> list all 'temakoder'
+a -> list all 'attributter'
+t -> list all 'temaattributter'
+o -> list 'objekter'
+p -> create fredede_omr_bk objekt
+
+r -> refresh token
+c -> logout
+o
+
+#objekter: 1
+ObjektId: 739c683f-5352-11e2-8140-00155d01e765  VersionId: 7177dbfb-3ad2-41a0-b3ca-0d98bfd82058 Tema: bes_naturtyper       DataType: 3  SystidFra: 15-11-2014 15:37:55 +00:00
+
+
+
+Press...
+x -> exit
+k -> list all 'temakoder'
+a -> list all 'attributter'
+t -> list all 'temaattributter'
+o -> list 'objekter'
+p -> create fredede_omr_bk objekt
+
+r -> refresh token
+c -> logout
+
+
+
+Press...
+x -> exit
+k -> list all 'temakoder'
+a -> list all 'attributter'
+t -> list all 'temaattributter'
+o -> list 'objekter'
+p -> create fredede_omr_bk objekt
+
+r -> refresh token
+c -> logout
+p
+
+StatusCode: UnprocessableEntity, Error: Unprocessable Entity, Payload: {"errors":[{"id":"5b0ab726-86ec-4752-b44d-a60dbcee7581","status":"422","title":"Failed to deserialize request body: Request body includes unknown resource type.","detail":"Resource type 'temakode' does not exist. - Request body: <<{\"data\":{\"id\":\"00000000-0000-0000-0000-000000000000\",\"type\":\"objekter\",\"attributes\":{\"objekt-id\":\"00000000-0000-0000-0000-000000000000\",\"version-id\":\"00000000-0000-0000-0000-000000000000\",\"systid-fra\":\"0001-01-01T00:00:00+00:00\",\"oprettet\":\"0001-01-01T00:00:00+00:00\",\"oprindkode-id\":1,\"statuskode-id\":1,\"off-kode-id\":1,\"cvr-kode-id\":0,\"shape\":{\"type\":\"MultiPolygon\",\"coordinates\":[[[[488884.0,6114493.0],[488984.0,6114493.0],[488984.0,6114393.0],[488884.0,6114393.0],[488884.0,6114493.0]]]]},\"temaattributter\":{\"fred-tkode-id\":1,\"aendr-kode-id\":4,\"reg-nr\":\"1234\",\"gyldig-fra\":\"2020-08-19T12:34:56.789000+00:00\"}},\"relationships\":{\"temakode\":{\"data\":{\"id\":\"2140\",\"type\":\"temakode\"}}}}}>>"}]}
+
+
+
+Press...
+x -> exit
+k -> list all 'temakoder'
+a -> list all 'attributter'
+t -> list all 'temaattributter'
+o -> list 'objekter'
+p -> create fredede_omr_bk objekt
+
+r -> refresh token
+c -> logout
+r
+
+
+access token:   eyJhbGciOiJSUzI1NiIsImtpZCI6IjIzTF9NdlhLWndXUW8xeGdRZkVoWk50Z2tZZyIsIng1dCI6IjIzTF9NdlhLWndXUW8xeGdRZkVoWk50Z2tZZyIsInR5cCI6IkpXVCJ9.eyJ1aUlkIjoiYTQ2ZmE3ZWMtZmMwNC00NWIzLWJlZDUtOGJjY2ZlM2VhNWU3IiwidW5pcXVlX25hbWUiOiIxMDg1YWVzdGEiLCJkazpnb3Y6c2FtbDphdHRyaWJ1dGU6VW5pcXVlQWNjb3VudEtleSI6IlhyaTovL0BESy1YUkkqMjkxOTA2NTgvMjAyMDExMDUxMjI3NTAuMFova2FJdCs1TEdxMHlySFJCU1ptRk5XZz09IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2F1dGhlbnRpY2F0aW9ubWV0aG9kIjoiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2F1dGhlbnRpY2F0aW9ubWV0aG9kL3Bhc3N3b3JkIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2F1dGhlbnRpY2F0aW9uaW5zdGFudCI6IjIwMjEtMDctMDhUMTE6MzU6MzUuMDQxWiIsImRrOmdvdjpzYW1sOmF0dHJpYnV0ZTpBc3N1cmFuY2VMZXZlbCI6IjIiLCJkazpnb3Y6c2FtbDphdHRyaWJ1dGU6U3BlY1ZlciI6IkRLLVNBTUwtMi4wIiwiZGs6Z292OnNhbWw6YXR0cmlidXRlOkN2ck51bWJlcklkZW50aWZpZXIiOiIyOTE5MDY1OCIsInVybjpvaWQ6Mi41LjQuMyI6IjEwODVhZXN0YSIsInVybjpvaWQ6MC45LjIzNDIuMTkyMDAzMDAuMTAwLjEuMyI6ImJ2dEBhZXN0YXMuZGsiLCJodHRwOi8vd3d3Lm1pbGpvZXBvcnRhbC5kay9lbXBsb3llZUlEIjoiYWVzdGEiLCJodHRwOi8vd3d3Lm1pbGpvZXBvcnRhbC5kay9vcmdhbml6YXRpb25OdW1iZXIiOiIxMDg1IiwiaHR0cDovL3d3dy5taWxqb2Vwb3J0YWwuZGsvZ2l2ZW5OYW1lIjoiQm8iLCJodHRwOi8vd3d3Lm1pbGpvZXBvcnRhbC5kay9vYmplY3RHVUlEIjoiZmIyZGEyOTEtYzY5Mi00Y2FiLWFiMWQtMTA1MjY2NjE0ZDVhIiwidXJuOm9pZDowLjkuMjM0Mi4xOTIwMDMwMC4xMDAuMS4xIjoiMTA4NWFlc3RhIiwidXJuOm9pZDoyLjUuNC40IjoiVGhvbXNlbiIsImh0dHA6Ly93d3cubWlsam9lcG9ydGFsLmRrL3VzZXJQcmluY2lwYWxOYW1lIjoiMTA4NWFlc3RhQG1ic2RrLmRrIiwidXBuIjoiMTA4NWFlc3RhQG1ic2RrLmRrIiwiaHR0cDovL3d3dy5taWxqb2Vwb3J0YWwuZGsvd2hlbkNyZWF0ZWQiOiIyMDIwMTEwNTEyMjc1MC4wWiIsIndpbmFjY291bnRuYW1lIjoibWJzZGtpbnRcXDEwODVhZXN0YSIsInJvbGUiOlsiQnJ1Z2VyZSIsIlJlZ2lvbiIsIk9mZmVudGxpZyIsIjI5MTkwNjU4IiwibWlsam9lX2FyZWFsaW5mb19za3Jpdl9yZWciLCJEb21haW4gVXNlcnMiXSwiaHR0cDovL3d3dy5taWxqb2Vwb3J0YWwuZGsvcm9sZXMiOlsiT2ZmZW50bGlnIiwiMjkxOTA2NTgiLCJtaWxqb2VfYXJlYWxpbmZvX3Nrcml2X3JlZyIsIkRvbWFpbiBVc2VycyIsIm1pbGpvZV9hcmVhbGluZm9fcmFhc3RvZm9tcmFhZGVyX3Nrcml2X3JlZyIsIkJydWdlcmUiLCJSZWdpb24iXSwic3ViIjoiMTA4NWFlc3RhIiwibmFtZSI6IjEwODVhZXN0YSIsInRva2VuX3VzYWdlIjoiYWNjZXNzX3Rva2VuIiwianRpIjoiNDMzNmE1MWItYWRiMS00ZmJlLWI5NzAtM2VjM2VmYjNlZWQ4Iiwic2NvcGUiOlsiaHR0cDovL3d3dy5taWxqb2Vwb3J0YWwuZGsvcm9sZXMiLCJvcGVuaWQiXSwiYXVkIjoiaHR0cHM6Ly9sb2ctaW4udGVzdC5taWxqb2Vwb3J0YWwuZGsvcmVzb3VyY2VzIiwiYXpwIjoicWdpc3BsdWdpbi1pbnRlZ3JhdGlvbi1kYWllZGl0dGVzdCIsImlhdCI6MTYyNTc0NDI4NiwibmJmIjoxNjI1NzQ0Mjg2LCJleHAiOjE2MjU3NDc4ODYsImlzcyI6Imh0dHBzOi8vbG9nLWluLnRlc3QubWlsam9lcG9ydGFsLmRrL3J1bnRpbWUvb2F1dGgyIn0.NtwMZclCK83EGsqF0H_-G1wJLSXn1oSY0nm8Wx9azLNT1PetFQypZlrwM_LJVx6VKPjlT_REGlGc5DvLg78CzcmIT-QkEKTajNMQ6NWpiyMi-UJ6iZTVZZuyHx6qbpR97KYnKbRzNcF3TdNWliOTZZvSNrVH4PVvBiNK9coNtzoymfhj1spaumF5KbUO-hfFm6zDSvQinxPTLJZEVOr4KywMSEy-LWUOppDk5Tc_mfOD1y8S9IQlBInM3Gg6-PuYH--xyo4Zw7kVxNGBAgsfajm3G2N8nqhiXOvqlLIglnChqL_9j9Rpp5cZ3vpKVAGYpLDgCK8uCDfYP1GO1yyeKw
+refresh token:  CfDJ8E2AnnvbwdBPm7kqdtEbRHp3WaUiLJZJ6f4mn9ehby20BwluKvJenQ-TQ7d_PJIvtW1CnZkgtAmYIttk7nrsAw_fPDOoPtvODZp2BpK_HoUtf9LWq3wYGFi90kVcs7K954WBP-xYDP9ucrjlRlQLOgdR3BqVkXQkICtYrDHVeUGQt8seYof2VnuS1cPCvnvMfWT1u8vk7MVUY79RM_IXFsMknIer394IS58wa76JSIgFNn9nGCc9sHgBVAq_qPxWVems5JnhvI2I5Y4JbcKN8bcPodnGGNq8qx8HzaUTD_McgsSovvOvaHtEUkv91TP4WNAtBdSjaOlBovldcQEzpdiXwIzi1BpIT_cMcqlU-K80KIXoPQmaUIU_VcKaeV9PXNM0WKAgLNWWKWX65Dx4PJ42tK8IL80_YhZ88cLatnnqYDN9tBmGg6xh2fZm7X5TUuFLBWUau1PekZ2zrnhT1mPElDyY3ru4O3vJLQgJMXfSGZc3bNULJLFw7KBmfNS53lipmvN9xVib7B9TNMLIPdvyBglULm00ivOH61jW_lzQ_AQKDzYYM7f0bGdDkEdx8m1QRVCdRDIRgesoKZTdjeVMbjfES-MUtvdB5XBPEdHXvWlSVk8Q-VhrdlprCDDWjBccB6bfNUGV5lRu5bycumaLXLjuSqT7iAoPNcLnVwvxQB4fP-5zdBCt7jzzFOLDvcfJBSv19H8xPHjOojgLTbYIw7wJB-oooDEsOelXUceHXnTX_yqy-umMy7Kfqm0R5CDfKTg0ktYyn3SmHv6RuUuNRKxdomiCsHF2yQREl70Wi1htsdRPGX-jnAdrmE1D8tJ4MAx4oCDbJ6tYBjPK91aTRAX7BMUO5FaKf3cZ1jH1Sclel1xPlZJMwBSd9WGzt8LGSKg3iw8sZanDmpwz9RL3MLRVjF-nhygbhCr5GYrgtlpxwgxjf9-BHvCPM1up2S2yQpigDrf9g2M2fpmx7Wyy6GPMHX5gHIqHBPeFe9aVcKXO_xhAgLQKo-ZokfDUhlPgBIyGxoa_3ebaKJrCRBwcvw6T5GKnwu8vU0B3LZE8SARuTixMi1hFi8lYJi9pp17b02tGqH8W2dyczgfbUKa7luE1E6pH1tp3N8_JaDHU9zk4NoGO96xTPO34LsaUlJJfrwoNm4PGE_bg9FpNwDQY1WGr2Or4CPpU9CeJa1y6D4p2GJQSC5fDC_tlYV9x20fU_sPt6vOUFIszx6t1Fxml0MCqpfXLWqVQZrvtt3mg-mfypWC03U3405l4RcszuxzXyQsb9av3qHtcBSRmnehyBH1507cad7mzpuS-kYj8t8zEB3q83Hir6MFtdbySfSsoX-DgILjS0s8nDwfKaEaAt_uKFZhV-hqi0SgB9uiaOq_chH7SpSiOi66lrQ2CocL4YvN8nTMI3CyCdOeqVqdDhhqdPezIas_ZjsWuoXffB1eIhDmrTqwk3A1hxvf2aImKvFKIPLld-_zb11KLiO-zHOhEMRs9ozaAgLESbbRy8IA7F_Cbasb4bu55DOh9qDO7CAHL6P9IQl3AAAJSO1bS6xv3grjzgJczh26POKOVFPN_f1fFitX0o0TYE51Inww2PIwBNv_XsP28OlU8qOF_CYSm8kJyAZLRhqpTgc-yc_8bvunHc6zU5qm2oMXhvgysD5t0_wqPGqcoBneCmcytL0wNUIVZVtHuCpQh7tQjHfriPiiQJpCFVzB3QUolMHmd-gHl8mDhHQxQ_ktw1LtdGKehYUS9abUZwWVH_GW706hfcIvBr8VGZGQKBSsFsBLkneyI9fbYlscD5XisZNz0W_oAK3MzzBahx7hlX1u_4UMdGaVe8BeeHf4XrqD9d-NqrO2uggWKWA7dfJPeP_iXAgvpXSPkIneGLme1Me0NaVta8lsCBoW3rtHfN5Y8eC5OExpjtrFLr_unj9FSQf6sJw7kzjLtoP0W5ueF4PHJnIoFh1luAaDkdFJ9S1zD41Zfjcy2cfTL81NujWZZFPJI4XaHyJhDBuw3pshX9A29b34QUWeOqsmLEjkV5xJ9MjA8LggWWd6fWAS9scyQn53wIS96KXuN2NqwaL8gVy-ZSmq13RFnRmmu6K08Or8AO9sQePMyXA5xSGjs8yqbQ8cPowwKFLRz9ofSK4xozOD7ZzIXCs7sTYmWS_QnzJCSwybYPhBeR175qVv1HxJRc_Af288aUlmc0Pb9tEPyXhg_aRIYHgXsExAfS66MHI7rbHtCppNmgAB9kVOhREGaADXeNu_I2aBv5pJ2HFzw9sBsip-3o_pCdisToQ3qJEPcFzqnVgUlqPCBj7Y_wpM3COBXb11vr7diLZD-GJEysqK47FfXWsG7o9CHoor9qnZ1-bziwETK3aE-9zzM2CyQxwbp4IGVxzfovmu7OWqSJMumNVmbx0PodBsrU-0MSLjXALUODnVnNFi0yQRUZMJZgEIRtogp_LFaC4fQ2AarRo7CP30dzzLnzoC2r_v91dga94NLZVvgWJoD-GsXKGBDnRnIsKgv7EiMYfDqesdtvZrcFA2KvueRdCa7L5da0m6F4tuM-AvXrYzPmpAUJCw39fmnxgi9n0qpREO-lKlwF6in7MtTFw6GiNrBcjgU3EVLnYu-vrvKUprBXrnBS67nKqvCKg_XzhxUp2YyR6alHNQm5MD07VazPTyOi1ipZDqG94f3bRqnufwbzk27tof1GqNA8Cutp4t4Y3wom8IVBqxQ3trlnqLl8SSc2RMiRagQ4nfdFjShg-1sTknx-gDyjQXgsYYNf_kdBwTrdSjCAPye2zfy87tfFUPG3ZavxkkrvqKj5NPR53CPD2tfEwRzyM_YofiCEpaEh27aebzUNbTezXEtMG_jXM-uuotPY4D_o38RnX_n8U7EYkIgbDDZR87ClOdy1EtVyZb4V5ZVnGQFhX1QJu7Gx4Gy2CCUXZ-zV5Uga8fccDVfxYtOSu6HeNCAqTq9wLeKVL4jWSHOT7M-njCLYbg5EQQyiWgo2-HwAzApBDbNnvdah-dhggy9M2HMgxNuLpKYzkcCFyie1KxorXWjuDo0oR8uHD8ylnooQ86QhsYHfudlHXF2IOvaIhWBL7UUcK_1-ODgohNtQBPq9VzFL8WCtZjXCByX_6e4_u_KgfrYdrQL4b-v_TvOiUEy6NEcnjcQjv2XE8eQP4uWgOnT7l1-loS0nXZWHBUb2zpIT4XwH04gZuldbwmy7Qo3r5pebzFFhN8EH0Rk-s_WqN7t2N-jq84Qth1UcaJe0rMHZGlP6icMjuhTYF8ppSltFqnHhB8bcuOaXS_9f6Zmv2gkDuP1I-nRpwRROykgLJpnDnKa5hzpDoqT5pqn-zzRUnkEkfB9KX3_P6hKKjjHQdgw1GOD9sBvgfaXvDVWfBQqGi-ynXed31jfZHQ3VK9TpUNDpY37b4oaWTMUvYb05uz0vEPvfhDg6_3zVqDKjFmHxXyOz5cd608l6J85d5uyYZVfNGFILseQQwoXpnID_qgBuxryupkbv7fJrjy-9b4StRGUlSmtLesIRHL7S9_fGEwJVR45tvNc43AWKc9DMj0rn8m7lIyVsEpg578vOGaDDn0YjMntrxJXdJotpzxOUfNkwvyvMdOyUYLWdsN4Ws8o1cfJsLEEeAKgMzlsv_mem0BL2fX1ljPlvMl7TEuL0gvaF5zrhlNhcL8QLSgEn7CDC84JIzoO1fzdqyAg6AjxZe0MkhRYQxHJjwWJnR-yB4G4duSbUKFth3Za2nvDhnUqf_yyjAwn4kMOwd-sZSUWTx7CA3EPzYlBSHZoRAxPIGYJca9hOlEoikDXbaz5xpo5j_G7393naIBoFtuBIKqcVOipfcOIsSwfwM9AmrmWxKl2vPMCtsL9XWDJmwDR8vELvZQViVCv1JA61BkUKwidHp1C4HBPGSVpX9tVszASFz4xpADwE64TYKA0KQQFePzqOsceUf9OHYlb8x0Ot1JWCTXo9Y_7udM8xlHwoeaW9HyyOxTrh5XjC5lYCyFJlMtUFDGZLvb9WqXFUAL2kMSIirvOHIwPaBU1uaIU2_a9RPEcffTwVY7k5GDVK9_4L-pVBqFJkLt0PcrI3bSIVPppr2cihKt8bh1BHDvr55IW6vhQAhEcIF9ncI5DWWTif-LqhCdIQc-9zrcLxHsyTGREyHQ6K1MqGSYNamGEmWq0iGdl46c-_egNzIU1Ugb1uwsi1-7JFVjSe8W-2EO1hMuPZCV5INYgbTHYRrZPeNWNxv_ahTXkHjy4h_MWLSJysYQ9S5974X-EXx7Qw3tjRz0N2SPUKYBLAQdHV7JJlho_CMiq-rISx8StLiWHdtU3cyueTCn52rqaKCwEJLWZovDcJaJfPkXzojY_juAdq7H--71I4w5d584mrEKZshtbc_JceZQQuiYTdaFNbO-fvdZzOEwGOaH6eNToSLWunvV0PHSCV1KK89Txw4b8sRoQ-q_2JUHqkfeyJjRdadk_ilj9jufrvgdkOxmbgw5U46Ha09E8czvmjlqKMHFqZZLih3-ihoJRNhJL-b9M9a2gSd4LQT5dIAs1UP-fYJOhxoBjtIYIs39xB44CbeAW_7XstUw9HXNInz1dm1O6gZkT0Kjb_3ZhESRSirRBInTXOEpgJV1woDW8N7KLg_2poAXGryYMWqvy65GtgmT9vUJLA7D_lzGWf_93mlZ2VFGqAD3tng6k5y0zc43ib_LhkHCuB4wtiuafTCgNglO5Zlf_IAs0Vd6bj6fOXw7-xiWhkpErIm-H7dPgOcpRAOgJjU2JKdGpIQYW0YSLVEqW9d3_YU3ZtzYEpMDTNeBVefMx-0qtm9Pbg4654rF5qfhJofCZthqrrIYR3Zd6ApI_c_3ipOIVDy4RQOoLo5LFHv1K0xR_WFL6SXP4ExRHktoLfdZkTSz1cdzyfO4fItNQnP1mT0BWmJbqFovmAj-rafc5E_sGUtnAM8cAKj2za2ji7qjBgOfQYreOjqerl6pXX5RAsjTEXH1cgDnTUC6GujSrZ3s6sKYo2fIvFxeaZN2vW8hVBvWn4vRk04pUu83Vt6Qt0YHJb9rSZELwW_EnylvUGM1otAoklYEte1Glduw7y0P5NTQKl5kxX6F3MNzj1_PiqTU7fIHnPgsCHbReMq7tLG5mTPhmHQOL9PpjJOqqwvQ6i42LtL6q6xTQC6F7cng4VfLg3xpWXljZKjq0onaiBR9AnplWR89T31UpYMY0sa8OFDFhrYPjePlGqBofNgcsfvbceUFeOnn4d6SVERQRwOPFFHaYRdkUcoiOLx3NFDeY-vo542RugPzDdUkseevRZTVKcSlaYH0Z7gkQu_Vn8gkQNf3JSfTIpw22rx9jHLts
+
+
+
+Press...
+x -> exit
+k -> list all 'temakoder'
+a -> list all 'attributter'
+t -> list all 'temaattributter'
+o -> list 'objekter'
+p -> create fredede_omr_bk objekt
+
+r -> refresh token
+c -> logout
+
+
+
+Press...
+x -> exit
+k -> list all 'temakoder'
+a -> list all 'attributter'
+t -> list all 'temaattributter'
+o -> list 'objekter'
+p -> create fredede_omr_bk objekt
+
+r -> refresh token
+c -> logout
