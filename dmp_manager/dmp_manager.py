@@ -24,6 +24,7 @@
 import os.path
 import webbrowser
 import copy
+import processing
 
 from PyQt5.QtCore import (QSettings,
                           QTranslator,
@@ -68,9 +69,13 @@ from .helper import (tr,
                      copyLayer2Layer,
                      findLayerVariableValue,
                      evalLayerVariable,
-                     zoomToFeature)
+                     zoomToFeature,
+                     get_random_string)
+                     
+from .named_pipe import NamedPipe
 
 from .dmp_manager_dockwidget import DMPManagerDockWidget
+
 
 class DMPManager:
     """QGIS Plugin Implementation."""
@@ -116,6 +121,7 @@ class DMPManager:
         self.dockwidget = None
         self.parm = None
         self.attributes = None
+        self.dmpPipe = None
 
     def add_action(self, icon_path, text, callback, enabled_flag=True, add_to_menu=True,
                    add_to_toolbar=True, status_tip=None, whats_this=None, parent=None):
@@ -196,12 +202,22 @@ class DMPManager:
     def onClosePlugin(self):
         """Cleanup necessary items here when plugin dockwidget is closed"""
 
+
         self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)
         self.pluginIsActive = False
+    
+    
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
 
+        logI ('logout fra dmpPipe')
+        try:
+            if self.dmpPipe:
+                self.dmpPipe.stop()        
+        except:
+            pass
+            
         for action in self.actions:
             self.iface.removePluginWebMenu(
                 tr(u'&DMP Manager'),
@@ -237,6 +253,9 @@ class DMPManager:
             sd.pbClearCompare.clicked.connect(self.pbClearCompareClicked)
             sd.pbCompare.clicked.connect(self.pbCompareClicked)
             sd.tvCompare.doubleClicked.connect(self.tvCompareDoubleClicked)
+            sd.pbCheck.clicked.connect(self.pbCheckClicked)
+            sd.pbUpload.clicked.connect(self.pbUploadClicked)
+            sd.pbClearUpload.clicked.connect(self.pbClearUploadClicked)
 
             sd.tvCompare.setContextMenuPolicy(Qt.CustomContextMenu)
             sd.tvCompare.customContextMenuRequested.connect(self.tvCompareOpenMenu)
@@ -244,15 +263,38 @@ class DMPManager:
 
 
             # connect to provide cleanup on closing of dockwidget
-            self.dockwidget.closingPlugin.connect(self.onClosePlugin)
+            sd.closingPlugin.connect(self.onClosePlugin)
 
             # show the dockwidget
-            self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dockwidget)
-            self.dockwidget.show()
+            self.iface.addDockWidget(Qt.RightDockWidgetArea, sd)
+            sd.show()
 
             # Set initial values
             self.pbResetClicked()
             self.twMainCurrentChanged(1)
+            spd = self.parm["Data"]
+            spa = self.parm["Access"]
+
+            if self.dmpPipe == None: 
+                progName = os.path.join(self.plugin_dir,'login_app','DMPLogin.exe')
+
+                if spa["pipeName"]:
+                    pipeName = spa["pipeName"]
+                else:
+                    pipeName = get_random_string(24)
+                
+                self.dmpPipe = NamedPipe(progName,
+                                         spa["clientId"],
+                                         spa["host"],
+                                         spa["port"],
+                                         spa["redirectUri"],
+                                         spa["postLogoutRedirectUri"],
+                                         spa["authority"],
+                                         spa["scope"],
+                                         spa["api"],
+                                         pipeName,
+                                         spa["ShowConsole"])
+
 
     def tvCompareOpenMenu(self, position):
     
@@ -361,6 +403,31 @@ class DMPManager:
                 whr += ' ' + conc + ' ' + expr.format(f,opr)
 
         return whr
+
+    def pbUploadClicked(self):
+    
+        messW ('Function "Upload" is disabled')
+
+    def pbClearUploadClicked(self):
+    
+        messW ('Function "Clear upload" is disabled')
+
+    def pbCheckClicked(self):
+
+        sd = self.dockwidget 
+        # Find layer to be compared
+        indx = sd.cbLayerCheck.currentIndex()        
+
+        if indx >=0:
+
+            # Generate string for Current layer...         
+            data = sd.cbLayerCheck.itemData(indx)
+            mlayer = data[0]
+            layer = mlayer.layer()       
+            layerSource = "{pt}:{sc}:cur:UTF-8".format(pt=layer.providerType(),sc=layer.source())
+            logI(layerSource)
+            processing.execAlgorithmDialog('qgis:checkvalidity') #,{ 'ERROR_OUTPUT' : 'TEMPORARY_OUTPUT', 'IGNORE_RING_SELF_INTERSECTION' : False, 'INPUT_LAYER' : layerSource , 'INVALID_OUTPUT' : 'TEMPORARY_OUTPUT', 'METHOD' : 2, 'VALID_OUTPUT' : 'TEMPORARY_OUTPUT'})
+
     
     def pbCompareClicked(self):
         """Compare chosen datalayer with its reference layer"""
@@ -523,6 +590,9 @@ class DMPManager:
         if indx == 1: # "Checks" tab
             self.loadcbLayerCheck()
 
+        if indx == 2: # "Upload" tab
+            self.loadcbUpload()
+
 
     def pbResetClicked(self):
         """Reread configuration json file and set the self.parm dict"""
@@ -549,9 +619,12 @@ class DMPManager:
             #sd.rbDatabase.setChecked(False)
             sd.rbDirectory.setChecked(True)
 
+
+        logI(spd["Directory"])
+        logI(spd["Use filetype"])
         self.loadCbDatabase(spd["Database"])
         sd.leSchema.setText(spd["Schema"])
-        sd.fwDirectory.setFilePath(spd["Directory"] if spd["Directory"] != '' else os.path.expanduser("~"))
+        sd.fwDirectory.setFilePath(spd["Directory"]) # if spd["Directory"] != '' else os.path.expanduser("~"))
 
         self.loadCbFiletype(spd["Filetypes"], spd["Use filetype"])
 
@@ -580,16 +653,18 @@ class DMPManager:
 
     def leTokenTextChanged(self, txt):
         """Set timeout parameter for token (current time + 1 hour)"""
-
-        sd = self.dockwidget
-        sd.dtTimeout.setDateTime(QDateTime.currentDateTime().addSecs(3500))  # "Næsten" 1 time
+        pass
+        #sd = self.dockwidget
+        #sd.dtTimeout.setDateTime(QDateTime.currentDateTime().addSecs(3500))  # "Næsten" 1 time
 
     def pbReqTokenClicked(self):
         """HTTP request to generate access ticket and token for DMP"""
 
-        #sd = self.dockwidget
-        spa = self.parm["Access"]
-        webbrowser.open(spa['Logon'])
+        sd = self.dockwidget
+        res = self.dmpPipe.login()
+        if res == '':
+            sd.leToken.setText(self.dmpPipe.accessToken)
+            sd.dtTimeout.setDateTime(self.dmpPipe.expirationTime)
 
     def pbPrefLayerClicked(self):
         """Change preferred layerid to current value from cbDownload combobox item value"""
@@ -649,13 +724,14 @@ class DMPManager:
     def checkToken(self):
         """Check if token still is valid (not to old)"""
 
-        #sd = self.dockwidget
-        #spa = self.parm["Access"]
-        #if sd.dtTimeout.dateTime() < QDateTime.currentDateTime():
-        #    # Missing code to start openId process....
-        #    messW('Timeout for token - refresh token using logon at DMP')
-        #    webbrowser.open(spa['Logon'])
-        #    return False
+        sd = self.dockwidget
+
+        res = self.dmpPipe.refresh()
+
+        if sd.dtTimeout.dateTime() != self.dmpPipe.expirationTime: messI('Access token and expiration time updated') 
+
+        sd.leToken.setText(self.dmpPipe.accessToken)
+        sd.dtTimeout.setDateTime(self.dmpPipe.expirationTime)
 
         return True
 
@@ -880,6 +956,7 @@ class DMPManager:
                                 rdict = self.createUriDictFile(os.path.join(self.plugin_dir,'dmp_reference.gpkg'), 'GeoPackage', ml.name(), 'geom', '')
                                 addLayer2Tree(mprg, ml2, False, "DMPManager","DATA - " + ml2.name(), os.path.join(spath, val['title'] + '.qml'), title)
                                 ml3 = copyLayer2Layer(ml, rdict, True)
+                                messI('Creation of layer {} ({}) succeeded'.format(title,ml.name())) 
                             else: 
                                 messC('Creation of layer {} ({}) failed. It might already exist'.format(title,ml.name())) 
 
@@ -927,7 +1004,7 @@ class DMPManager:
         for key, val in dft.items():
             sd.cbFiletype.addItem(key, val)
 
-        sd.cbFiletype.setCurrentIndex(sd.cbFiletype.findText(item))
+        sd.cbFiletype.setCurrentIndex(sd.cbFiletype.findData(item))
 
     def cbFileTypeCurrentIndexChanged(self, index):
         """TBD"""
