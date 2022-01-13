@@ -619,14 +619,11 @@ class DMPManager:
             #sd.rbDatabase.setChecked(False)
             sd.rbDirectory.setChecked(True)
 
-
-        logI(spd["Directory"])
-        logI(spd["Use filetype"])
         self.loadCbDatabase(spd["Database"])
         sd.leSchema.setText(spd["Schema"])
-        sd.fwDirectory.setFilePath(spd["Directory"]) # if spd["Directory"] != '' else os.path.expanduser("~"))
-
         self.loadCbFiletype(spd["Filetypes"], spd["Use filetype"])
+        sd.fwDirectory.setFilePath(spd["Directory"] if spd["Directory"] != '' else os.path.expanduser("~"))
+
 
     def pbSaveClicked(self):
         """Save values from several subwidgets into the self.parm dictionary and save it
