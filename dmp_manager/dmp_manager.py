@@ -43,7 +43,8 @@ from PyQt5.Qt import (QStandardItemModel,
 from qgis.core import (QgsProject,
                        QgsProviderRegistry,
                        QgsDataSourceUri,
-                       QgsVectorLayer)
+                       QgsVectorLayer,
+                       QgsFeatureRequest)
 
 from qgis.gui import QgsFileWidget
 from .resources import *
@@ -359,7 +360,7 @@ class DMPManager:
             layerSrc = QgsProject.instance().layerTreeRoot().findLayer(str(crawler.parent().data(Qt.UserRole+2)))
             layerDest = sd.cbLayerCheck.itemData(sd.cbLayerCheck.currentIndex())[0].layer()
 
-            restoreOriginalFeature(self, layerSrc, str(crawler.data(Qt.UserRole+2)), layerDest, spd["PKName"], spd["PKQuote"])
+            self.restoreOriginalFeature(layerSrc, str(crawler.data(Qt.UserRole+2)), layerDest, spd["PKName"], spd["PKQuote"])
             
         elif operation == 'commit':
             messI('{}.. Layer id: {}, feature id: {}'.format(operation, str(crawler.parent().data(Qt.UserRole+2)), str(crawler.data(Qt.UserRole+2))))
@@ -393,10 +394,12 @@ class DMPManager:
             for d in saa:
                 if d["id"] != 'temaattributter': 
                     fl.append(d["attributes"]["name"])
-    
+   
             for d in sat:
                 if d["relationships"]["temakode"]["data"]["id"] == temanr: 
                     fl.append(d["attributes"]["name"])
+            
+            fl.append('geometry')
     
             whr = expr.format(fl[0],opr) 
             for f in fl[1:]:
@@ -553,17 +556,21 @@ class DMPManager:
     def restoreOriginalFeature(self, layerSrc, id, layerDest, val, cit=''):
         """Restore original feature using fid, mode and layerCompare chosen datalayer with its reference layer"""
 
-
+        logI('layerSrc = {}'.format(layerSrc.name()))
+        logI('id = {}'.format(id))
+        logI('layerDst = {}'.format(layerDst.name()))
+        logI('val = {}'.format(val))
+        logI('cit = {}'.format(cit))
         # Inserted: slet element fra layerdest
         # Deleted : copy element fra layersrc til layerdest
         # Modified: slet element fra layerdest + copy element fra layersrc til layerdst
         expression = '"{id}" = {cit}{val}{cit}'.format(id=id, val=val, cit=cit)
         request = QgsFeatureRequest().setFilterExpression(expression)
 
-        f = layerSrc.getFeature(id)        
-        with edit(layerDest):
-            for g in layerDest.getFeatures(request): layerDest.deleteFeature(g.id())            
-            layerDest.addFeature(f)
+        f = layerSrc.layer().getFeature(id)        
+        with edit(layerDest.layer()):
+            for g in layerDest.layer().getFeatures(request): layerDest.deleteFeature(g.id())            
+            layerDest.layer().addFeature(f)
 
     def setMapViewUsingFeature(self, layer, fid):
         """Set view for mapper window """
