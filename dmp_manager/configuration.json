@@ -50,17 +50,15 @@
         "Modified" : "Rettede elementer"
     },
     "Selections": {
-        "Inserted" : "select cur.* from cur left join ref on cur.\"objekt-id\" = ref.\"objekt-id\" where ref.\"objekt-id\" is NULL", 
-        "Deleted" : "select ref.* from ref left join cur on ref.\"objekt-id\" = cur.\"objekt-id\" where cur.\"objekt-id\" is NULL", 
-        "Modified" : "select cur.* from cur join ref on cur.\"objekt-id\" = ref.\"objekt-id\" where {}"
+        "Inserted" : "select cur.* from {0} cur left join {1} ref on cur.{2} = ref.{3} where ref.{3} is NULL", 
+        "Deleted" : "select ref.* from {1} ref left join {0} cur on ref.{3} = cur.{2} where cur.{2} is NULL", 
+        "Modified" : "select ref.* from {1} ref join {0} cur on ref.{3} = cur.{2} where {4}",
+        "Modified_upd" : "select cur.* from {0} ref join {1} ref on ref.{2} = cur.{3} where {4}"
     },
     "Data": {
-        "Use database": true,
+		"Database_types" :{"MSSQL": "mssql", "Oracle": "oracle", "PostgreSQL": "postgres", "GeoPackage" : "ogr", "SpatiaLite": "spatialite"},
         "Database": "",
         "Schema": "",
-        "Filetypes": {"ESRI Shapefile"   : "","MapInfo TAB":"","SpatiaLite": "SpatiaLite (*.sqlite *.SQLITE)", "GeoPackage": "GeoPackage (*.gpkg *.GPKG)"},
-        "Use filetype": "GeoPackage",
-        "Directory": "",
 		"PKName": "objekt-id",
 		"PKQuote": "'"
     }

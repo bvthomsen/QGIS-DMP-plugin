@@ -27,9 +27,10 @@ class NamedPipe:
         self.authority = authority
         self.scope = scope
         self.api = api
+        pipeName="qgisplugin-integration-daiedittest"
         self.pipeName=pipeName
         self.showConsole = showConsole
- 
+        self.pid = None
 #        print(self.progName)
 #        print(self.clientId)
 #        print(self.host)
@@ -55,6 +56,10 @@ class NamedPipe:
                      self.authority,
                      self.scope,
                      self.api]
+
+        if self.pid: 
+            self.pid.kill()
+            self.pid = None
 
         if self.showConsole == True:                     
             subprocess.Popen(startArgs, creationflags = subprocess.CREATE_NEW_PROCESS_GROUP)

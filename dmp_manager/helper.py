@@ -636,33 +636,24 @@ def copyLayer2Layer(lyr, udict, owrite):
 
     if  contype == 'ogr':
 
-        ext = udict['ext'] 
-        
-        if ext in ['.gpkg','.sqlite']:
-            options['update'] = True
-            options['driverName'] = ext.replace('.','')
-            options['layerName'] = udict['tname']
-            uristr = udict['path']
-            logI('gpkg/spatialite: ' + uristr)
-            err = QgsVectorLayerExporter.exportLayer(lyr, uristr, "ogr", lyr.crs(), False, options)
-            uristr += '|layername={}'.format(udict['tname'])
-        elif ext in ['.tab','.shp']:
-            uristr = os.path.join(udict['path'],udict['tname']+ext)
-            logI('tab/shape: ' + uristr)
-            options['driverName'] = 'MapInfo File' if ext == '.tab' else 'ESRI Shapefile'
-            err = QgsVectorLayerExporter.exportLayer(lyr, uristr, "ogr", lyr.crs(), False, options)
+        options['update'] = True
+        options['layerName'] = udict['tname']
+        uristr = udict['uri']
+        options['driverName'] = 'gpkg'
+        logI('uristr='+uristr)
+        err = QgsVectorLayerExporter.exportLayer(lyr, uristr, "ogr", lyr.crs(), False, options)
+        uristr += '|layername={}'.format(udict['tname'])
+        logI('uri='+uristr)
+        logI('options='+options['driverName'])
 
     else:
 
         uri = udict['uri']
-
         uri.setTable(udict['tname'])
         if 'gname' in udict and udict['gname'] != '': uri.setGeometryColumn(udict['gname'])
         #if udict['pkname'] != '': uri.setKeyColumn(udict['pkname'])
 
         uristr = uri.uri()
-        logI(uristr)
-
         err = QgsVectorLayerExporter.exportLayer(lyr, uristr, contype, lyr.crs(), False, options)
 
 

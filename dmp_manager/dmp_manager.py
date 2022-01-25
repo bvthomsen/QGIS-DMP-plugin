@@ -35,7 +35,9 @@ from PyQt5.QtCore import (QSettings,
                           
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (QAction,
-                             QMenu)
+                             QMenu,
+                             QInputDialog,
+                             QLineEdit)
 
 from PyQt5.Qt import (QStandardItemModel,
                       QStandardItem)
@@ -44,7 +46,8 @@ from qgis.core import (QgsProject,
                        QgsProviderRegistry,
                        QgsDataSourceUri,
                        QgsVectorLayer,
-                       QgsFeatureRequest)
+                       QgsFeatureRequest,
+                       QgsAbstractDatabaseProviderConnection)
 
 from qgis.gui import QgsFileWidget
 from .resources import *
@@ -212,7 +215,6 @@ class DMPManager:
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
 
-        logI ('logout fra dmpPipe')
         try:
             if self.dmpPipe:
                 self.dmpPipe.stop()        
@@ -248,8 +250,6 @@ class DMPManager:
             sd.pbPrefLayer.clicked.connect(self.pbPrefLayerClicked)
             sd.pbRefresh.clicked.connect(self.pbRefreshClicked)
             sd.pbDownload.clicked.connect(self.pbDownloadClicked)
-            sd.rbDatabase.toggled.connect(self.rbDatabaseToggled)
-            sd.cbFiletype.currentIndexChanged.connect(self.cbFileTypeCurrentIndexChanged)
             sd.twMain.currentChanged.connect(self.twMainCurrentChanged)
             sd.pbClearCompare.clicked.connect(self.pbClearCompareClicked)
             sd.pbCompare.clicked.connect(self.pbCompareClicked)
@@ -260,8 +260,8 @@ class DMPManager:
 
             sd.tvCompare.setContextMenuPolicy(Qt.CustomContextMenu)
             sd.tvCompare.customContextMenuRequested.connect(self.tvCompareOpenMenu)
-           
-
+            sd.cbDatabase.currentIndexChanged.connect (self.cbDatabaseCurrentIndexChanged)
+            sd.pbSchema.clicked.connect(self.pbSchemaClicked)
 
             # connect to provide cleanup on closing of dockwidget
             sd.closingPlugin.connect(self.onClosePlugin)
@@ -368,8 +368,7 @@ class DMPManager:
     def rollBackElement (self, cur, ref, idname, idvalueoperation, crawler, crawler2):
         pass    
     
-    
-    def genDictWhere(self, name, expr=r'cur."{0}" {1} ref."{0}"', opr = r'!=', conc='or'):
+    def genDictWhere(self, name, expr=r'cur."{0}" {1} ref."{0}"', opr = r'!=', conc='or', gname='geom', prefix='', postfix=''):
         """Generate where part from dictCompare chosen """
 
         saa = self.attributes["attributter"]
@@ -379,13 +378,11 @@ class DMPManager:
         temanr = "-9999"
         
         for tk in satk:
-            logI('{} ==  {} ?????'.format(tk["attributes"]["name"],name))
             if tk["attributes"]["name"] == name: 
                 temanr = tk["id"]
                 break        
 
         whr = ''
-        logI('temanr = {} '.format(temanr))
 
         if temanr != "-9999":
 
@@ -399,13 +396,11 @@ class DMPManager:
                 if d["relationships"]["temakode"]["data"]["id"] == temanr: 
                     fl.append(d["attributes"]["name"])
             
-            fl.append('geometry')
-    
-            whr = expr.format(fl[0],opr) 
-            for f in fl[1:]:
+            whr = expr.format(gname,opr) 
+            for f in fl:
                 whr += ' ' + conc + ' ' + expr.format(f,opr)
 
-        return whr
+        return prefix + whr + postfix
 
     def pbUploadClicked(self):
     
@@ -618,19 +613,7 @@ class DMPManager:
         sd.dtTimeout.setDateTime(QDateTime().fromString(spv["Token time"], Qt.ISODate))
 
         self.loadCbDownload()
-
-        if spd["Use database"]:
-            sd.rbDatabase.setChecked(True)
-            #sd.rbDirectory.setChecked(False)
-        else:
-            #sd.rbDatabase.setChecked(False)
-            sd.rbDirectory.setChecked(True)
-
-        self.loadCbDatabase(spd["Database"])
-        sd.leSchema.setText(spd["Schema"])
-        self.loadCbFiletype(spd["Filetypes"], spd["Use filetype"])
-        sd.fwDirectory.setFilePath(spd["Directory"] if spd["Directory"] != '' else os.path.expanduser("~"))
-
+        self.loadCbDatabase(spd["Database_types"],spd["Database"],spd["Schema"])
 
     def pbSaveClicked(self):
         """Save values from several subwidgets into the self.parm dictionary and save it
@@ -646,11 +629,8 @@ class DMPManager:
         spv["Token value"] = sd.leToken.text()
         spv["Token time"] = sd.dtTimeout.dateTime().toString(Qt.ISODate)
 
-        spd["Use database"] = sd.rbDatabase.isChecked()
         spd["Database"] = sd.cbDatabase.currentText()
-        spd["Schema"] = sd.leSchema.text()
-        spd["Directory"] = sd.fwDirectory.filePath()
-        spd["Use filetype"] = sd.cbFiletype.itemData(sd.cbFiletype.currentIndex())
+        spd["Schema"] = sd.cbSchema.currentText()
 
         write_config(os.path.join(self.plugin_dir, 'configuration.json'), self.parm)
         write_config(os.path.join(self.plugin_dir, 'attributes.json'), self.attributes)
@@ -784,37 +764,31 @@ class DMPManager:
         udict = {}
 
         # find/check connectype and connection information
-        if sd.rbDatabase.isChecked():
     
-            # Database based local repository
-            if sd.cbDatabase.currentIndex() >= 0 and sd.leSchema.text() != '':
+        # Database based local repository
+        if sd.cbDatabase.currentIndex() >=0:
 
-                setting = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
-                metadata = QgsProviderRegistry.instance().providerMetadata(setting[0])
-                connection = metadata.findConnection(setting[1])
+            setting = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
+            logI('setting0='+str(setting[0]))
+            logI('setting1='+str(setting[1]))
+            metadata = QgsProviderRegistry.instance().providerMetadata(setting[0])
+            connection = metadata.findConnection(setting[1])
+            logI('connuri='+str(connection.uri()))
+            if setting[0] == 'ogr':
+                uri = connection.uri()         
+            else:
                 uri = QgsDataSourceUri(connection.uri())
-                uri.setSchema(sd.leSchema.text())
+                if sd.cbSchema.currentIndex()>=0: uri.setSchema(sd.cbSchema.currentText())
+                
+                
+            udict['uri'] = uri
+            udict['gname'] = gname
+            udict['pkname'] = pkname
+            udict['tname'] = tname
+            udict['contype'] = setting[0]
 
-                udict['uri']= uri
-                udict['gname'] = gname
-                udict['pkname'] = pkname
-                udict['tname'] = tname
-                udict['contype'] = setting[0]
-
-            else:
-                messC(tr('"Database" type repository chosen, but database connection or schemaname not set'))
         else:
-    
-            # File based local repository
-            indx = sd.cbFiletype.currentIndex()
-            fpth = sd.fwDirectory.filePath()
-            if fpth != "" and indx >= 0:
-    
-                ftyp = sd.cbFiletype.currentText()
-                udict = self.createUriDictFile(fpth, ftyp, tname, gname, pkname)
-
-            else:
-                messC('Directory path, file path or filetype not set')
+            messC(tr('Database connection is not set'))
 
         return udict
 
@@ -833,8 +807,6 @@ class DMPManager:
 
         return udict
 
-
-
     def createUri(self, tname, gname = 'geom', pkname='objekt-id'):
     
         sd = self.dockwidget
@@ -842,47 +814,22 @@ class DMPManager:
         uristr = ''
         contype = ''
     
-        # find/check connectype and connection information
-        if sd.rbDatabase.isChecked():
-    
-            # Database based local repository
-            if sd.cbDatabase.currentIndex() >= 0 and sd.leSchema.text() != '':
-                setting = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
-                contype = setting[0]
-                metadata = QgsProviderRegistry.instance().providerMetadata(contype)
-                connection = metadata.findConnection(setting[1])
-    
-                # create uri, database connection
-                logI('uri 0: '+ connection.uri())
-                uri = QgsDataSourceUri(connection.uri())
-                logI('uri 1: '+ uri.uri())
-                uri.setSchema(sd.leSchema.text())
-                uri.setTable(tname)
-                uri.setGeometryColumn(gname)
-                uri.setKeyColumn(pkname)
-                uristr = uri.uri()
-                logI('uri 2: '+ uri.uri())
-            else:
-                messC(tr('"Database" type repository chosen, but database connection or schemaname not set'))
+        # Database based local repository
+        if sd.cbDatabase.currentIndex() >= 0:
+            setting = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
+            contype = setting[0]
+            metadata = QgsProviderRegistry.instance().providerMetadata(contype)
+            connection = metadata.findConnection(setting[1])
+
+            # create uri, database connection
+            uri = QgsDataSourceUri(connection.uri())
+            if sd.cbSchema.currentIndex() >= 0: uri.setSchema(sd.cbSchema.currentText())
+            uri.setTable(tname)
+            uri.setGeometryColumn(gname)
+            uri.setKeyColumn(pkname)
+            uristr = uri.uri()
         else:
-    
-            # File based local repository
-            indx = sd.cbFiletype.currentIndex()
-            fpth = sd.fwDirectory.filePath()
-            if fpth != "" and indx >= 0:
-    
-                contype = 'ogr'
-    
-                ftyp = sd.cbFiletype.currentText()
-                fext = sd.cbFiletype.itemData(indx)
-    
-                # create uri, filename/tablename
-                if fext == '':  # tab or shape
-                    uristr = os.path.join(fpth, val['name'] + '.tab' if ftyp == 'MapInfo TAB' else '.shp')
-                else:  # spatialite or geopackage
-                    uristr = '{}|{}'.format(fpth + '.sqlite' if ftyp == 'SpatiaLite' else '.gpkg', val['name'])
-            else:
-                messC('Directory path, file path or filetype not set')
+            messC(tr('Database connection is not set'))
 
         return uristr, contype
  
@@ -899,6 +846,7 @@ class DMPManager:
             spc = self.parm["Commands"]
             spv = self.parm["Values"]
             spn = self.parm["Names"]
+            spd = self.parm["Data"]
 
             # Create map groups and log layer if they doesn't exist
             root = QgsProject.instance().layerTreeRoot()
@@ -923,12 +871,9 @@ class DMPManager:
                     # Create header information for requests
                     headers = copy.deepcopy(spa['Headers'])
                     headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
-
                     extent = mapperExtent(spv["EPSG code"]).asWkt() if sd.chbMapExtent.isChecked() else spv["Max extent"]
                     url = spa['Address'] + spc['objekter'] + spc['objektfilter 1'].format(extent, val['id'])
 
-                    #status, result = handleRequest(url, False, headers, None, llog, '', 'dmptest')
-                    #status, result = handleRequest(url, False, {"accept": "application/vnd.api+json"}, None, llog, '', 'dmptest')
                     status, result = handleRequest(url, False, headers, None, llog, '')
 
                     # download OK
@@ -957,9 +902,57 @@ class DMPManager:
                             udict['pkname'] = ''
                             ml2 = copyLayer2Layer(ml, udict, sd.chbOverwrite.isChecked())
                             if ml2: 
-                                rdict = self.createUriDictFile(os.path.join(self.plugin_dir,'dmp_reference.gpkg'), 'GeoPackage', ml.name(), 'geom', '')
                                 addLayer2Tree(mprg, ml2, False, "DMPManager","DATA - " + ml2.name(), os.path.join(spath, val['title'] + '.qml'), title)
-                                ml3 = copyLayer2Layer(ml, rdict, True)
+                                udict['tname'] = '__reference__' + ml.name() 
+                                ml3 = copyLayer2Layer(ml, udict, True)
+
+                                if sd.cbDatabase.currentIndex() >=0:
+
+                                    setting = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
+                                    metadata = QgsProviderRegistry.instance().providerMetadata(setting[0])
+                                    conn = metadata.findConnection(setting[1])
+
+                                    if sd.cbSchema.currentIndex() >=0:
+                                        spart = '"{}".'.format(sd.cbSchema.currentText())
+                                    else:
+                                        spart = ''                                
+
+                                    wpart = self.genDictWhere(ml.name(), r'cur."{0}" {1} ref."{0}"', r'=', 'and', 'geom', 'not (', ')')
+
+
+                                    try:                                    
+                                        conn.execSql ('DROP VIEW {0}{1}{2}'.format(spart,'__inserted__',ml.name()));
+                                    except:
+                                        pass
+                                    try:                                    
+                                        conn.execSql ('DROP VIEW {0}{1}{2}'.format(spart,'__deleted__',ml.name()));
+                                    except:
+                                        pass
+                                    try:                                    
+                                        conn.execSql ('DROP VIEW {0}{1}{2}'.format(spart,'__modified_ref__',ml.name()));
+                                    except:
+                                        pass
+                                    try:                                    
+                                        conn.execSql ('DROP VIEW {0}{1}{2}'.format(spart,'__modified_cur__',ml.name()));
+                                    except:
+                                        pass
+                                         
+                                    txt = 'CREATE VIEW {0}{1}{2} AS select cur.* from {0}{2} cur left join {0}{3}{2} ref on cur."{4}" = ref."{4}" where ref."{4}" is NULL'.format(spart,'__inserted__',ml.name(),'__reference__',spd["PKName"])
+                                    logI(txt)
+                                    conn.execSql (txt);
+
+                                    txt = 'CREATE VIEW {0}{1}{2} AS select ref.* from {0}{3}{2} ref left join {0}{2} cur on cur."{4}" = ref."{4}" where cur."{4}" is NULL'.format(spart,'__deleted__',ml.name(),'__reference__',spd["PKName"])
+                                    logI(txt)
+                                    conn.execSql (txt);
+
+                                    txt = 'CREATE VIEW {0}{1}{2} AS select ref.* from {0}{3}{2} ref left join {0}{2} cur on cur."{4}" = ref."{4}" where {5}'.format(spart,'__modified_ref__',ml.name(),'__reference__',spd["PKName"],wpart)
+                                    logI(txt)
+                                    conn.execSql (txt);
+
+                                    txt = 'CREATE VIEW {0}{1}{2} AS select cur.* from {0}{2} cur left join {0}{3}{2} ref on cur."{4}" = ref."{4}" where {5}'.format(spart,'__modified_cur__',ml.name(),'__reference__',spd["PKName"],wpart)
+                                    logI(txt)
+                                    conn.execSql (txt);
+                                
                                 messI('Creation of layer {} ({}) succeeded'.format(title,ml.name())) 
                             else: 
                                 messC('Creation of layer {} ({}) failed. It might already exist'.format(title,ml.name())) 
@@ -971,62 +964,63 @@ class DMPManager:
             else:
                 messC('Error, no selection of download layer')
 
-    def rbDatabaseToggled(self, enabled):
-        """ tbd """
-
-        sd = self.dockwidget
-        sd.gbDatabase.setEnabled(enabled)
-        sd.gbDirectory.setEnabled(not enabled)
-
-    def loadCbDatabase(self, item):
+    def loadCbDatabase(self, dbTypes, dbItem, scItem):
         """Load cbDatabase combobox from main settings"""
 
         sd = self.dockwidget
         st = QSettings()
+        spd = self.parm["Data"]
 
         sd.cbDatabase.clear()
-
-        dbn = {'MSSQL': 'mssql', 'Oracle': 'oracle', 'PostgreSQL': 'postgres'}
-        for k, v in dbn.items():
-
-            dx = '/{}/connections/'.format(k)
-            st.beginGroup(dx)
-            conn = st.childGroups()
-            st.endGroup()
+        
+#        for k in QgsProviderRegistry.instance().providerList():
+        for k, v in dbTypes.items():
+        
+            metadata = QgsProviderRegistry.instance().providerMetadata(v)
+            conn = metadata.connections(False)
 
             for c in conn:
                 sd.cbDatabase.addItem('{} - {}'.format(k, c), [v, c])
+            sd.cbDatabase.setCurrentIndex(sd.cbDatabase.findText(dbItem))
+            logI('scItem={}'.format(scItem))
+            sd.cbSchema.setCurrentIndex(sd.cbSchema.findText(scItem))
 
-            sd.cbDatabase.setCurrentIndex(sd.cbDatabase.findText(item))
 
-    def loadCbFiletype(self, dft, item):
-        """Load cbDatabase combobox from main settings"""
+    def cbDatabaseCurrentIndexChanged (self, index):
 
         sd = self.dockwidget
-        sd.cbFiletype.clear()
+        sd.cbSchema.clear()
+        
+        if sd.cbDatabase.currentIndex() >=0:
+            data = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
+            conns = QgsProviderRegistry.instance().providerMetadata(data[0]).connections(False)
+            conn = conns[data[1]]
 
-        for key, val in dft.items():
-            sd.cbFiletype.addItem(key, val)
+            sd.pbSchema.setEnabled(conn.capabilities() & QgsAbstractDatabaseProviderConnection.Schemas)
+            if sd.pbSchema.isEnabled():
+                for s in conn.schemas(): sd.cbSchema.addItem(s)
+                
+    def pbSchemaClicked (self):
+    
+        sd = self.dockwidget
 
-        sd.cbFiletype.setCurrentIndex(sd.cbFiletype.findData(item))
+        if sd.cbDatabase.currentIndex() >=0:
+            data = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
+            conns = QgsProviderRegistry.instance().providerMetadata(data[0]).connections(False)
+            conn = conns[data[1]]
 
-    def cbFileTypeCurrentIndexChanged(self, index):
-        """TBD"""
+            name , pressed = QInputDialog.getText(None, "Create new schema", "Scemaname: ", QLineEdit.Normal, "")
+    
+            if pressed: 
+                try:
+                    conn.createSchema(name)    
+                    sd.cbSchema.addItem(name)
+                    sd.cbSchema.setCurrentIndex(sd.cbSchema.findText(name))
+                except:
+                    messW('Error, Schema {} not created'.format(name))                    
 
-        if index >= 0:
-
-            sd = self.dockwidget
-            val = sd.cbFiletype.itemData(index)
-            sd.fwDirectory.setFilePath('')
-
-            if val != '':  # New path has to be a filename
-                sd.fwDirectory.setDialogTitle(tr("Select file"))
-                sd.fwDirectory.setStorageMode(QgsFileWidget.SaveFile)
-                sd.fwDirectory.setFilter(val)
-
-            else:  # New path has to be a directory name
-                sd.fwDirectory.setDialogTitle(tr("Select directory"))
-                sd.fwDirectory.setStorageMode(QgsFileWidget.GetDirectory)
+        else:
+            messW('Database not set')
 
     def lookupTemakoder(dtk, temanr):
         for d in dtk:
