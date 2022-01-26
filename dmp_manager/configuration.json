@@ -50,17 +50,24 @@
         "Modified" : "Rettede elementer"
     },
     "Selections": {
-        "Inserted" : "select cur.* from {0} cur left join {1} ref on cur.{2} = ref.{3} where ref.{3} is NULL", 
-        "Deleted" : "select ref.* from {1} ref left join {0} cur on ref.{3} = cur.{2} where cur.{2} is NULL", 
-        "Modified" : "select ref.* from {1} ref join {0} cur on ref.{3} = cur.{2} where {4}",
-        "Modified_upd" : "select cur.* from {0} ref join {1} ref on ref.{2} = cur.{3} where {4}"
+        "Inserted" :"SELECT cur.* FROM {cur} cur LEFT JOIN {ref} ref on cur.\"{pk}\" = ref.\"{pk}\" WHERE ref.\"{pk}\" IS NULL", 
+        "Deleted" : "SELECT ref.* FROM {ref} ref LEFT JOIN {cur} cur on ref.\"{pk}\" = cur.\"{pk}\" WHERE cur.\"{pk}\" IS NULL", 
+		"Modified_cur" : "SELECT cur.* FROM {cur} cur LEFT JOIN {ref} ref on cur.\"{pk}\" = ref.\"{pk}\" WHERE ref.\"{pk}\" IS NOT NULL EXCEPT SELECT ref.* FROM {ref} ref LEFT JOIN {cur} cur on cur.\"{pk}\" = ref.\"{pk}\" WHERE cur.\"{pk}\" IS NOT NULL",       
+		"Modified_ref" : "SELECT ref.* FROM {ref} ref LEFT JOIN {cur} cur on cur.\"{pk}\" = ref.\"{pk}\" WHERE cur.\"{pk}\" IS NOT NULL EXCEPT SELECT cur.* FROM {cur} cur LEFT JOIN {ref} ref on cur.\"{pk}\" = ref.\"{pk}\" WHERE ref.\"{pk}\" IS NOT NULL"       
+    },
+    "Restores": {
+        "Inserted" : "DELETE FROM {cur} WHERE \"{pk}\" = {qt}{val}{qt}", 
+        "Deleted" :  "INSERT INTO {cur} SELECT * FROM {ref} WHERE \"{pk}\" = {qt}{val}{qt}", 
+		"Modified" : "DELETE FROM {cur} WHERE \"{pk}\" = {qt}{val}{qt}; INSERT INTO {cur} SELECT * FROM {ref} WHERE \"{pk}\" = {qt}{val}{qt}"
     },
     "Data": {
 		"Database_types" :{"MSSQL": "mssql", "Oracle": "oracle", "PostgreSQL": "postgres", "GeoPackage" : "ogr", "SpatiaLite": "spatialite"},
         "Database": "",
         "Schema": "",
 		"PKName": "objekt-id",
-		"PKQuote": "'"
+		"PKQuote": "'",
+		"GName": "geom",
+		"RefPrefix": "__reference__"
     }
     
 }

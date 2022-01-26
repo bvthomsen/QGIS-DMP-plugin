@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>433</width>
-    <height>824</height>
+    <width>325</width>
+    <height>461</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="twMain">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -121,7 +121,7 @@
        <attribute name="title">
         <string>Checks</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_12">
+       <layout class="QVBoxLayout" name="verticalLayout_13">
         <item>
          <widget class="QGroupBox" name="groupBox_3">
           <property name="title">
@@ -139,23 +139,27 @@
           <property name="title">
            <string>Compare edit and reference layer</string>
           </property>
-          <layout class="QGridLayout" name="gridLayout">
-           <item row="0" column="0" colspan="2">
+          <layout class="QVBoxLayout" name="verticalLayout_12">
+           <item>
             <widget class="QTreeView" name="tvCompare"/>
            </item>
-           <item row="1" column="0">
-            <widget class="QPushButton" name="pbCompare">
-             <property name="text">
-              <string>Compare</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QPushButton" name="pbClearCompare">
-             <property name="text">
-              <string>Clear </string>
-             </property>
-            </widget>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QPushButton" name="pbClearCompare">
+               <property name="text">
+                <string>Clear</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbCompare">
+               <property name="text">
+                <string>Compare</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -176,45 +180,30 @@
           </layout>
          </widget>
         </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="tab_4">
-       <attribute name="title">
-        <string>Upload</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_11">
         <item>
-         <widget class="QGroupBox" name="groupBox_9">
+         <widget class="QGroupBox" name="groupBox_10">
           <property name="title">
-           <string>Choose layer</string>
+           <string>General actions</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
+          <layout class="QVBoxLayout" name="verticalLayout_9">
            <item>
-            <widget class="QComboBox" name="cbUpload"/>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGroupBox" name="groupBox_4">
-          <property name="title">
-           <string>Upload local edit layer to DMP</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_2">
-           <item row="0" column="0" colspan="2">
-            <widget class="QTreeView" name="tvUpload"/>
-           </item>
-           <item row="1" column="0">
             <widget class="QPushButton" name="pbUpload">
              <property name="text">
-              <string>Upload</string>
+              <string>Upload all modifications to DMP</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QPushButton" name="pbClearUpload">
+           <item>
+            <widget class="QPushButton" name="pbUndo">
              <property name="text">
-              <string>Clear</string>
+              <string>Undo all local modifications</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pbDelete">
+             <property name="text">
+              <string>Delete layer and reference</string>
              </property>
             </widget>
            </item>

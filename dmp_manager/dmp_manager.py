@@ -256,7 +256,6 @@ class DMPManager:
             sd.tvCompare.doubleClicked.connect(self.tvCompareDoubleClicked)
             sd.pbCheck.clicked.connect(self.pbCheckClicked)
             sd.pbUpload.clicked.connect(self.pbUploadClicked)
-            sd.pbClearUpload.clicked.connect(self.pbClearUploadClicked)
 
             sd.tvCompare.setContextMenuPolicy(Qt.CustomContextMenu)
             sd.tvCompare.customContextMenuRequested.connect(self.tvCompareOpenMenu)
@@ -309,61 +308,52 @@ class DMPManager:
             while index.parent().isValid():
                 level += 1
                 index = index.parent()
-    
-            menu = QMenu()
-            if level == 0:
 
-                rollbacklistAction = QAction(tr('Rollback all posts in "{}"').format(crawler.text()), sd.tvCompare)
-                rollbacklistAction.triggered.connect(lambda:self.rightClickAction('rollbacklist', crawler))
-                menu.addAction(rollbacklistAction)
+            if level == 1:
+                menu = QMenu()
 
-                commitlistAction = QAction(tr('Commit all posts in "{}"').format(crawler.text()), sd.tvCompare)
-                commitlistAction.triggered.connect(lambda:self.rightClickAction('commitlist', crawler))
-                menu.addAction(commitlistAction)
-
-            elif level == 1:
-
-                rollbackAction = QAction(tr('Rollback post: "{}"').format(crawler.text()), sd.tvCompare)
+                rollbackAction = QAction(tr('Cancel modification: "{}"').format(crawler.text()), sd.tvCompare)
                 rollbackAction.triggered.connect(lambda:self.rightClickAction('rollback', crawler))
                 menu.addAction(rollbackAction)
 
-                commitAction = QAction(tr('Commit post: "{}"').format(crawler.text()), sd.tvCompare)
+                commitAction = QAction(tr('Upload modification to DMP: "{}"').format(crawler.text()), sd.tvCompare)
                 commitAction.triggered.connect(lambda:self.rightClickAction('commit', crawler))
                 menu.addAction(commitAction)
 
-                zoomAction = QAction(tr('Zoom/Pan to post: "{}"').format(crawler.text()), sd.tvCompare)
+                zoomAction = QAction(tr('Show DMP error: "{}"').format(crawler.text()), sd.tvCompare)
+                zoomAction.triggered.connect(lambda:self.rightClickAction('show', crawler))
+                menu.addAction(zoomAction)
+
+                zoomAction = QAction(tr('Zoom/pan to feature: "{}"').format(crawler.text()), sd.tvCompare)
                 zoomAction.triggered.connect(lambda:self.rightClickAction('zoom', crawler))
                 menu.addAction(zoomAction)
         
-            menu.exec_(sd.tvCompare.viewport().mapToGlobal(position))
+                menu.exec_(sd.tvCompare.viewport().mapToGlobal(position))
     
     def rightClickAction (self, operation, crawler):
 
         sd = self.dockwidget
         spd = self.parm["Data"]
         spn = self.parm["Names"]
+
+        lid = str(crawler.parent().data(Qt.UserRole+2))
+        fid = str(crawler.data(Qt.UserRole+2))
+        pkid = crawler.text()
+
+        logI(' Operation: {} \n Layer Id: {} \n Feature Id: {}\n Primary Id: {}'.format(operation, lid, fid, pkid))
  
         if operation == 'zoom':
             self.tvCompareDoubleClicked(crawler)
 
-        elif operation == 'rollbacklist':
-            messI('{}.. Layer id: {}'.format(operation, str(crawler.data(Qt.UserRole+2))))
-
-
-        elif operation == 'commitlist':
-            messI('{}.. Layer id: {}'.format(operation, str(crawler.data(Qt.UserRole+2))))
-
+        elif operation == 'show':
+            pass   
 
         elif operation == 'rollback':
-            messI('{}.. Layer id: {}, feature id: {}'.format(operation, str(crawler.parent().data(Qt.UserRole+2)), str(crawler.data(Qt.UserRole+2))))
-
-            layerSrc = QgsProject.instance().layerTreeRoot().findLayer(str(crawler.parent().data(Qt.UserRole+2)))
-            layerDest = sd.cbLayerCheck.itemData(sd.cbLayerCheck.currentIndex())[0].layer()
-
-            self.restoreOriginalFeature(layerSrc, str(crawler.data(Qt.UserRole+2)), layerDest, spd["PKName"], spd["PKQuote"])
+            pass
+            #elf.restoreOriginalFeature(layerSrc, str(crawler.data(Qt.UserRole+2)), layerDest, spd["PKName"], spd["PKQuote"])
             
         elif operation == 'commit':
-            messI('{}.. Layer id: {}, feature id: {}'.format(operation, str(crawler.parent().data(Qt.UserRole+2)), str(crawler.data(Qt.UserRole+2))))
+            pass
             
     def rollBackElement (self, cur, ref, idname, idvalueoperation, crawler, crawler2):
         pass    
@@ -406,10 +396,6 @@ class DMPManager:
     
         messW ('Function "Upload" is disabled')
 
-    def pbClearUploadClicked(self):
-    
-        messW ('Function "Clear upload" is disabled')
-
     def pbCheckClicked(self):
 
         sd = self.dockwidget 
@@ -433,7 +419,8 @@ class DMPManager:
         sd = self.dockwidget
         spn = self.parm["Names"]        
         sps = self.parm["Selections"]
-        pkid = self.parm["Data"]["PKName"]
+        spd = self.parm["Data"]
+
 
         # Clear current model
         self.pbClearCompareClicked()
@@ -444,90 +431,95 @@ class DMPManager:
         if indx >=0:
 
             # Generate string for Current layer...         
-            data = sd.cbLayerCheck.itemData(indx)
-            mlayer = data[0]
+            lcData = sd.cbLayerCheck.itemData(indx)
+            mlayer = lcData[0]
             layer = mlayer.layer()       
-            cur = "{pt}:{sc}:cur:UTF-8".format(pt=layer.providerType(),sc=layer.source())
-            ldel = None
-            lins = None
-            lmod = None
-            
+            tname = lcData[1]
 
-            # Generate string for Reference layer ...
-            ref = 'ogr:{gf}|layername={nm}:ref:UTF-8'.format(gf=os.path.join(self.plugin_dir,'dmp_reference.gpkg'),nm=data[1].replace('DATA - ',''))
+            dbData = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
+            logI (str(dbData))
+            conns = QgsProviderRegistry.instance().providerMetadata(dbData[0]).connections(False)
+            dbCon = conns[dbData[1]]
 
-            # Generate Inserted virtual layer ...
-            ivl = '?layer={cl}&layer={rl}&query=select cur.* from cur left join ref on cur."{pkid}" = ref."{pkid}" where ref."{pkid}" is NULL'.format(cl=cur, rl=ref, pkid=pkid)
-            lvins = QgsVectorLayer(ivl, sps["Inserted"], "virtual" )
-            if lvins.featureCount() > 0:
-                dins = self.createUriDictFile(os.path.join(self.plugin_dir,'dmp_reference.gpkg'), 'GeoPackage', 'inserted', 'geom', '')
-                lins = copyLayer2Layer(lvins, dins, True)
+            if sd.cbSchema.currentIndex() >=0:
+                tblRef = '"{}"."{}{}"'.format(sd.cbSchema.currentText(),spd['RefPrefix'],lcData[1])
+                tblCur = '"{}"."{}"'.format(sd.cbSchema.currentText(),lcData[1])
+            else:
+                tblRef = '"{}{}"'.format(spd['RefPrefix'],lcData[1])
+                tblCur = '"{}"'.format(lcData[1])
+
+            svlo = QgsAbstractDatabaseProviderConnection.SqlVectorLayerOptions()
+            svlo.primaryKeyColumns = [spd["PKName"]]
+            svlo.geometryColumn = spd["GName"]
+
+            # Generate Inserted layer ...
+            svlo.sql = sps['Inserted'].format(ref=tblRef, cur=tblCur, pk=spd["PKName"])
+            logI(svlo.sql)
+            svlo.layerName= sps["Inserted"]
+            lins = dbCon.createSqlVectorLayer(svlo)
 
             # Generate Deleted virtual layer ...
-            dvl = '?layer={cl}&layer={rl}&query=select ref.* from ref left join cur on ref."{pkid}" = cur."{pkid}" where cur."{pkid}" is NULL'.format(cl=cur, rl=ref, pkid=pkid)
-            lvdel = QgsVectorLayer(dvl, sps["Deleted"], "virtual" )
-            if lvdel.featureCount() > 0:
-                ddel = self.createUriDictFile(os.path.join(self.plugin_dir,'dmp_reference.gpkg'), 'GeoPackage', 'deleted', 'geom', '')
-                ldel = copyLayer2Layer(lvdel, ddel, True)
+            svlo.sql = sps['Deleted'].format(ref=tblRef, cur=tblCur, pk=spd["PKName"])
+            logI(svlo.sql)
+            svlo.layerName= sps["Deleted"]
+            ldel = dbCon.createSqlVectorLayer(svlo)
 
             # Generate Modified virtual layer ...
-            whr = self.genDictWhere(data[1].replace('DATA - ',''))
-            mvl = '?layer={cl}&layer={rl}&query=select cur.* from cur left join ref on cur."{pkid}" = ref."{pkid}" where {wh}'.format(cl=cur, rl=ref, wh=whr, pkid=pkid)
-            lvmod = QgsVectorLayer(mvl, sps["Modified"], "virtual" )
-            if lvmod.featureCount() > 0:
-                dmod = self.createUriDictFile(os.path.join(self.plugin_dir,'dmp_reference.gpkg'), 'GeoPackage', 'modified', 'geom', '')
-                lmod = copyLayer2Layer(lvmod, dmod, True)
+            svlo.sql = sps['Modified_ref'].format(ref=tblRef, cur=tblCur, pk=spd["PKName"])
+            logI(svlo.sql)
+            svlo.layerName= sps["Deleted"]
+            lmod = dbCon.createSqlVectorLayer(svlo)
 
             # Show virtual layers i map window
-            if ldel or lmod or lins:
+            if ldel.isValid() or lmod.isValid() or lins.isValid():
 
                 mprg = createGroup(spn["Global root"], QgsProject.instance().layerTreeRoot())
                 mpeg = createGroup(spn["Edited root"], mprg, True)
-                spath = os.path.join(self.plugin_dir, 'templates')
 
                 rins = None
                 rdel = None
                 rmod = None
+                spath = os.path.join(self.plugin_dir, 'templates')
 
-                if lins: 
+                if lins.isValid(): 
 
                     ltins = addLayer2Tree(mpeg, lins, False, "DMPManager","INSERTED", os.path.join(spath, spn["Inserted"] + '.qml'), spn["Inserted"])
 
                     rins = QStandardItem(spn["Inserted"]) 
-                    rins.setData(str(ltins.layerId()), Qt.UserRole+2)
+                    rins.setData(ltins.layerId(), Qt.UserRole+2)
                     rins.setEditable(False)
  
                     for f in lins.getFeatures():
                     
-                        iins = QStandardItem(str(f.id())) 
+                        iins = QStandardItem(str(f[spd["PKName"]])) 
                         iins.setData(str(f.id()), Qt.UserRole+2)
                         iins.setEditable(False)
                         rins.appendRow(iins)
 
-                if ldel: 
+                if ldel.isValid(): 
 
                     ltdel = addLayer2Tree(mpeg, ldel, False, "DMPManager","DELETED", os.path.join(spath, spn["Deleted"] + '.qml'),  spn["Deleted"])
 
                     rdel = QStandardItem(spn["Deleted"]) 
-                    rdel.setData(str(ltdel.layerId()), Qt.UserRole+2)
+                    rdel.setData(ltdel.layerId(), Qt.UserRole+2)
                     rdel.setEditable(False)
  
                     for f in ldel.getFeatures():
-                        idel = QStandardItem(str(f.id())) 
+                        idel = QStandardItem(str(f[spd["PKName"]])) 
                         idel.setData(str(f.id()), Qt.UserRole+2)
                         idel.setEditable(False)
                         rdel.appendRow(idel)
 
-                if lmod: 
+                if lmod.isValid(): 
 
                     ltmod = addLayer2Tree(mpeg, lmod, False, "DMPManager","MODIFIED", os.path.join(spath, spn["Modified"] + '.qml'), spn["Modified"])
 
                     rmod = QStandardItem(spn["Modified"]) 
-                    rmod.setData(str(ltmod.layerId()), Qt.UserRole+2)
+                    rmod.setData(ltmod.layerId(), Qt.UserRole+2)
                     rmod.setEditable(False)
 
                     for f in lmod.getFeatures():
-                        imod = QStandardItem(str(f.id())) 
+                        imod = QStandardItem(str(f[spd["PKName"]])) 
                         imod.setData(str(f.id()), Qt.UserRole+2)
                         imod.setEditable(False)
                         rmod.appendRow(imod)
@@ -544,8 +536,11 @@ class DMPManager:
                 messI('No inserts, deletes og modifications in layer: {}'.format(layer.name()))
                 
     def tvCompareDoubleClicked(self, val):
-        messI('Layer id: {}, feature id: {}'.format(str(val.parent().data(Qt.UserRole+2)), str(val.data(Qt.UserRole+2))))
-        zoomToFeature(str(val.parent().data(Qt.UserRole+2)),int(str(val.data(Qt.UserRole+2)))) 
+        try:
+            fid = int(str(val.data(Qt.UserRole+2)))
+            zoomToFeature(str(val.parent().data(Qt.UserRole+2)),int(str(val.data(Qt.UserRole+2)))) 
+        except:
+            pass
                 
                 
     def restoreOriginalFeature(self, layerSrc, id, layerDest, val, cit=''):
@@ -591,10 +586,6 @@ class DMPManager:
     
         if indx == 1: # "Checks" tab
             self.loadcbLayerCheck()
-
-        if indx == 2: # "Upload" tab
-            self.loadcbUpload()
-
 
     def pbResetClicked(self):
         """Reread configuration json file and set the self.parm dict"""
@@ -719,15 +710,6 @@ class DMPManager:
 
         return True
 
-    def loadcbUpload(self):
-    
-        sd = self.dockwidget
-        sd.cbUpload.clear()
-        
-        for ltLayer in QgsProject.instance().layerTreeRoot().findLayers():
-            evalue = evalLayerVariable(ltLayer.layer(), 'DMPManager')
-            if evalue and evalue[:7]=="DATA - ":
-                sd.cbUpload.addItem(ltLayer.name(),[ltLayer.layer(),evalue])
 
     def loadcbLayerCheck(self):
     
@@ -736,8 +718,7 @@ class DMPManager:
         
         for ltLayer in QgsProject.instance().layerTreeRoot().findLayers():
             evalue = evalLayerVariable(ltLayer.layer(), 'DMPManager')
-            if evalue and evalue[:7]=="DATA - ":
-                sd.cbLayerCheck.addItem(ltLayer.name(),[ltLayer,evalue])
+            if evalue and evalue[:7]=="DATA - ": sd.cbLayerCheck.addItem(ltLayer.name(),[ltLayer,evalue.replace('DATA - ','')])
 
     def loadCbDownload(self):
         """Load cbDownload combobox from attributes dict"""
@@ -905,53 +886,6 @@ class DMPManager:
                                 addLayer2Tree(mprg, ml2, False, "DMPManager","DATA - " + ml2.name(), os.path.join(spath, val['title'] + '.qml'), title)
                                 udict['tname'] = '__reference__' + ml.name() 
                                 ml3 = copyLayer2Layer(ml, udict, True)
-
-                                if sd.cbDatabase.currentIndex() >=0:
-
-                                    setting = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
-                                    metadata = QgsProviderRegistry.instance().providerMetadata(setting[0])
-                                    conn = metadata.findConnection(setting[1])
-
-                                    if sd.cbSchema.currentIndex() >=0:
-                                        spart = '"{}".'.format(sd.cbSchema.currentText())
-                                    else:
-                                        spart = ''                                
-
-                                    wpart = self.genDictWhere(ml.name(), r'cur."{0}" {1} ref."{0}"', r'=', 'and', 'geom', 'not (', ')')
-
-
-                                    try:                                    
-                                        conn.execSql ('DROP VIEW {0}{1}{2}'.format(spart,'__inserted__',ml.name()));
-                                    except:
-                                        pass
-                                    try:                                    
-                                        conn.execSql ('DROP VIEW {0}{1}{2}'.format(spart,'__deleted__',ml.name()));
-                                    except:
-                                        pass
-                                    try:                                    
-                                        conn.execSql ('DROP VIEW {0}{1}{2}'.format(spart,'__modified_ref__',ml.name()));
-                                    except:
-                                        pass
-                                    try:                                    
-                                        conn.execSql ('DROP VIEW {0}{1}{2}'.format(spart,'__modified_cur__',ml.name()));
-                                    except:
-                                        pass
-                                         
-                                    txt = 'CREATE VIEW {0}{1}{2} AS select cur.* from {0}{2} cur left join {0}{3}{2} ref on cur."{4}" = ref."{4}" where ref."{4}" is NULL'.format(spart,'__inserted__',ml.name(),'__reference__',spd["PKName"])
-                                    logI(txt)
-                                    conn.execSql (txt);
-
-                                    txt = 'CREATE VIEW {0}{1}{2} AS select ref.* from {0}{3}{2} ref left join {0}{2} cur on cur."{4}" = ref."{4}" where cur."{4}" is NULL'.format(spart,'__deleted__',ml.name(),'__reference__',spd["PKName"])
-                                    logI(txt)
-                                    conn.execSql (txt);
-
-                                    txt = 'CREATE VIEW {0}{1}{2} AS select ref.* from {0}{3}{2} ref left join {0}{2} cur on cur."{4}" = ref."{4}" where {5}'.format(spart,'__modified_ref__',ml.name(),'__reference__',spd["PKName"],wpart)
-                                    logI(txt)
-                                    conn.execSql (txt);
-
-                                    txt = 'CREATE VIEW {0}{1}{2} AS select cur.* from {0}{2} cur left join {0}{3}{2} ref on cur."{4}" = ref."{4}" where {5}'.format(spart,'__modified_cur__',ml.name(),'__reference__',spd["PKName"],wpart)
-                                    logI(txt)
-                                    conn.execSql (txt);
                                 
                                 messI('Creation of layer {} ({}) succeeded'.format(title,ml.name())) 
                             else: 
