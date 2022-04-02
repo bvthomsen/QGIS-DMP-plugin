@@ -18,6 +18,7 @@
     },
     "Commands": {
         "temakoder"      : "/temakoder",
+        "temakoder"      : "/temakoder",
         "attributter"    : "/attributter",
         "temaattributter": "/temaattributter",
         "objekter"       : "/objekter",
@@ -53,18 +54,25 @@
         "Inserted" :"SELECT cur.* FROM {cur} cur LEFT JOIN {ref} ref on cur.\"{pk}\" = ref.\"{pk}\" WHERE ref.\"{pk}\" IS NULL", 
         "Deleted" : "SELECT ref.* FROM {ref} ref LEFT JOIN {cur} cur on ref.\"{pk}\" = cur.\"{pk}\" WHERE cur.\"{pk}\" IS NULL", 
 		"Modified_cur" : "SELECT cur.* FROM {cur} cur LEFT JOIN {ref} ref on cur.\"{pk}\" = ref.\"{pk}\" WHERE ref.\"{pk}\" IS NOT NULL EXCEPT SELECT ref.* FROM {ref} ref LEFT JOIN {cur} cur on cur.\"{pk}\" = ref.\"{pk}\" WHERE cur.\"{pk}\" IS NOT NULL",       
-		"Modified_ref" : "SELECT ref.* FROM {ref} ref LEFT JOIN {cur} cur on cur.\"{pk}\" = ref.\"{pk}\" WHERE cur.\"{pk}\" IS NOT NULL EXCEPT SELECT cur.* FROM {cur} cur LEFT JOIN {ref} ref on cur.\"{pk}\" = ref.\"{pk}\" WHERE ref.\"{pk}\" IS NOT NULL"       
+		"Modified_ref" : "SELECT ref.* FROM {ref} ref LEFT JOIN {cur} cur on cur.\"{pk}\" = ref.\"{pk}\" WHERE cur.\"{pk}\" IS NOT NULL EXCEPT SELECT cur.* FROM {cur} cur LEFT JOIN {ref} ref on cur.\"{pk}\" = ref.\"{pk}\" WHERE ref.\"{pk}\" IS NOT NULL"
     },
-    "Restores": {
+    "rollback": {
         "Inserted" : "DELETE FROM {cur} WHERE \"{pk}\" = {qt}{val}{qt}", 
         "Deleted" :  "INSERT INTO {cur} SELECT * FROM {ref} WHERE \"{pk}\" = {qt}{val}{qt}", 
 		"Modified" : "DELETE FROM {cur} WHERE \"{pk}\" = {qt}{val}{qt}; INSERT INTO {cur} SELECT * FROM {ref} WHERE \"{pk}\" = {qt}{val}{qt}"
     },
+    "commit": {
+        "Inserted" : "SELECT * FROM {cur} WHERE \"{pk}\" = {qt}{val}{qt}", 
+        "Deleted" :  "SELECT * FROM {ref} WHERE \"{pk}\" = {qt}{val}{qt}", 
+		"Modified" : "SELECT * FROM {cur} WHERE \"{pk}\" = {qt}{val}{qt}"
+    },
+
+
     "Data": {
 		"Database_types" :{"MSSQL": "mssql", "Oracle": "oracle", "PostgreSQL": "postgres", "GeoPackage" : "ogr", "SpatiaLite": "spatialite"},
         "Database": "",
         "Schema": "",
-		"PKName": "objekt-id",
+		"PKName": "version-id",
 		"PKQuote": "'",
 		"GName": "geom",
 		"RefPrefix": "__reference__"

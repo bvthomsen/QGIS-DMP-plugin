@@ -37,7 +37,8 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (QAction,
                              QMenu,
                              QInputDialog,
-                             QLineEdit)
+                             QLineEdit,
+                             QMessageBox)
 
 from PyQt5.Qt import (QStandardItemModel,
                       QStandardItem)
@@ -47,7 +48,8 @@ from qgis.core import (QgsProject,
                        QgsDataSourceUri,
                        QgsVectorLayer,
                        QgsFeatureRequest,
-                       QgsAbstractDatabaseProviderConnection)
+                       QgsAbstractDatabaseProviderConnection,
+                       QgsGeometry)
 
 from qgis.gui import QgsFileWidget
 from .resources import *
@@ -126,6 +128,8 @@ class DMPManager:
         self.parm = None
         self.attributes = None
         self.dmpPipe = None
+        self.dmpLog = None
+
 
     def add_action(self, icon_path, text, callback, enabled_flag=True, add_to_menu=True,
                    add_to_toolbar=True, status_tip=None, whats_this=None, parent=None):
@@ -253,7 +257,6 @@ class DMPManager:
             sd.twMain.currentChanged.connect(self.twMainCurrentChanged)
             sd.pbClearCompare.clicked.connect(self.pbClearCompareClicked)
             sd.pbCompare.clicked.connect(self.pbCompareClicked)
-            sd.tvCompare.doubleClicked.connect(self.tvCompareDoubleClicked)
             sd.pbCheck.clicked.connect(self.pbCheckClicked)
             sd.pbUpload.clicked.connect(self.pbUploadClicked)
 
@@ -320,43 +323,183 @@ class DMPManager:
                 commitAction.triggered.connect(lambda:self.rightClickAction('commit', crawler))
                 menu.addAction(commitAction)
 
-                zoomAction = QAction(tr('Show DMP error: "{}"').format(crawler.text()), sd.tvCompare)
-                zoomAction.triggered.connect(lambda:self.rightClickAction('show', crawler))
-                menu.addAction(zoomAction)
+                showAction = QAction(tr('Show DMP error: "{}"').format(crawler.text()), sd.tvCompare)
+                showAction.triggered.connect(lambda:self.rightClickAction('show', crawler))
+                menu.addAction(showAction)
 
                 zoomAction = QAction(tr('Zoom/pan to feature: "{}"').format(crawler.text()), sd.tvCompare)
                 zoomAction.triggered.connect(lambda:self.rightClickAction('zoom', crawler))
                 menu.addAction(zoomAction)
         
                 menu.exec_(sd.tvCompare.viewport().mapToGlobal(position))
+
+
+#        capabilities = conn.capabilities() 
+#        self.assertTrue(bool(capabilities & QgsAbstractDatabaseProviderConnection.Tables))
+#        self.assertFalse(bool(capabilities & QgsAbstractDatabaseProviderConnection.Schemas))
+#        self.assertTrue(bool(capabilities & QgsAbstractDatabaseProviderConnection.CreateVectorTable))
+#        self.assertTrue(bool(capabilities & QgsAbstractDatabaseProviderConnection.DropVectorTable))
+#        self.assertTrue(bool(capabilities & QgsAbstractDatabaseProviderConnection.RenameVectorTable))
+#        self.assertFalse(bool(capabilities & QgsAbstractDatabaseProviderConnection.RenameRasterTable))
+
     
     def rightClickAction (self, operation, crawler):
 
         sd = self.dockwidget
         spd = self.parm["Data"]
         spn = self.parm["Names"]
+        spr = self.parm["rollback"]
+        spc = self.parm["Commands"]
+        spa = self.parm["Access"]  
+        
+        if self.dmpLog is None:
+            ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
+            self.dmpLog = llog
 
-        lid = str(crawler.parent().data(Qt.UserRole+2))
+        ltype  = str(crawler.parent().data(Qt.UserRole+1))
         fid = str(crawler.data(Qt.UserRole+2))
         pkid = crawler.text()
+        lid = str(crawler.parent().data(Qt.UserRole+2))
+        tblRef = str(crawler.parent().data(Qt.UserRole+3))
+        tblCur = str(crawler.parent().data(Qt.UserRole+4))
+        pkName = str(crawler.parent().data(Qt.UserRole+5))
+        pkQuote = str(crawler.parent().data(Qt.UserRole+6))
 
-        logI(' Operation: {} \n Layer Id: {} \n Feature Id: {}\n Primary Id: {}'.format(operation, lid, fid, pkid))
+        setting = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
+        metadata = QgsProviderRegistry.instance().providerMetadata(setting[0])
+        connection = metadata.findConnection(setting[1])
  
         if operation == 'zoom':
-            self.tvCompareDoubleClicked(crawler)
+        
+            zoomToFeature(str(crawler.parent().data(Qt.UserRole+2)),int(str(crawler.data(Qt.UserRole+2)))) 
+
 
         elif operation == 'show':
-            pass   
-
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText(str(crawler.data(Qt.UserRole+1)))
+            msgBox.setWindowTitle('Message for {}'.format(pkid))
+            msgBox.setStandardButtons(QMessageBox.Close)
+            msgBox.exec()
+            
         elif operation == 'rollback':
-            pass
-            #elf.restoreOriginalFeature(layerSrc, str(crawler.data(Qt.UserRole+2)), layerDest, spd["PKName"], spd["PKQuote"])
-            
+
+            sql = spr[ltype]
+            connection.executeSql(sql.format(cur=tblCur, ref=tblRef, pk=pkName, qt=pkQuote, val=pkid)) 
+            crawler.setEnabled(False)
+
         elif operation == 'commit':
-            pass
+
+            messI ('ltype = {}, lid = {}, fid = {}, pkid = {}'.format(ltype,lid,fid,pkid))
+        
+            if ltype == 'Inserted':
+                pass
+            elif ltype == 'Deleted':
+                url = '{}{}/{}'.format(spa['Address'], spc['objekter'], pkid)
+                messI ('url = {}'.format(url))
+
+                headers = copy.deepcopy(spa['Headers'])
+                headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
+
+                status, result = handleRequest(url, 'delete', headers, None, self.dmpLog, 'dmptest')
+
+                if status == 200:
+                    messI('Delete of {} done'.format(pkid))
+                    crawler.setEnabled(False)
+                else:
+                    messC('Error {} for delete of {}'.format(status, pkid))
+ 
+            elif ltype == 'Modified':
+                pass
+             
+
+
+
+
+
+
+        
+            layer = QgsProject.instance().mapLayer(str(crawler.parent().data(Qt.UserRole+2)))
+            feat = layer.getFeature(int(str(crawler.data(Qt.UserRole+2))))
+            pkid = feat[spd["PKName"]]
+            om = feat.geometry()
+
+        
+#            # Find Feature baseret på layerid, fid, optype
+#            # Upload featrure type + optype-kommando
+#            #res, mess = self.uploadDataDMP(ltype, refLayerId, curLayerId, pkid) 
+#            
+#            #if res: # Feature + message
+#            
+#            # Gem result i træ
+#            
+#            # Check result, Hvis ok
+#            
+#            # Opdater ref med resultat , opdater evt cur + ref med resultat (inserted, modified)
+#            # Disable entry i træ
+#            #crawler.setEnabled(False)
+#            
+
+              
+#            sql = spc[ltype].format(cur=tblCur, ref=tblRef, pk=pkName, qt=pkQuote, val=pkid)
+#            
+#            names = tblCur.split('.')
+#            if len(names) >= 2:
+#                sname=names[0].replace('"','')
+#                tname=names[1].replace('"','')
+#            else:
+#                sname=''
+#                tname=names[0].replace('"','')
+#            fields = connection.fields(sname,tname)
+#            for f in fields:
+#                logI('name =' + str(f.name())) 
+#                logI('type =' + str(f.type())) 
+#                logI('typename =' + str(f.typeName())) 
+#
+#            logI ('sql='+sql)
+#            results = connection.executeSql(sql) 
+#            for i in range(len(results[0])):
+#                logI('name =' + str(fields.at(i).name())) 
+#                logI('type =' + str(fields.at(i).type())) 
+#                logI('typename =' + str(fields.at(i).typeName())) 
+#                logI ('r'+ str(i)+'val= '+str(results[0][i]))
+#                if fields.at(i).typeName()=='geometry':
+#                    logI ('************************************')
+##                    wkb = bytes.fromhex(results[0][i])
+##                    g = QgsGeometry.fromWkb(wkb)
+##                    logI ('jjj='+g.asWkt())
+#                    geom_wkb_bytes = results[0][i].tobytes() # converts  view to bytes
+#                    geom_update = QgsGeometry()
+#                    geom_update.fromWkb(geom_wkb_bytes) 
+#                    logI(str(geom_update))
+
             
-    def rollBackElement (self, cur, ref, idname, idvalueoperation, crawler, crawler2):
-        pass    
+
+            
+
+        self.iface.mapCanvas().refreshAllLayers() 
+       
+    def uploadDMP ():
+
+        if self.checkToken():
+
+            sa = self.attributes
+            sd = self.dockwidget
+            spa = self.parm["Access"]
+            spc = self.parm["Commands"]
+
+            # Create header information for requests
+            headers = copy.deepcopy(spa['Headers'])
+            headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
+            url = spa['Address'] + spc['temakoder']
+            status, result = handleRequest(url, 'get', {"accept": "application/vnd.api+json"}, None, None, '', 'dmptest')
+            if status == 200:
+                sa['temakoder'] = result['data']
+                self.loadCbDownload()
+                messI('Download of {} done'.format('temakoder'))
+            else:
+                messC('Error {} for download of {}'.format(status, 'temakoder'))
+    
     
     def genDictWhere(self, name, expr=r'cur."{0}" {1} ref."{0}"', opr = r'!=', conc='or', gname='geom', prefix='', postfix=''):
         """Generate where part from dictCompare chosen """
@@ -455,19 +598,19 @@ class DMPManager:
             # Generate Inserted layer ...
             svlo.sql = sps['Inserted'].format(ref=tblRef, cur=tblCur, pk=spd["PKName"])
             logI(svlo.sql)
-            svlo.layerName= sps["Inserted"]
+            svlo.layerName= spn["Inserted"]
             lins = dbCon.createSqlVectorLayer(svlo)
 
             # Generate Deleted virtual layer ...
             svlo.sql = sps['Deleted'].format(ref=tblRef, cur=tblCur, pk=spd["PKName"])
             logI(svlo.sql)
-            svlo.layerName= sps["Deleted"]
+            svlo.layerName= spn["Deleted"]
             ldel = dbCon.createSqlVectorLayer(svlo)
 
             # Generate Modified virtual layer ...
-            svlo.sql = sps['Modified_ref'].format(ref=tblRef, cur=tblCur, pk=spd["PKName"])
+            svlo.sql = sps['Modified_cur'].format(ref=tblRef, cur=tblCur, pk=spd["PKName"])
             logI(svlo.sql)
-            svlo.layerName= sps["Deleted"]
+            svlo.layerName= spn["Modified"]
             lmod = dbCon.createSqlVectorLayer(svlo)
 
             # Show virtual layers i map window
@@ -486,12 +629,18 @@ class DMPManager:
                     ltins = addLayer2Tree(mpeg, lins, False, "DMPManager","INSERTED", os.path.join(spath, spn["Inserted"] + '.qml'), spn["Inserted"])
 
                     rins = QStandardItem(spn["Inserted"]) 
+                    rins.setData('Inserted', Qt.UserRole+1)
                     rins.setData(ltins.layerId(), Qt.UserRole+2)
+                    rins.setData(tblRef, Qt.UserRole+3)
+                    rins.setData(tblCur, Qt.UserRole+4)
+                    rins.setData(spd["PKName"], Qt.UserRole+5)
+                    rins.setData(spd["PKQuote"], Qt.UserRole+6)
                     rins.setEditable(False)
  
                     for f in lins.getFeatures():
                     
                         iins = QStandardItem(str(f[spd["PKName"]])) 
+                        iins.setData('No message yet', Qt.UserRole+1)
                         iins.setData(str(f.id()), Qt.UserRole+2)
                         iins.setEditable(False)
                         rins.appendRow(iins)
@@ -501,11 +650,17 @@ class DMPManager:
                     ltdel = addLayer2Tree(mpeg, ldel, False, "DMPManager","DELETED", os.path.join(spath, spn["Deleted"] + '.qml'),  spn["Deleted"])
 
                     rdel = QStandardItem(spn["Deleted"]) 
+                    rdel.setData('Deleted', Qt.UserRole+1)
                     rdel.setData(ltdel.layerId(), Qt.UserRole+2)
+                    rdel.setData(tblRef, Qt.UserRole+3)
+                    rdel.setData(tblCur, Qt.UserRole+4)
+                    rdel.setData(spd["PKName"], Qt.UserRole+5)
+                    rdel.setData(spd["PKQuote"], Qt.UserRole+6)
                     rdel.setEditable(False)
  
                     for f in ldel.getFeatures():
                         idel = QStandardItem(str(f[spd["PKName"]])) 
+                        idel.setData('No message yet', Qt.UserRole+1)
                         idel.setData(str(f.id()), Qt.UserRole+2)
                         idel.setEditable(False)
                         rdel.appendRow(idel)
@@ -515,11 +670,17 @@ class DMPManager:
                     ltmod = addLayer2Tree(mpeg, lmod, False, "DMPManager","MODIFIED", os.path.join(spath, spn["Modified"] + '.qml'), spn["Modified"])
 
                     rmod = QStandardItem(spn["Modified"]) 
+                    rmod.setData('Modified', Qt.UserRole+1)
                     rmod.setData(ltmod.layerId(), Qt.UserRole+2)
+                    rmod.setData(tblRef, Qt.UserRole+3)
+                    rmod.setData(tblCur, Qt.UserRole+4)
+                    rmod.setData(spd["PKName"], Qt.UserRole+5)
+                    rmod.setData(spd["PKQuote"], Qt.UserRole+6)
                     rmod.setEditable(False)
 
                     for f in lmod.getFeatures():
                         imod = QStandardItem(str(f[spd["PKName"]])) 
+                        imod.setData('No message yet', Qt.UserRole+1)
                         imod.setData(str(f.id()), Qt.UserRole+2)
                         imod.setEditable(False)
                         rmod.appendRow(imod)
@@ -527,6 +688,7 @@ class DMPManager:
                 # Add general model to treeview            
                 tmc = QStandardItemModel()
                 tmcr = tmc.invisibleRootItem()
+
                 if rins: tmcr.appendRow(rins)
                 if rdel: tmcr.appendRow(rdel)
                 if rmod: tmcr.appendRow(rmod)
@@ -535,37 +697,25 @@ class DMPManager:
             else:
                 messI('No inserts, deletes og modifications in layer: {}'.format(layer.name()))
                 
-    def tvCompareDoubleClicked(self, val):
-        try:
-            fid = int(str(val.data(Qt.UserRole+2)))
-            zoomToFeature(str(val.parent().data(Qt.UserRole+2)),int(str(val.data(Qt.UserRole+2)))) 
-        except:
-            pass
-                
-                
-    def restoreOriginalFeature(self, layerSrc, id, layerDest, val, cit=''):
-        """Restore original feature using fid, mode and layerCompare chosen datalayer with its reference layer"""
+#    def restoreOriginalFeature(self, layerSrc, id, layerDest, val, cit=''):
+#        """Restore original feature using fid, mode and layerCompare chosen datalayer with its reference layer"""
+#
+#        logI('layerSrc = {}'.format(layerSrc.name()))
+#        logI('id = {}'.format(id))
+#        logI('layerDst = {}'.format(layerDst.name()))
+#        logI('val = {}'.format(val))
+#        logI('cit = {}'.format(cit))
+#        # Inserted: slet element fra layerdest
+#        # Deleted : copy element fra layersrc til layerdest
+#        # Modified: slet element fra layerdest + copy element fra layersrc til layerdst
+#        expression = '"{id}" = {cit}{val}{cit}'.format(id=id, val=val, cit=cit)
+#        request = QgsFeatureRequest().setFilterExpression(expression)
+#
+#        f = layerSrc.layer().getFeature(id)        
+#        with edit(layerDest.layer()):
+#            for g in layerDest.layer().getFeatures(request): layerDest.deleteFeature(g.id())            
+#            layerDest.layer().addFeature(f)
 
-        logI('layerSrc = {}'.format(layerSrc.name()))
-        logI('id = {}'.format(id))
-        logI('layerDst = {}'.format(layerDst.name()))
-        logI('val = {}'.format(val))
-        logI('cit = {}'.format(cit))
-        # Inserted: slet element fra layerdest
-        # Deleted : copy element fra layersrc til layerdest
-        # Modified: slet element fra layerdest + copy element fra layersrc til layerdst
-        expression = '"{id}" = {cit}{val}{cit}'.format(id=id, val=val, cit=cit)
-        request = QgsFeatureRequest().setFilterExpression(expression)
-
-        f = layerSrc.layer().getFeature(id)        
-        with edit(layerDest.layer()):
-            for g in layerDest.layer().getFeatures(request): layerDest.deleteFeature(g.id())            
-            layerDest.layer().addFeature(f)
-
-    def setMapViewUsingFeature(self, layer, fid):
-        """Set view for mapper window """
-
-        pass    
 
     def pbClearCompareClicked(self):
         """Clear compare reseults"""
@@ -668,7 +818,7 @@ class DMPManager:
             url = spa['Address'] + spc['temakoder']
             # logI(url)
             #status, result = handleRequest(url, False, headers, None, None, '', 'dmptest')
-            status, result = handleRequest(url, False, {"accept": "application/vnd.api+json"}, None, None, '', 'dmptest')
+            status, result = handleRequest(url, 'get', {"accept": "application/vnd.api+json"}, None, None, '', 'dmptest')
             if status == 200:
                 sa['temakoder'] = result['data']
                 self.loadCbDownload()
@@ -679,7 +829,7 @@ class DMPManager:
             url = spa['Address'] + spc['attributter']
             # logI(url)
             #status, result = handleRequest(url, False, headers, None, None, '', 'dmptest')
-            status, result = handleRequest(url, False, {"accept": "application/vnd.api+json"}, None, None, '', 'dmptest')
+            status, result = handleRequest(url, 'get', {"accept": "application/vnd.api+json"}, None, None, '', 'dmptest')
             if status == 200:
                 sa['attributter'] = result['data']
                 messI('Download of {} done'.format('attributter'))
@@ -689,7 +839,7 @@ class DMPManager:
             url = spa['Address'] + spc['temaattributter'] + spc['temaattributfilter 1']
             # logI(url)
             #status, result = handleRequest(url, False, headers, None, None, '', 'dmptest')
-            status, result = handleRequest(url, False, {"accept": "application/vnd.api+json"}, None, None, '', 'dmptest')
+            status, result = handleRequest(url, 'get', {"accept": "application/vnd.api+json"}, None, None, '', 'dmptest')
             if status == 200:
                 sa['temaattributter'] = result['data']
                 messI('Download of {} done'.format('temaattributter'))
@@ -814,6 +964,21 @@ class DMPManager:
 
         return uristr, contype
  
+    def createDmpGroup(self):
+
+        spn = self.parm["Names"]
+
+        # Create map groups and log layer if they doesn't exist
+        spn = self.parm["Names"]
+        root = QgsProject.instance().layerTreeRoot()
+        mprg = createGroup(spn["Global root"], root)
+        mpag = createGroup(spn["Administration root"], mprg)
+        spath = os.path.join(self.plugin_dir, 'templates')
+
+        if self.dmpLog is None:
+            ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
+            self.dmpLog = llog
+
 
     def pbDownloadClicked(self):
         """Fetch feature objects from DMP"""
@@ -830,12 +995,7 @@ class DMPManager:
             spd = self.parm["Data"]
 
             # Create map groups and log layer if they doesn't exist
-            root = QgsProject.instance().layerTreeRoot()
-            mprg = createGroup(spn["Global root"], root)
-            mpag = createGroup(spn["Administration root"], mprg)
-            spath = os.path.join(self.plugin_dir, 'templates')
-
-            ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
+            self.createDmpGroup()
 
             # theme number from combobox
             indx = sd.cbDownload.currentIndex()
@@ -855,7 +1015,7 @@ class DMPManager:
                     extent = mapperExtent(spv["EPSG code"]).asWkt() if sd.chbMapExtent.isChecked() else spv["Max extent"]
                     url = spa['Address'] + spc['objekter'] + spc['objektfilter 1'].format(extent, val['id'])
 
-                    status, result = handleRequest(url, False, headers, None, llog, '')
+                    status, result = handleRequest(url, 'get', headers, None, llog, '')
 
                     # download OK
                     if status == 200:

@@ -9,6 +9,7 @@ from PyQt5.QtCore import (QCoreApplication,
                           QVariant,
                           QUrl)
                           
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtGui import QPolygonF
 from PyQt5.QtNetwork import QNetworkRequest 
 
@@ -253,28 +254,37 @@ def write_config(filename, config):
     file.close()
 
 
-def createRequestLog(ename, evalue, lname, root=None, top=True, style=None):
+def createRequestLog(ename, evalue, lname, root=None, top=True, style=None, dbConn=None, schName=None):
     """TBD"""
 
     ltl, ml = findLayerVariableValue(ename, evalue)
 
     if ml is None:
+        fields = [QgsField("operation", QVariant.String),
+                  QgsField("url", QVariant.String),
+                  QgsField("package", QVariant.String),
+                  QgsField("status_code", QVariant.String),
+                  QgsField("dict", QVariant.String),
+                  QgsField("timestamp", QVariant.String),
+                  QgsField("module", QVariant.String)]
 
-        ml = QgsVectorLayer("None", lname, "memory")
-        ml.dataProvider().addAttributes([QgsField("operation", QVariant.String),
-                                         QgsField("url", QVariant.String),
-                                         QgsField("package", QVariant.String),
-                                         QgsField("status_code", QVariant.String),
-                                         QgsField("dict", QVariant.String),
-                                         QgsField("timestamp", QVariant.String),
-                                         QgsField("module", QVariant.String)])
-        ml.updateFields()
-        ltl = addLayer2Tree(root, ml, top, ename, evalue, style)
+        if dbConn is None:
+            ml = QgsVectorLayer("None", lname, "memory")
+            ml.dataProvider().addAttributes(fields)
+            ml.updateFields()
+        else:
+            if not dbConn.tableExists(schName, lname): dbConn.createVectorTable(schName, lname, fields, 100)
+            options = QgsAbstractDatabaseProviderConnection.SqlVectorLayerOptions()
+            options.sql = 'SELECT * from FROM "{}"."{}"'.format(schName, lname)
+            options.primaryKeyColumns = []
+            options.geometryColumn = ''
+            ml = conn.createSqlVectorLayer(options)             
+    ltl = addLayer2Tree(root, ml, top, ename, evalue, style)
 
     return ltl, ml
 
 
-def handleRequest(urlstr, isPost=False, headers=None, package=None, loglayer=None, module='', authconf = ''):
+def handleRequest_new(urlstr, isPost=False, headers=None, package=None, loglayer=None, module='', authconf = ''):
     """TBD"""
 
     nam = QgsNetworkAccessManager()
@@ -304,19 +314,52 @@ def handleRequest(urlstr, isPost=False, headers=None, package=None, loglayer=Non
 
     return scode, dictR
 
-def handleRequest_old(url, isPost=False, headers=None, package=None, loglayer=None, module=''):
+def handleRequest_old2(urlstr, isPost=False, headers=None, package=None, loglayer=None, module='', authconf = ''):
     """TBD"""
 
-    if isPost:
-        if headers:
-            r = requests.post(url, json=package, headers=headers)\
-                if package else requests.post(url, headers=headers)
-        else:
-            r = requests.post(url, json=package)\
-                if package else requests.post(url)
-    else:
-        r = requests.get(url, headers=headers)\
-            if headers else requests.get(url)
+    nam = QgsNetworkAccessManager()
+    url = QUrl(urlstr)
+    req = QNetworkRequest(url)
+
+    if headers:
+        for key, value in headers.items():
+            req.setRawHeader(bytes(key, "utf-8"), bytes(value, "utf-8"))
+ 
+    resp = nam.blockingPost(req, bytes(json.dumps(package) if package else None, "utf-8"), authconf) if isPost else nam.blockingGet(req, authconf)
+    scode = resp.attribute(QNetworkRequest.HttpStatusCodeAttribute)
+    dictR = loads(str(resp.content(), "utf-8" )) if scode == 200 else None
+
+    if loglayer:
+
+        stime = QDateTime.currentDateTime().toString(Qt.ISODate)
+        feat = QgsFeature(loglayer.fields())
+        feat['operation'] = 'post' if isPost else 'get'
+        feat['url'] = urlstr
+        feat['package'] = dumps(package, indent=2) if package else ''
+        feat['status_code'] = str(scode)
+        feat['dict'] = dumps(dictR, indent=2)[:100000] if dictR else ''
+        feat['timestamp'] = stime
+        feat['module'] = module
+        loglayer.dataProvider().addFeatures([feat])
+
+    return scode, dictR
+
+def handleRequest    (url, method='get', headers=None, package=None, loglayer=None, module=''):
+    """TBD"""
+    
+    method = method.lower()
+    
+    if method == 'post':
+        r = requests.post(url, json=package, headers=headers)
+ 
+    elif method == 'get':
+        r = requests.get(url, headers=headers)
+
+    elif method == 'patch':
+        r = requests.patch(url, json=package, headers=headers)
+
+    elif method == 'delete':
+        r = requests.delete(url, headers=headers)
 
     scode = r.status_code
     dictR = r.json() if r.status_code == 200 else None
@@ -326,7 +369,55 @@ def handleRequest_old(url, isPost=False, headers=None, package=None, loglayer=No
         stime = QDateTime.currentDateTime().toString(Qt.ISODate)
 
         feat = QgsFeature(loglayer.fields())
-        feat['operation'] = 'post' if isPost else 'get'
+        feat['operation'] = method
+        feat['url'] = url
+        feat['package'] = dumps(package, indent=2) if package else ''
+        feat['status_code'] = str(scode)
+        feat['dict'] = dumps(dictR, indent=2)[:100000] if dictR else ''
+        feat['timestamp'] = stime
+        feat['module'] = module
+        loglayer.dataProvider().addFeatures([feat])
+
+    return scode, dictR
+
+def handleRequest2    (url, method='get', headers=None, package=None, loglayer=None, module=''):
+    """TBD"""
+    
+    method = method.lower()
+    
+    if method == 'post':
+        if headers:
+            r = requests.post(url, json=package, headers=headers)\
+                if package else requests.post(url, headers=headers)
+        else:
+            r = requests.post(url, json=package)\
+                if package else requests.post(url)
+
+    elif method == 'get':
+        r = requests.get(url, headers=headers)\
+            if headers else requests.get(url)
+
+    elif method == 'patch':
+        if headers:
+            r = requests.patch(url, json=package, headers=headers)\
+                if package else requests.patch(url, headers=headers)
+        else:
+            r = requests.patch(url, json=package)\
+                if package else requests.patch(url)
+
+    elif method == 'delete':
+        r = requests.delete(url, headers=headers)\
+            if headers else requests.delete(url)
+
+    scode = r.status_code
+    dictR = r.json() if r.status_code == 200 else None
+
+    if loglayer:
+
+        stime = QDateTime.currentDateTime().toString(Qt.ISODate)
+
+        feat = QgsFeature(loglayer.fields())
+        feat['operation'] = method
         feat['url'] = url
         feat['package'] = dumps(package, indent=2) if package else ''
         feat['status_code'] = str(scode)
