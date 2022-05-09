@@ -266,6 +266,7 @@ def createRequestLog(ename, evalue, lname, root=None, top=True, style=None, dbCo
                   QgsField("status_code", QVariant.String),
                   QgsField("dict", QVariant.String),
                   QgsField("timestamp", QVariant.String),
+                  QgsField("errortext", QVariant.String),
                   QgsField("module", QVariant.String)]
 
         if dbConn is None:
@@ -362,7 +363,10 @@ def handleRequest    (url, method='get', headers=None, package=None, loglayer=No
         r = requests.delete(url, headers=headers)
 
     scode = r.status_code
-    dictR = r.json() if r.status_code == 200 else None
+    try:
+        dictR = r.json() 
+    except:
+        dictR = {}
 
     if loglayer:
 
@@ -375,6 +379,7 @@ def handleRequest    (url, method='get', headers=None, package=None, loglayer=No
         feat['status_code'] = str(scode)
         feat['dict'] = dumps(dictR, indent=2)[:100000] if dictR else ''
         feat['timestamp'] = stime
+        feat['errortext'] = r.text
         feat['module'] = module
         loglayer.dataProvider().addFeatures([feat])
 
@@ -576,8 +581,12 @@ def createField(e):
         f.setType(QVariant.String)
         le, tf = createMemLookup(e["domain"], e["name"], e["title"])
 
+    elif e['data-type'] == "domain-multi":
+        f.setType(QVariant.String)
+        le, tf = createMemLookup(e["domain"], e["name"], e["title"])
+
     else:
-        e.setType(QVariant.String)
+        f.setType(QVariant.String)
 
     if e["default"]:
         f.setDefaultValueDefinition(e["default"])

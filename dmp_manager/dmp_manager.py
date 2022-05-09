@@ -49,7 +49,8 @@ from qgis.core import (QgsProject,
                        QgsVectorLayer,
                        QgsFeatureRequest,
                        QgsAbstractDatabaseProviderConnection,
-                       QgsGeometry)
+                       QgsGeometry,
+                       QgsWkbTypes)
 
 from qgis.gui import QgsFileWidget
 from .resources import *
@@ -79,6 +80,7 @@ from .helper import (tr,
                      get_random_string)
                      
 from .named_pipe import NamedPipe
+from json import load, dump, dumps, loads
 
 from .dmp_manager_dockwidget import DMPManagerDockWidget
 
@@ -342,6 +344,25 @@ class DMPManager:
 #        self.assertTrue(bool(capabilities & QgsAbstractDatabaseProviderConnection.RenameVectorTable))
 #        self.assertFalse(bool(capabilities & QgsAbstractDatabaseProviderConnection.RenameRasterTable))
 
+
+
+    def setDmpLog(self):
+    
+        sd = self.dockwidget
+        spn = self.parm["Names"]
+       
+        if self.dmpLog is None:
+            root = QgsProject.instance().layerTreeRoot()
+            mprg = createGroup(spn["Global root"], root)
+            mpag = createGroup(spn["Administration root"], mprg)
+            spath = os.path.join(self.plugin_dir, 'templates')
+            ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
+            self.dmpLog = llog
+        else:
+            llog = self.dmpLog
+
+        return llog
+        
     
     def rightClickAction (self, operation, crawler):
 
@@ -353,8 +374,14 @@ class DMPManager:
         spa = self.parm["Access"]  
         
         if self.dmpLog is None:
+            root = QgsProject.instance().layerTreeRoot()
+            mprg = createGroup(spn["Global root"], root)
+            mpag = createGroup(spn["Administration root"], mprg)
+            spath = os.path.join(self.plugin_dir, 'templates')
             ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
             self.dmpLog = llog
+        else:
+            llog = self.dmpLog
 
         ltype  = str(crawler.parent().data(Qt.UserRole+1))
         fid = str(crawler.data(Qt.UserRole+2))
@@ -364,6 +391,7 @@ class DMPManager:
         tblCur = str(crawler.parent().data(Qt.UserRole+4))
         pkName = str(crawler.parent().data(Qt.UserRole+5))
         pkQuote = str(crawler.parent().data(Qt.UserRole+6))
+        tCode = str(crawler.parent().data(Qt.UserRole+7))
 
         setting = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
         metadata = QgsProviderRegistry.instance().providerMetadata(setting[0])
@@ -390,27 +418,14 @@ class DMPManager:
 
         elif operation == 'commit':
 
-            messI ('ltype = {}, lid = {}, fid = {}, pkid = {}'.format(ltype,lid,fid,pkid))
-        
             if ltype == 'Inserted':
-                pass
+                self.insDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode)
+
             elif ltype == 'Deleted':
-                url = '{}{}/{}'.format(spa['Address'], spc['objekter'], pkid)
-                messI ('url = {}'.format(url))
-
-                headers = copy.deepcopy(spa['Headers'])
-                headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
-
-                status, result = handleRequest(url, 'delete', headers, None, self.dmpLog, 'dmptest')
-
-                if status == 200:
-                    messI('Delete of {} done'.format(pkid))
-                    crawler.setEnabled(False)
-                else:
-                    messC('Error {} for delete of {}'.format(status, pkid))
- 
+                self.delDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote)
+                
             elif ltype == 'Modified':
-                pass
+                self.updDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode)
              
 
 
@@ -419,10 +434,10 @@ class DMPManager:
 
 
         
-            layer = QgsProject.instance().mapLayer(str(crawler.parent().data(Qt.UserRole+2)))
-            feat = layer.getFeature(int(str(crawler.data(Qt.UserRole+2))))
-            pkid = feat[spd["PKName"]]
-            om = feat.geometry()
+#            layer = QgsProject.instance().mapLayer(str(crawler.parent().data(Qt.UserRole+2)))
+#            feat = layer.getFeature(int(str(crawler.data(Qt.UserRole+2))))
+#            pkid = feat[spd["PKName"]]
+#            om = feat.geometry()
 
         
 #            # Find Feature baseret på layerid, fid, optype
@@ -478,29 +493,203 @@ class DMPManager:
             
 
         self.iface.mapCanvas().refreshAllLayers() 
-       
-    def uploadDMP ():
+
+    def delDMP(self, pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote):
+
+        sd = self.dockwidget
+        spc = self.parm["Commands"]
+        spa = self.parm["Access"]  
+        spr = self.parm["rollback"]
+
 
         if self.checkToken():
-
-            sa = self.attributes
-            sd = self.dockwidget
-            spa = self.parm["Access"]
-            spc = self.parm["Commands"]
-
-            # Create header information for requests
+            url = '{}{}/{}'.format(spa['Address'], spc['objekter'], pkid)
+   
             headers = copy.deepcopy(spa['Headers'])
             headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
-            url = spa['Address'] + spc['temakoder']
-            status, result = handleRequest(url, 'get', {"accept": "application/vnd.api+json"}, None, None, '', 'dmptest')
-            if status == 200:
-                sa['temakoder'] = result['data']
-                self.loadCbDownload()
-                messI('Download of {} done'.format('temakoder'))
+    
+            status, result = handleRequest(url, 'delete', headers, None, self.dmpLog, 'dmptest')
+    
+            if status == 200 or status == 204:
+                crawler.setEnabled(False)
+                sql = spr["Inserted"]
+                connection.executeSql(sql.format(cur=tblRef, pk=pkName, qt=pkQuote, val=pkid)) 
+                messI('Status: {} - Delete of {}:{} done\n{}'.format(status, pkName, pkid, result))
             else:
-                messC('Error {} for download of {}'.format(status, 'temakoder'))
+                messC('Error {} - Delete of {}:{}\n{}'.format(status, pkName, pkid, result))
+
+    def insDMP(self, pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode):
+
+        messI('i insDMP')
+        sd = self.dockwidget
+        spc = self.parm["Commands"]
+        spa = self.parm["Access"]  
+        spr = self.parm["rollback"]
+        spt = self.parm["Templates"]
+        
+        saa = self.attributes["attributter"]
+        sat = self.attributes["temaattributter"]
+        satk = self.attributes["temakoder"]
+
+        if self.checkToken():
+            url = '{}{}'.format(spa['Address'], spc['objekter'])
+   
+            headers = copy.deepcopy(spa['Headers'])
+            headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
+
+            package = copy.deepcopy(spt['Objekter'])
+            del package["data"]["id"]
+            package["data"]["relationships"]["temakode"]["data"]["id"] = tCode
+            package["data"]["relationships"]["temakode"]["data"]["type"] = 'temakoder'
+            pa = package["data"]["attributes"] 
+            
+            # Paste theme specific entries into package
+            for ta in sat:
+                if ta["relationships"]["temakode"]["data"]["id"] == tCode: 
+                    pa["temaattributter"][ta["attributes"]["name"]] = None
+            
+            options = QgsAbstractDatabaseProviderConnection.SqlVectorLayerOptions()
+            options.sql = 'SELECT * FROM {cur} WHERE \"{pk}\" = {qt}{val}{qt}'.format(cur=tblCur, pk=pkName, qt=pkQuote, val=pkid)
+            options.primaryKeyColumns = [pkName]
+            options.geometryColumn = 'geom'
+            vl = connection.createSqlVectorLayer(options)
+
+#            for f in vl.getFeatures():
+#                # Insert column values into package
+#                for n in f.fields().names():
+#                    if f[n]:
+#                        if n in pa: pa[n] = f[n]
+#                        if n in pa["temaattributter"]: pa["temaattributter"][n] = f[n]
+
+            del pa["id"]
+
+            for f in vl.getFeatures():
+                fi = f.fields()
+                for i in range(fi.count()):
+                    logI(fi.field(i).name() + '~ ' + str(fi.field(i).type()))                
+                for ta in pa["temaattributter"].keys():
+                    if ta.find('-id') != -1:
+                        pa["temaattributter"][ta] = int(f[ta])
+                    else:
+                        txt = f[ta].toString(Qt.ISODate) if isinstance(f[ta], QDateTime) else str(f[ta]) 
+                        if txt == 'NULL': txt = None
+                        pa["temaattributter"][ta] = txt
+                            
+                            
+#                        id~ 2
+#2022-05-08T13:55:03     INFO    objekt-id~ 10
+#2022-05-08T13:55:03     INFO    version-id~ 10
+#2022-05-08T13:55:03     INFO    systid-fra~ 16
+#2022-05-08T13:55:03     INFO    systid-til~ 16
+#2022-05-08T13:55:03     INFO    oprettet~ 16
+#2022-05-08T13:55:03     INFO    oprindkode-id~ 10
+#2022-05-08T13:55:03     INFO    statuskode-id~ 10
+#2022-05-08T13:55:03     INFO    off-kode-id~ 10
+#2022-05-08T13:55:03     INFO    cvr-kode-id~ 10
+#2022-05-08T13:55:03     INFO    bruger-id~ 10
+#2022-05-08T13:55:03     INFO    link~ 10
+#2022-05-08T13:55:03     INFO    shape~ 10
+#2022-05-08T13:55:03     INFO    omr-navn~ 10
+#2022-05-08T13:55:03     INFO    omr-tkode-id~ 10
+#2022-05-08T13:55:03     INFO    gyldig-fra~ 16
+#2022-05-08T13:55:03     INFO    gyldig-til~ 16
+                    
+                pa["objekt-id"] = None
+                pa["version-id"] = None
+                pa["systid-fra"] = None
+                pa["systid-til"] = None
+                pa["oprettet"] = None
+                pa["bruger-id"] =  None
+                pa["link"] = None
+                pa["oprindkode-id"] = int(f["oprindkode-id"])
+                pa["statuskode-id"] = int(f["statuskode-id"])
+                pa["off-kode-id"] = int(f["off-kode-id"])
+                pa["cvr-kode-id"] = None
+                pa["shape"] = loads(f.geometry().asJson())
+
+                logI('package = \n' + dumps(package))
+                status, result = handleRequest(url, 'post', headers, package, self.dmpLog, 'dmptest')
+                   
+                if status >= 200 and status <= 299:
+                    crawler.setEnabled(False)
+                    sql = spr["Inserted"]
+                    #connection.executeSql(sql.format(cur=tblRef, pk=pkName, qt=pkQuote, val=pkid)) 
+                    messI('Status: {} - Insert of {}:{} done\n{}'.format(status, pkName, pkid, result))
+                else:
+                    messC('Error: {} - Insert of {}:{}\n{}'.format(status, pkName, pkid, result))
+
+                    
+    def cnvDBField(self, ta,fv):
     
-    
+        if ta.find('-id') != -1:
+            try:
+                return int(fv)
+            except:
+                pass 
+        txt = fv.toString(Qt.ISODate) if isinstance(fv, QDateTime) else str(fv) 
+        return None if txt == 'NULL' else txt
+
+
+    def updDMP(self, pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode):
+
+        messI('i updDMP')
+        sd = self.dockwidget
+        spc = self.parm["Commands"]
+        spa = self.parm["Access"]  
+        spr = self.parm["rollback"]
+        spt = self.parm["Templates"]
+        
+        saa = self.attributes["attributter"]
+        sat = self.attributes["temaattributter"]
+        satk = self.attributes["temakoder"]
+
+        if self.checkToken():
+            url = '{}{}'.format(spa['Address'], spc['objekter'])
+   
+            headers = copy.deepcopy(spa['Headers'])
+            headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
+
+            package = copy.deepcopy(spt['Objekter'])
+            package["data"]["relationships"]["temakode"]["data"]["id"] = tCode
+            package["data"]["relationships"]["temakode"]["data"]["type"] = 'temakoder'
+            pa = package["data"]["attributes"] 
+            
+            # Paste theme specific entries into package
+            for ta in sat:
+                if ta["relationships"]["temakode"]["data"]["id"] == tCode: 
+                    pa["temaattributter"][ta["attributes"]["name"]] = None
+            
+            options = QgsAbstractDatabaseProviderConnection.SqlVectorLayerOptions()
+            options.sql = 'SELECT * FROM {cur} WHERE \"{pk}\" = {qt}{val}{qt}'.format(cur=tblCur, pk=pkName, qt=pkQuote, val=pkid)
+            options.primaryKeyColumns = [pkName]
+            options.geometryColumn = 'geom'
+            vl = connection.createSqlVectorLayer(options)
+
+
+            del pa["id"]
+
+            for f in vl.getFeatures():
+
+                for ta in pa["temaattributter"].keys():
+                    pa["temaattributter"][ta] = self.cnvDBField (ta, f[ta])
+
+                for i in ["objekt-id", "version-id", "systid-fra", "systid-til", "oprettet", "bruger-id", "oprindkode-id", "link", "oprindkode-id", "statuskode-id", "off-kode-id", "cvr-kode-id", "statuskode-id", "off-kode-id"]:
+                    pa[i] = self.cnvDBField (i, f[i])
+                pa["shape"] = loads(f.geometry().asJson())
+                package["data"]["id"] = pa["version-id"]
+
+
+                logI('package = \n' + dumps(package))
+                status, result = handleRequest(url+"/"+pa["version-id"], 'patch', headers, package, self.dmpLog, 'dmptest')
+                   
+                if status >= 200 and status <= 299:
+                    crawler.setEnabled(False)
+                    sql = spr["Inserted"]
+                    #connection.executeSql(sql.format(cur=tblRef, pk=pkName, qt=pkQuote, val=pkid)) 
+                    messI('Status: {} - Update of {}:{} done\n{}'.format(status, pkName, pkid, result))
+                else:
+                    messC('Error: {} - Update of {}:{}\n{}'.format(status, pkName, pkid, result))
+
     def genDictWhere(self, name, expr=r'cur."{0}" {1} ref."{0}"', opr = r'!=', conc='or', gname='geom', prefix='', postfix=''):
         """Generate where part from dictCompare chosen """
 
@@ -578,6 +767,7 @@ class DMPManager:
             mlayer = lcData[0]
             layer = mlayer.layer()       
             tname = lcData[1]
+            tcode = lcData[2]
 
             dbData = sd.cbDatabase.itemData(sd.cbDatabase.currentIndex())
             logI (str(dbData))
@@ -635,6 +825,7 @@ class DMPManager:
                     rins.setData(tblCur, Qt.UserRole+4)
                     rins.setData(spd["PKName"], Qt.UserRole+5)
                     rins.setData(spd["PKQuote"], Qt.UserRole+6)
+                    rins.setData(tcode, Qt.UserRole+7)
                     rins.setEditable(False)
  
                     for f in lins.getFeatures():
@@ -656,6 +847,7 @@ class DMPManager:
                     rdel.setData(tblCur, Qt.UserRole+4)
                     rdel.setData(spd["PKName"], Qt.UserRole+5)
                     rdel.setData(spd["PKQuote"], Qt.UserRole+6)
+                    rdel.setData(tcode, Qt.UserRole+7)
                     rdel.setEditable(False)
  
                     for f in ldel.getFeatures():
@@ -676,6 +868,7 @@ class DMPManager:
                     rmod.setData(tblCur, Qt.UserRole+4)
                     rmod.setData(spd["PKName"], Qt.UserRole+5)
                     rmod.setData(spd["PKQuote"], Qt.UserRole+6)
+                    rmod.setData(tcode, Qt.UserRole+7)
                     rmod.setEditable(False)
 
                     for f in lmod.getFeatures():
@@ -807,6 +1000,9 @@ class DMPManager:
 
         if self.checkToken():
 
+            self.setDmpLog()
+
+
             sa = self.attributes
             sd = self.dockwidget
             spa = self.parm["Access"]
@@ -818,7 +1014,8 @@ class DMPManager:
             url = spa['Address'] + spc['temakoder']
             # logI(url)
             #status, result = handleRequest(url, False, headers, None, None, '', 'dmptest')
-            status, result = handleRequest(url, 'get', {"accept": "application/vnd.api+json"}, None, None, '', 'dmptest')
+            #status, result = handleRequest(url, 'get', {"accept": "application/vnd.api+json"}, None, self.dmpLog, 'dmptest')
+            status, result = handleRequest(url, 'get', headers, None, self.dmpLog, 'dmptest')
             if status == 200:
                 sa['temakoder'] = result['data']
                 self.loadCbDownload()
@@ -829,7 +1026,7 @@ class DMPManager:
             url = spa['Address'] + spc['attributter']
             # logI(url)
             #status, result = handleRequest(url, False, headers, None, None, '', 'dmptest')
-            status, result = handleRequest(url, 'get', {"accept": "application/vnd.api+json"}, None, None, '', 'dmptest')
+            status, result = handleRequest(url, 'get', headers, None, self.dmpLog, 'dmptest')
             if status == 200:
                 sa['attributter'] = result['data']
                 messI('Download of {} done'.format('attributter'))
@@ -839,7 +1036,8 @@ class DMPManager:
             url = spa['Address'] + spc['temaattributter'] + spc['temaattributfilter 1']
             # logI(url)
             #status, result = handleRequest(url, False, headers, None, None, '', 'dmptest')
-            status, result = handleRequest(url, 'get', {"accept": "application/vnd.api+json"}, None, None, '', 'dmptest')
+            #status, result = handleRequest(url, 'get', {"accept": "application/vnd.api+json"}, None, self.dmpLog, 'dmptest')
+            status, result = handleRequest(url, 'get', headers, None, self.dmpLog, 'dmptest')
             if status == 200:
                 sa['temaattributter'] = result['data']
                 messI('Download of {} done'.format('temaattributter'))
@@ -868,7 +1066,9 @@ class DMPManager:
         
         for ltLayer in QgsProject.instance().layerTreeRoot().findLayers():
             evalue = evalLayerVariable(ltLayer.layer(), 'DMPManager')
-            if evalue and evalue[:7]=="DATA - ": sd.cbLayerCheck.addItem(ltLayer.name(),[ltLayer,evalue.replace('DATA - ','')])
+            if evalue:
+                evalue = evalue.split("¤")
+                if evalue[0]=="DATA": sd.cbLayerCheck.addItem(ltLayer.name(),[ltLayer,evalue[1],evalue[2]])
 
     def loadCbDownload(self):
         """Load cbDownload combobox from attributes dict"""
@@ -964,22 +1164,6 @@ class DMPManager:
 
         return uristr, contype
  
-    def createDmpGroup(self):
-
-        spn = self.parm["Names"]
-
-        # Create map groups and log layer if they doesn't exist
-        spn = self.parm["Names"]
-        root = QgsProject.instance().layerTreeRoot()
-        mprg = createGroup(spn["Global root"], root)
-        mpag = createGroup(spn["Administration root"], mprg)
-        spath = os.path.join(self.plugin_dir, 'templates')
-
-        if self.dmpLog is None:
-            ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
-            self.dmpLog = llog
-
-
     def pbDownloadClicked(self):
         """Fetch feature objects from DMP"""
 
@@ -993,10 +1177,19 @@ class DMPManager:
             spv = self.parm["Values"]
             spn = self.parm["Names"]
             spd = self.parm["Data"]
+            spt = self.parm["Templates"]
 
-            # Create map groups and log layer if they doesn't exist
-            self.createDmpGroup()
-
+            root = QgsProject.instance().layerTreeRoot()
+            mprg = createGroup(spn["Global root"], root)
+            mpag = createGroup(spn["Administration root"], mprg)
+            spath = os.path.join(self.plugin_dir, 'templates')
+    
+            if self.dmpLog is None:
+                ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
+                self.dmpLog = llog
+            else:
+                llog = self.dmpLog
+            
             # theme number from combobox
             indx = sd.cbDownload.currentIndex()
 
@@ -1043,7 +1236,7 @@ class DMPManager:
                             udict['pkname'] = ''
                             ml2 = copyLayer2Layer(ml, udict, sd.chbOverwrite.isChecked())
                             if ml2: 
-                                addLayer2Tree(mprg, ml2, False, "DMPManager","DATA - " + ml2.name(), os.path.join(spath, val['title'] + '.qml'), title)
+                                addLayer2Tree(mprg, ml2, False, "DMPManager","DATA¤" + ml2.name() + "¤" + str(val['id']), os.path.join(spath, val['title'] + '.qml'), title)
                                 udict['tname'] = '__reference__' + ml.name() 
                                 ml3 = copyLayer2Layer(ml, udict, True)
                                 

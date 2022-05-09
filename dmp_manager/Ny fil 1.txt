@@ -1,0 +1,193 @@
+{
+  "id": "string",
+  "type": "string",
+  "attributes": {
+    "temaattributter": {
+      "additionalProp1": {},
+      "additionalProp2": {},
+      "additionalProp3": {}
+    },
+    "id": 0,
+    "objekt-id": "string",
+    "version-id": "string",
+    "systid-fra": "2022-05-03",
+    "systid-til": "2022-05-03",
+    "oprettet": "2022-05-03",
+    "oprindkode-id": "Unknown Type: unknown",
+    "statuskode-id": 0,
+    "off-kode-id": 0,
+    "cvr-kode-id": 0,
+    "bruger-id": "string",
+    "link": "string",
+    "shape": {}
+  },
+  "links": {
+    "self": "string",
+    "related": "string"
+  },
+  "relationships": {
+    "temakode": {
+      "links": {
+        "self": "string",
+        "related": "string"
+      },
+      "data": {
+        "id": "string",
+        "type": "string"
+      }
+    }
+  }
+}
+
+INSERT ......
+    
+{
+    "data":{
+        "attributes":{
+            "temaattributter":{
+                "omr-navn":"bvt test 4",
+                "omr-tkode-id":2,
+                "gyldig-fra":"2022-05-06T10:00:00.000Z",
+                "gyldig-til":"2022-05-29T10:00:00.000Z"
+            },
+            "objekt-id":null,
+            "version-id":null,
+            "systid-fra":null,
+            "systid-til":null,
+            "oprettet":null,
+            "bruger-id":null,
+            "link":null,
+            "shape":{
+                "type":"MultiPolygon",
+                "coordinates":[
+                    [
+                        [
+                            [544467.9715299828,6080887.355376163],
+                            [544004.2692864691,6080301.6262264615],
+                            [544480.1742206014,6079911.1401266605],
+                            [546835.2935100258,6077153.332046816],
+                            [545639.4298293855,6080704.315016881],
+                            [544467.9715299828,6080887.355376163]
+                        ]
+                    ]
+                ]
+            },
+            "oprindkode-id":null,
+            "statuskode-id":3,
+            "off-kode-id":1,
+            "cvr-kode-id":null
+        },
+        "relationships":{
+            "temakode":{
+                "data":{
+                    "type":"temakoder",
+                    "id":"2055"
+                }
+            }
+        },
+        "type":"objekter"
+    }
+}
+
+{
+    "data": {
+        "id": "", 
+        "type": "objekter", 
+        "attributes": {
+            "temaattributter": {
+                "omr-navn": "bvt test 7", 
+                "omr-tkode-id": "2", 
+                "gyldig-fra": "", 
+                "gyldig-til": ""
+            }, 
+            "id": 1636, 
+            "objekt-id": "f6a6f115-ded9-4c4d-b828-34e5dacccb23", 
+            "version-id": "c7acf819-835e-4958-8ca1-054c75b99809", 
+            "systid-fra": "", 
+            "systid-til": "", 
+            "oprettet": "", 
+            "oprindkode-id": "1", 
+            "statuskode-id": "1", 
+            "off-kode-id": "1", 
+            "cvr-kode-id": 0, 
+            "bruger-id": "", 
+            "link": "", 
+            "shape": {
+                "coordinates": [
+                    [
+                        [
+                            [524548.5589166225, 6078634.098540745], 
+                            [524938.8895603963, 6077714.932831213], 
+                            [525505.4985594227, 6078294.133141329], 
+                            [525442.5420039752, 6078873.333451444], 
+                            [524548.5589166225, 6078634.098540745]
+                        ]
+                    ]
+                ], 
+                "type": "MultiPolygon"
+            }
+        }, 
+        "relationships": {
+            "temakode": {"
+                data": {
+                    "id": "2055", 
+                    "type": "temakoder"
+                }
+            }
+        }
+    }
+}
+
+
+
+UPDATE ...
+
+{
+  "data":{
+    "id":"f989b0d2-3968-40f6-a7d3-03dd758e006a",
+    "attributes":{
+      "temaattributter":{
+        "omr-navn":"bvt test 4",
+        "omr-tkode-id":2,
+        "gyldig-fra":"2022-05-06T10:00:00.0000000+00:00",
+        "gyldig-til":"2022-05-29T10:00:00.0000000+00:00"
+      },
+      "objekt-id":"0a7413d5-1ae7-4eff-a2d4-7d96bd2c1928",
+      "version-id":"f989b0d2-3968-40f6-a7d3-03dd758e006a",
+      "systid-fra":"2022-05-06T17:06:00.444+00:00",
+      "systid-til":null,
+      "oprettet":"2022-05-06T17:06:00.444+00:00",
+      "bruger-id":"fb2da291-c692-4cab-ab1d-105266614d5a",
+      "link":null,
+      "shape":{
+        "type":"MultiPolygon",
+        "coordinates":[
+          [
+            [
+              [544467.9715299828,6080887.355376163],
+              [544004.2692864691,6080301.6262264615],
+              [544480.1742206014,6079911.1401266605],
+              [546835.2935100258,6077153.332046816],
+              [547834.4306279889,6079615.5280784685],
+              [545639.4298293855,6080704.315016881],
+              [544467.9715299828,6080887.355376163]
+            ]
+          ]
+        ]
+      },
+      "oprindkode-id":null,
+      "statuskode-id":3,
+      "off-kode-id":1,
+      "cvr-kode-id":29190658
+    },
+    "relationships":{
+      "temakode":{
+        "data":{
+          "type":"temakoder",
+          "id":"2055"
+        }
+      }
+    },
+    "type":"objekter"
+  }
+}

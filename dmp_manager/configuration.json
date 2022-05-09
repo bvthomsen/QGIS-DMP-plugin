@@ -2,7 +2,7 @@
     "Access": {
         "Logon"                : "https://arealeditering-api.demo.miljoeportal.dk/swagger/index.html",
         "Address"              : "https://arealeditering-api.demo.miljoeportal.dk",
-        "Headers"              : {"accept": "application/vnd.api+json", "Authorization": "Bearer {}"},
+        "Headers"              : {"content-type": "application/vnd.api+json", "accept": "application/vnd.api+json", "Authorization": "Bearer {}"},
 
         "progName"             : "D:/GitHub/DMPLogin_udv/bin/Debug/netcoreapp3.1/DMPLogin.exe",
 		"clientId"             : "qgisplugin-integration-daiedittest",
@@ -26,6 +26,38 @@
         "temaattributfilter 1" : "?include=temakode",
         "temaattributfilter 1 duer ikke" : "?filter=equals(temakode.id,'{}')&include=temakode"
     },
+    "Templates": {
+		"Objekter": {
+            "data":{
+                "id": null,
+                "type": "objekter",
+                "attributes": {
+                    "temaattributter": {},
+                    "id": null,
+                    "objekt-id": null,
+                    "version-id": null,
+                    "systid-fra": null,
+                    "systid-til": null,
+                    "oprettet": null,
+                    "oprindkode-id": null,
+                    "statuskode-id": null,
+                    "off-kode-id": null,
+                    "cvr-kode-id": null,
+                    "bruger-id": null,
+                    "link": null,
+                    "shape": {}
+                },
+                "relationships": {
+                    "temakode": {
+                        "data": {
+                            "id": null,
+                            "type": null
+                        }
+                    }
+                }
+            }
+		}
+	},
     "Values": {
         "Use extent": false,
         "Use CVR": true,
@@ -72,8 +104,8 @@
 		"Database_types" :{"MSSQL": "mssql", "Oracle": "oracle", "PostgreSQL": "postgres", "GeoPackage" : "ogr", "SpatiaLite": "spatialite"},
         "Database": "",
         "Schema": "",
-		"PKName": "version-id",
-		"PKQuote": "'",
+		"PKName": "id",
+		"PKQuote": "",
 		"GName": "geom",
 		"RefPrefix": "__reference__"
     }
