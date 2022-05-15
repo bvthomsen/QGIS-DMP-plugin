@@ -22,10 +22,15 @@ from qgis.core import (QgsMessageLog,
                        QgsCoordinateTransform,QgsGeometry,
                        QgsField, 
                        QgsExpressionContextUtils,
-                       QgsFeature,QgsPointXY,
+                       QgsFeature,
+                       QgsPointXY,
                        QgsVectorLayerExporter,
                        QgsNetworkAccessManager,
-                       QgsLayerTreeGroup)
+                       QgsFeatureRequest,
+                       QgsLayerTreeGroup,
+                       QgsAbstractDatabaseProviderConnection,
+                       QgsProviderRegistry,
+                       QgsDataSourceUri)
 
 trClassName = ''
 
@@ -379,7 +384,7 @@ def handleRequest    (url, method='get', headers=None, package=None, loglayer=No
         feat['status_code'] = str(scode)
         feat['dict'] = dumps(dictR, indent=2)[:100000] if dictR else ''
         feat['timestamp'] = stime
-        feat['errortext'] = r.text
+#        feat['errortext'] = r.text
         feat['module'] = module
         loglayer.dataProvider().addFeatures([feat])
 
@@ -612,6 +617,96 @@ def createMemLookup(domain, tfield, ttitle):
 
     return vl, ttitle
 
+def updateLayer(layer, dicto, pkid = None, pkquote = None, value = None):
+    """Converts an dictionary object to a layer feature and update the layer by inserting or updating"""
+
+    j = 0
+    d = dicto["data"]
+    f = QgsFeature(layer.fields())
+    e = d["attributes"]
+    
+    for k, v in e.items():
+        if k == "temaattributter":
+            for k2, v2 in v.items():
+                logI ('TemaAttributter: ' + k2 + '~ ' + str(v2))
+                f.setAttribute(k2, v2)
+        elif k == "shape":
+            f.setGeometry(cnvGJ2QgsGeometry(v))
+        else:
+            logI ('Attributter: ' + k + '~ ' + str(v))
+            f.setAttribute(k, v)
+    if pkid:
+        pkids = layer.primaryKeyAttributes() 
+        logI ('pkid = ' + str(pkid) + ', value = ' + str(value))
+        layer.startEditing()
+        expression = '"{0}"={2}{1}{2}'.format(pkid,value,pkquote)
+        logI ('expression: '+ expression)
+        for g in layer.getFeatures(QgsFeatureRequest().setFilterExpression(expression)): 
+            logI ('g.id = ' + str(g.id()))
+            for ff in f.fields().names(): 
+                if f.fields().indexFromName(ff) not in pkids:
+                    g.setAttribute(ff, f[ff])  
+                    logI('......' + ff + ' :: ' + str(f[ff]) + ' :: ' + str(g[ff]))
+            layer.updateFeature(g)
+        layer.commitChanges()
+    else:
+        logI ('insert uden pkid')
+        dp = layer.dataProvider()
+        dp.addFeatures([f])
+
+def updateLayers (layerc, layerr, dicto, pkid, pkquote, value):
+    """Converts an dictionary object to a layer feature and update the layers by inserting or updating"""
+
+    logI ('I updateLayers, layerc = {}, layerr = {}, pkid = {}, pkquote = {}, value = {}'.format(layerc.name(), layerr.name(), pkid, pkquote, value))
+
+
+    f = QgsFeature(layerc.fields())
+    e = dicto["data"]["attributes"]
+    
+    # Copy attributes from dict to feature
+    for k, v in e.items():
+        if k == "temaattributter":
+            for k2, v2 in v.items():
+                logI ('TemaAttributter: ' + k2 + '~ ' + str(v2))
+                f.setAttribute(k2, v2)
+        elif k == "shape":
+            f.setGeometry(cnvGJ2QgsGeometry(v))
+        else:
+            logI ('Attributter: ' + k + '~ ' + str(v))
+            f.setAttribute(k, v)
+
+    f.setAttribute(pkid,value)
+
+    # set filter to find update object
+    expression = '"{0}"={2}{1}{2}'.format(pkid,value,pkquote)
+    logI ('Expression = ' + expression)
+
+    # Update current layer
+    layerc.startEditing()
+    for g in layerc.getFeatures(QgsFeatureRequest().setFilterExpression(expression)): 
+        g.setGeometry(f.geometry())      
+        for ff in f.fields().names(): 
+            logI ('layerc ff = {}, f[ff] = {}'.format(ff, f[ff]))
+            g.setAttribute(ff, f[ff])  
+        gr = g
+        layerc.updateFeature(g)
+    layerc.commitChanges()
+
+    # Update reference layer
+    layerr.startEditing()
+    i = 0 
+    for g in layerr.getFeatures(QgsFeatureRequest().setFilterExpression(expression)):
+        i += 1
+        g.setGeometry(f.geometry())      
+        for ff in f.fields().names(): 
+            logI ('layerr ff = {}, f[ff] = {}'.format(ff, f[ff]))
+            g.setAttribute(ff, f[ff])  
+        layerr.updateFeature(g)
+    layerr.commitChanges()
+
+    if i == 0: 
+        logI('Insert...')
+        layerr.dataProvider().addFeatures([gr])
 
 def loadLayer(layer, dicto):
     """Converts an object dictionary to a list of features"""
@@ -764,4 +859,18 @@ def copyLayer2Layer(lyr, udict, owrite):
         logI('Layer {} : {} : import ok'.format(lyr.name(),uristr))
         return QgsVectorLayer(uristr, lyr.name(),contype)
         
+
+def loadVectorTableFromConnection (connection, schema, table, layername): 
+
+    urlstr = connection.tableUri(schema, table)
+    tableprm = connection.table(schema, table)
+    pkidlst = tableprm.primaryKeyColumns() 
+    geomstr = tableprm.geometryColumn()
+    uri = QgsDataSourceUri(urlstr)
+    uri.setKeyColumn(pkidlst[0])
+    uri.setGeometryColumn(geomstr)
+    logI(uri.uri())
+    logI(connection.providerKey())
+    layer = QgsVectorLayer(uri.uri(), layername, connection.providerKey())
+    return layer
 

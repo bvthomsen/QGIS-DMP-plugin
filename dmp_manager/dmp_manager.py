@@ -69,6 +69,7 @@ from .helper import (tr,
                      mapperExtent,
                      createDateTimeName,
                      loadLayer,
+                     updateLayers,
                      createGroup,
                      addLayer2Tree,
                      createMemLayer,
@@ -77,7 +78,8 @@ from .helper import (tr,
                      findLayerVariableValue,
                      evalLayerVariable,
                      zoomToFeature,
-                     get_random_string)
+                     get_random_string,
+                     loadVectorTableFromConnection)
                      
 from .named_pipe import NamedPipe
 from json import load, dump, dumps, loads
@@ -503,7 +505,8 @@ class DMPManager:
 
 
         if self.checkToken():
-            url = '{}{}/{}'.format(spa['Address'], spc['objekter'], pkid)
+            res = connection.executeSql('select "{ver}" from {ref} where "{pk}"={qt}{val}{qt}'.format(ver='version-id', ref=tblRef, pk=pkName, qt=pkQuote, val=pkid))  
+            url = '{}{}/{}'.format(spa['Address'], spc['objekter'], res[0][0])
    
             headers = copy.deepcopy(spa['Headers'])
             headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
@@ -514,13 +517,14 @@ class DMPManager:
                 crawler.setEnabled(False)
                 sql = spr["Inserted"]
                 connection.executeSql(sql.format(cur=tblRef, pk=pkName, qt=pkQuote, val=pkid)) 
+                self.iface.mapCanvas().refreshAllLayers() 
+
                 messI('Status: {} - Delete of {}:{} done\n{}'.format(status, pkName, pkid, result))
             else:
                 messC('Error {} - Delete of {}:{}\n{}'.format(status, pkName, pkid, result))
 
     def insDMP(self, pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode):
 
-        messI('i insDMP')
         sd = self.dockwidget
         spc = self.parm["Commands"]
         spa = self.parm["Access"]  
@@ -547,7 +551,7 @@ class DMPManager:
             for ta in sat:
                 if ta["relationships"]["temakode"]["data"]["id"] == tCode: 
                     pa["temaattributter"][ta["attributes"]["name"]] = None
-            
+             
             options = QgsAbstractDatabaseProviderConnection.SqlVectorLayerOptions()
             options.sql = 'SELECT * FROM {cur} WHERE \"{pk}\" = {qt}{val}{qt}'.format(cur=tblCur, pk=pkName, qt=pkQuote, val=pkid)
             options.primaryKeyColumns = [pkName]
@@ -565,8 +569,6 @@ class DMPManager:
 
             for f in vl.getFeatures():
                 fi = f.fields()
-                for i in range(fi.count()):
-                    logI(fi.field(i).name() + '~ ' + str(fi.field(i).type()))                
                 for ta in pa["temaattributter"].keys():
                     if ta.find('-id') != -1:
                         pa["temaattributter"][ta] = int(f[ta])
@@ -576,24 +578,6 @@ class DMPManager:
                         pa["temaattributter"][ta] = txt
                             
                             
-#                        id~ 2
-#2022-05-08T13:55:03     INFO    objekt-id~ 10
-#2022-05-08T13:55:03     INFO    version-id~ 10
-#2022-05-08T13:55:03     INFO    systid-fra~ 16
-#2022-05-08T13:55:03     INFO    systid-til~ 16
-#2022-05-08T13:55:03     INFO    oprettet~ 16
-#2022-05-08T13:55:03     INFO    oprindkode-id~ 10
-#2022-05-08T13:55:03     INFO    statuskode-id~ 10
-#2022-05-08T13:55:03     INFO    off-kode-id~ 10
-#2022-05-08T13:55:03     INFO    cvr-kode-id~ 10
-#2022-05-08T13:55:03     INFO    bruger-id~ 10
-#2022-05-08T13:55:03     INFO    link~ 10
-#2022-05-08T13:55:03     INFO    shape~ 10
-#2022-05-08T13:55:03     INFO    omr-navn~ 10
-#2022-05-08T13:55:03     INFO    omr-tkode-id~ 10
-#2022-05-08T13:55:03     INFO    gyldig-fra~ 16
-#2022-05-08T13:55:03     INFO    gyldig-til~ 16
-                    
                 pa["objekt-id"] = None
                 pa["version-id"] = None
                 pa["systid-fra"] = None
@@ -611,9 +595,26 @@ class DMPManager:
                 status, result = handleRequest(url, 'post', headers, package, self.dmpLog, 'dmptest')
                    
                 if status >= 200 and status <= 299:
+
+                    vcur = tblCur.replace('"','').split('.')
+                    if len(vcur) == 1:
+                        vcur.append(vcur[0])
+                        vcur[0] = ''
+                    curl = loadVectorTableFromConnection (connection, vcur[0], vcur[1], 'current')
+
+                    vref = tblRef.replace('"','').split('.')
+                    if len(vref) == 1:
+                        vref.append(vref[0])
+                        vref[0] = ''
+                    refl = loadVectorTableFromConnection (connection, vref[0], vref[1], 'reference')
+
+                    updateLayers (curl,refl, result, pkName, pkQuote, pkid)
+
                     crawler.setEnabled(False)
-                    sql = spr["Inserted"]
-                    #connection.executeSql(sql.format(cur=tblRef, pk=pkName, qt=pkQuote, val=pkid)) 
+
+                    self.iface.mapCanvas().refreshAllLayers() 
+
+
                     messI('Status: {} - Insert of {}:{} done\n{}'.format(status, pkName, pkid, result))
                 else:
                     messC('Error: {} - Insert of {}:{}\n{}'.format(status, pkName, pkid, result))
@@ -665,7 +666,6 @@ class DMPManager:
             options.geometryColumn = 'geom'
             vl = connection.createSqlVectorLayer(options)
 
-
             del pa["id"]
 
             for f in vl.getFeatures():
@@ -683,9 +683,25 @@ class DMPManager:
                 status, result = handleRequest(url+"/"+pa["version-id"], 'patch', headers, package, self.dmpLog, 'dmptest')
                    
                 if status >= 200 and status <= 299:
+
+                    vcur = tblCur.replace('"','').split('.')
+                    if len(vcur) == 1:
+                        vcur.append(vcur[0])
+                        vcur[0] = ''
+                    curl = loadVectorTableFromConnection (connection, vcur[0], vcur[1], 'current')
+
+                    vref = tblRef.replace('"','').split('.')
+                    if len(vref) == 1:
+                        vref.append(vref[0])
+                        vref[0] = ''
+                    refl = loadVectorTableFromConnection (connection, vref[0], vref[1], 'reference')
+
+                    updateLayers (curl,refl, result, pkName, pkQuote, pkid)
+
                     crawler.setEnabled(False)
-                    sql = spr["Inserted"]
-                    #connection.executeSql(sql.format(cur=tblRef, pk=pkName, qt=pkQuote, val=pkid)) 
+
+                    self.iface.mapCanvas().refreshAllLayers() 
+
                     messI('Status: {} - Update of {}:{} done\n{}'.format(status, pkName, pkid, result))
                 else:
                     messC('Error: {} - Update of {}:{}\n{}'.format(status, pkName, pkid, result))
@@ -1314,3 +1330,4 @@ class DMPManager:
             if d["id"] == str(temanr):
                 return d["attributes"]["title"], d["attributes"]["name"], d["attributes][geometry-type"]
         return None, None, None
+
