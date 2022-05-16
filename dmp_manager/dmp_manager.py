@@ -262,7 +262,7 @@ class DMPManager:
             sd.pbClearCompare.clicked.connect(self.pbClearCompareClicked)
             sd.pbCompare.clicked.connect(self.pbCompareClicked)
             sd.pbCheck.clicked.connect(self.pbCheckClicked)
-            sd.pbUpload.clicked.connect(self.pbUploadClicked)
+            #sd.pbUpload.clicked.connect(self.pbUploadClicked)
 
             sd.tvCompare.setContextMenuPolicy(Qt.CustomContextMenu)
             sd.tvCompare.customContextMenuRequested.connect(self.tvCompareOpenMenu)
@@ -429,70 +429,6 @@ class DMPManager:
             elif ltype == 'Modified':
                 self.updDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode)
              
-
-
-
-
-
-
-        
-#            layer = QgsProject.instance().mapLayer(str(crawler.parent().data(Qt.UserRole+2)))
-#            feat = layer.getFeature(int(str(crawler.data(Qt.UserRole+2))))
-#            pkid = feat[spd["PKName"]]
-#            om = feat.geometry()
-
-        
-#            # Find Feature baseret på layerid, fid, optype
-#            # Upload featrure type + optype-kommando
-#            #res, mess = self.uploadDataDMP(ltype, refLayerId, curLayerId, pkid) 
-#            
-#            #if res: # Feature + message
-#            
-#            # Gem result i træ
-#            
-#            # Check result, Hvis ok
-#            
-#            # Opdater ref med resultat , opdater evt cur + ref med resultat (inserted, modified)
-#            # Disable entry i træ
-#            #crawler.setEnabled(False)
-#            
-
-              
-#            sql = spc[ltype].format(cur=tblCur, ref=tblRef, pk=pkName, qt=pkQuote, val=pkid)
-#            
-#            names = tblCur.split('.')
-#            if len(names) >= 2:
-#                sname=names[0].replace('"','')
-#                tname=names[1].replace('"','')
-#            else:
-#                sname=''
-#                tname=names[0].replace('"','')
-#            fields = connection.fields(sname,tname)
-#            for f in fields:
-#                logI('name =' + str(f.name())) 
-#                logI('type =' + str(f.type())) 
-#                logI('typename =' + str(f.typeName())) 
-#
-#            logI ('sql='+sql)
-#            results = connection.executeSql(sql) 
-#            for i in range(len(results[0])):
-#                logI('name =' + str(fields.at(i).name())) 
-#                logI('type =' + str(fields.at(i).type())) 
-#                logI('typename =' + str(fields.at(i).typeName())) 
-#                logI ('r'+ str(i)+'val= '+str(results[0][i]))
-#                if fields.at(i).typeName()=='geometry':
-#                    logI ('************************************')
-##                    wkb = bytes.fromhex(results[0][i])
-##                    g = QgsGeometry.fromWkb(wkb)
-##                    logI ('jjj='+g.asWkt())
-#                    geom_wkb_bytes = results[0][i].tobytes() # converts  view to bytes
-#                    geom_update = QgsGeometry()
-#                    geom_update.fromWkb(geom_wkb_bytes) 
-#                    logI(str(geom_update))
-
-            
-
-            
 
         self.iface.mapCanvas().refreshAllLayers() 
 
@@ -740,9 +676,9 @@ class DMPManager:
 
         return prefix + whr + postfix
 
-    def pbUploadClicked(self):
-    
-        messW ('Function "Upload" is disabled')
+#    def pbUploadClicked(self):
+#    
+#        messW ('Function "Upload" is disabled')
 
     def pbCheckClicked(self):
 
@@ -961,6 +897,9 @@ class DMPManager:
         sd.chbMapExtent.setChecked(spv["Use extent"])
         sd.leToken.setText(spv["Token value"])
         sd.dtTimeout.setDateTime(QDateTime().fromString(spv["Token time"], Qt.ISODate))
+        sd.lePkName.setText(spd["PKName"])
+        sd.lePkQuote.setText(spd["PKQuote"])
+
 
         self.loadCbDownload()
         self.loadCbDatabase(spd["Database_types"],spd["Database"],spd["Schema"])
@@ -981,6 +920,8 @@ class DMPManager:
 
         spd["Database"] = sd.cbDatabase.currentText()
         spd["Schema"] = sd.cbSchema.currentText()
+        spd["PKName"] = sd.lePkName.text()
+        spd["PKQuote"] = sd.lePkQuote.text()
 
         write_config(os.path.join(self.plugin_dir, 'configuration.json'), self.parm)
         write_config(os.path.join(self.plugin_dir, 'attributes.json'), self.attributes)
@@ -1285,7 +1226,6 @@ class DMPManager:
             for c in conn:
                 sd.cbDatabase.addItem('{} - {}'.format(k, c), [v, c])
             sd.cbDatabase.setCurrentIndex(sd.cbDatabase.findText(dbItem))
-            logI('scItem={}'.format(scItem))
             sd.cbSchema.setCurrentIndex(sd.cbSchema.findText(scItem))
 
 

@@ -1,36 +1,36 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
 <qgis version="3.22.4-Białowieża" styleCategories="Symbology|Forms">
-  <renderer-v2 symbollevels="0" forceraster="0" type="categorizedSymbol" attr="statuskode-id" referencescale="-1" enableorderby="0">
+  <renderer-v2 type="categorizedSymbol" symbollevels="0" enableorderby="0" referencescale="-1" forceraster="0" attr="statuskode-id">
     <categories>
-      <category symbol="0" value="0" render="true" label="Ukendt"/>
-      <category symbol="1" value="1" render="true" label="Kladde"/>
-      <category symbol="2" value="2" render="true" label="Forslag"/>
-      <category symbol="3" value="3" render="true" label="Gældende / Vedtaget"/>
-      <category symbol="4" value="4" render="true" label="Ikke gældende / Aflyst"/>
-      <category symbol="5" value="" render="true" label=""/>
+      <category label="Ukendt" value="0" symbol="0" render="true"/>
+      <category label="Kladde" value="1" symbol="1" render="true"/>
+      <category label="Forslag" value="2" symbol="2" render="true"/>
+      <category label="Gældende / Vedtaget" value="3" symbol="3" render="true"/>
+      <category label="Ikke gældende / Aflyst" value="4" symbol="4" render="true"/>
+      <category label="" value="" symbol="5" render="true"/>
     </categories>
     <symbols>
-      <symbol alpha="1" force_rhr="0" name="0" clip_to_extent="1" type="fill">
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="0" force_rhr="0">
         <data_defined_properties>
           <Option type="Map">
-            <Option name="name" value="" type="QString"/>
+            <Option type="QString" name="name" value=""/>
             <Option name="properties"/>
-            <Option name="type" value="collection" type="QString"/>
+            <Option type="QString" name="type" value="collection"/>
           </Option>
         </data_defined_properties>
-        <layer locked="0" enabled="1" class="SimpleFill" pass="0">
+        <layer enabled="1" class="SimpleFill" locked="0" pass="0">
           <Option type="Map">
-            <Option name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
-            <Option name="color" value="127,202,234,255" type="QString"/>
-            <Option name="joinstyle" value="bevel" type="QString"/>
-            <Option name="offset" value="0,0" type="QString"/>
-            <Option name="offset_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
-            <Option name="offset_unit" value="MM" type="QString"/>
-            <Option name="outline_color" value="78,78,78,255" type="QString"/>
-            <Option name="outline_style" value="solid" type="QString"/>
-            <Option name="outline_width" value="0.26" type="QString"/>
-            <Option name="outline_width_unit" value="MM" type="QString"/>
-            <Option name="style" value="b_diagonal" type="QString"/>
+            <Option type="QString" name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="color" value="127,202,234,255"/>
+            <Option type="QString" name="joinstyle" value="bevel"/>
+            <Option type="QString" name="offset" value="0,0"/>
+            <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="offset_unit" value="MM"/>
+            <Option type="QString" name="outline_color" value="78,78,78,255"/>
+            <Option type="QString" name="outline_style" value="solid"/>
+            <Option type="QString" name="outline_width" value="0.26"/>
+            <Option type="QString" name="outline_width_unit" value="MM"/>
+            <Option type="QString" name="style" value="b_diagonal"/>
           </Option>
           <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
           <prop v="127,202,234,255" k="color"/>
@@ -45,34 +45,34 @@
           <prop v="b_diagonal" k="style"/>
           <data_defined_properties>
             <Option type="Map">
-              <Option name="name" value="" type="QString"/>
+              <Option type="QString" name="name" value=""/>
               <Option name="properties"/>
-              <Option name="type" value="collection" type="QString"/>
+              <Option type="QString" name="type" value="collection"/>
             </Option>
           </data_defined_properties>
         </layer>
       </symbol>
-      <symbol alpha="1" force_rhr="0" name="1" clip_to_extent="1" type="fill">
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="1" force_rhr="0">
         <data_defined_properties>
           <Option type="Map">
-            <Option name="name" value="" type="QString"/>
+            <Option type="QString" name="name" value=""/>
             <Option name="properties"/>
-            <Option name="type" value="collection" type="QString"/>
+            <Option type="QString" name="type" value="collection"/>
           </Option>
         </data_defined_properties>
-        <layer locked="0" enabled="1" class="SimpleFill" pass="0">
+        <layer enabled="1" class="SimpleFill" locked="0" pass="0">
           <Option type="Map">
-            <Option name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
-            <Option name="color" value="227,36,173,255" type="QString"/>
-            <Option name="joinstyle" value="bevel" type="QString"/>
-            <Option name="offset" value="0,0" type="QString"/>
-            <Option name="offset_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
-            <Option name="offset_unit" value="MM" type="QString"/>
-            <Option name="outline_color" value="78,78,78,255" type="QString"/>
-            <Option name="outline_style" value="solid" type="QString"/>
-            <Option name="outline_width" value="0.26" type="QString"/>
-            <Option name="outline_width_unit" value="MM" type="QString"/>
-            <Option name="style" value="f_diagonal" type="QString"/>
+            <Option type="QString" name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="color" value="227,36,173,255"/>
+            <Option type="QString" name="joinstyle" value="bevel"/>
+            <Option type="QString" name="offset" value="0,0"/>
+            <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="offset_unit" value="MM"/>
+            <Option type="QString" name="outline_color" value="78,78,78,255"/>
+            <Option type="QString" name="outline_style" value="solid"/>
+            <Option type="QString" name="outline_width" value="0.26"/>
+            <Option type="QString" name="outline_width_unit" value="MM"/>
+            <Option type="QString" name="style" value="f_diagonal"/>
           </Option>
           <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
           <prop v="227,36,173,255" k="color"/>
@@ -87,34 +87,34 @@
           <prop v="f_diagonal" k="style"/>
           <data_defined_properties>
             <Option type="Map">
-              <Option name="name" value="" type="QString"/>
+              <Option type="QString" name="name" value=""/>
               <Option name="properties"/>
-              <Option name="type" value="collection" type="QString"/>
+              <Option type="QString" name="type" value="collection"/>
             </Option>
           </data_defined_properties>
         </layer>
       </symbol>
-      <symbol alpha="1" force_rhr="0" name="2" clip_to_extent="1" type="fill">
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="2" force_rhr="0">
         <data_defined_properties>
           <Option type="Map">
-            <Option name="name" value="" type="QString"/>
+            <Option type="QString" name="name" value=""/>
             <Option name="properties"/>
-            <Option name="type" value="collection" type="QString"/>
+            <Option type="QString" name="type" value="collection"/>
           </Option>
         </data_defined_properties>
-        <layer locked="0" enabled="1" class="SimpleFill" pass="0">
+        <layer enabled="1" class="SimpleFill" locked="0" pass="0">
           <Option type="Map">
-            <Option name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
-            <Option name="color" value="85,215,122,255" type="QString"/>
-            <Option name="joinstyle" value="bevel" type="QString"/>
-            <Option name="offset" value="0,0" type="QString"/>
-            <Option name="offset_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
-            <Option name="offset_unit" value="MM" type="QString"/>
-            <Option name="outline_color" value="78,78,78,255" type="QString"/>
-            <Option name="outline_style" value="solid" type="QString"/>
-            <Option name="outline_width" value="0.26" type="QString"/>
-            <Option name="outline_width_unit" value="MM" type="QString"/>
-            <Option name="style" value="b_diagonal" type="QString"/>
+            <Option type="QString" name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="color" value="85,215,122,255"/>
+            <Option type="QString" name="joinstyle" value="bevel"/>
+            <Option type="QString" name="offset" value="0,0"/>
+            <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="offset_unit" value="MM"/>
+            <Option type="QString" name="outline_color" value="78,78,78,255"/>
+            <Option type="QString" name="outline_style" value="solid"/>
+            <Option type="QString" name="outline_width" value="0.26"/>
+            <Option type="QString" name="outline_width_unit" value="MM"/>
+            <Option type="QString" name="style" value="b_diagonal"/>
           </Option>
           <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
           <prop v="85,215,122,255" k="color"/>
@@ -129,34 +129,34 @@
           <prop v="b_diagonal" k="style"/>
           <data_defined_properties>
             <Option type="Map">
-              <Option name="name" value="" type="QString"/>
+              <Option type="QString" name="name" value=""/>
               <Option name="properties"/>
-              <Option name="type" value="collection" type="QString"/>
+              <Option type="QString" name="type" value="collection"/>
             </Option>
           </data_defined_properties>
         </layer>
       </symbol>
-      <symbol alpha="1" force_rhr="0" name="3" clip_to_extent="1" type="fill">
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="3" force_rhr="0">
         <data_defined_properties>
           <Option type="Map">
-            <Option name="name" value="" type="QString"/>
+            <Option type="QString" name="name" value=""/>
             <Option name="properties"/>
-            <Option name="type" value="collection" type="QString"/>
+            <Option type="QString" name="type" value="collection"/>
           </Option>
         </data_defined_properties>
-        <layer locked="0" enabled="1" class="SimpleFill" pass="0">
+        <layer enabled="1" class="SimpleFill" locked="0" pass="0">
           <Option type="Map">
-            <Option name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
-            <Option name="color" value="204,234,128,255" type="QString"/>
-            <Option name="joinstyle" value="bevel" type="QString"/>
-            <Option name="offset" value="0,0" type="QString"/>
-            <Option name="offset_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
-            <Option name="offset_unit" value="MM" type="QString"/>
-            <Option name="outline_color" value="78,78,78,255" type="QString"/>
-            <Option name="outline_style" value="solid" type="QString"/>
-            <Option name="outline_width" value="0.26" type="QString"/>
-            <Option name="outline_width_unit" value="MM" type="QString"/>
-            <Option name="style" value="f_diagonal" type="QString"/>
+            <Option type="QString" name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="color" value="204,234,128,255"/>
+            <Option type="QString" name="joinstyle" value="bevel"/>
+            <Option type="QString" name="offset" value="0,0"/>
+            <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="offset_unit" value="MM"/>
+            <Option type="QString" name="outline_color" value="78,78,78,255"/>
+            <Option type="QString" name="outline_style" value="solid"/>
+            <Option type="QString" name="outline_width" value="0.26"/>
+            <Option type="QString" name="outline_width_unit" value="MM"/>
+            <Option type="QString" name="style" value="f_diagonal"/>
           </Option>
           <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
           <prop v="204,234,128,255" k="color"/>
@@ -171,34 +171,34 @@
           <prop v="f_diagonal" k="style"/>
           <data_defined_properties>
             <Option type="Map">
-              <Option name="name" value="" type="QString"/>
+              <Option type="QString" name="name" value=""/>
               <Option name="properties"/>
-              <Option name="type" value="collection" type="QString"/>
+              <Option type="QString" name="type" value="collection"/>
             </Option>
           </data_defined_properties>
         </layer>
       </symbol>
-      <symbol alpha="1" force_rhr="0" name="4" clip_to_extent="1" type="fill">
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="4" force_rhr="0">
         <data_defined_properties>
           <Option type="Map">
-            <Option name="name" value="" type="QString"/>
+            <Option type="QString" name="name" value=""/>
             <Option name="properties"/>
-            <Option name="type" value="collection" type="QString"/>
+            <Option type="QString" name="type" value="collection"/>
           </Option>
         </data_defined_properties>
-        <layer locked="0" enabled="1" class="SimpleFill" pass="0">
+        <layer enabled="1" class="SimpleFill" locked="0" pass="0">
           <Option type="Map">
-            <Option name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
-            <Option name="color" value="220,118,78,255" type="QString"/>
-            <Option name="joinstyle" value="bevel" type="QString"/>
-            <Option name="offset" value="0,0" type="QString"/>
-            <Option name="offset_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
-            <Option name="offset_unit" value="MM" type="QString"/>
-            <Option name="outline_color" value="78,78,78,255" type="QString"/>
-            <Option name="outline_style" value="solid" type="QString"/>
-            <Option name="outline_width" value="0.26" type="QString"/>
-            <Option name="outline_width_unit" value="MM" type="QString"/>
-            <Option name="style" value="b_diagonal" type="QString"/>
+            <Option type="QString" name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="color" value="220,118,78,255"/>
+            <Option type="QString" name="joinstyle" value="bevel"/>
+            <Option type="QString" name="offset" value="0,0"/>
+            <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="offset_unit" value="MM"/>
+            <Option type="QString" name="outline_color" value="78,78,78,255"/>
+            <Option type="QString" name="outline_style" value="solid"/>
+            <Option type="QString" name="outline_width" value="0.26"/>
+            <Option type="QString" name="outline_width_unit" value="MM"/>
+            <Option type="QString" name="style" value="b_diagonal"/>
           </Option>
           <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
           <prop v="220,118,78,255" k="color"/>
@@ -213,34 +213,34 @@
           <prop v="b_diagonal" k="style"/>
           <data_defined_properties>
             <Option type="Map">
-              <Option name="name" value="" type="QString"/>
+              <Option type="QString" name="name" value=""/>
               <Option name="properties"/>
-              <Option name="type" value="collection" type="QString"/>
+              <Option type="QString" name="type" value="collection"/>
             </Option>
           </data_defined_properties>
         </layer>
       </symbol>
-      <symbol alpha="1" force_rhr="0" name="5" clip_to_extent="1" type="fill">
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="5" force_rhr="0">
         <data_defined_properties>
           <Option type="Map">
-            <Option name="name" value="" type="QString"/>
+            <Option type="QString" name="name" value=""/>
             <Option name="properties"/>
-            <Option name="type" value="collection" type="QString"/>
+            <Option type="QString" name="type" value="collection"/>
           </Option>
         </data_defined_properties>
-        <layer locked="0" enabled="1" class="SimpleFill" pass="0">
+        <layer enabled="1" class="SimpleFill" locked="0" pass="0">
           <Option type="Map">
-            <Option name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
-            <Option name="color" value="120,86,207,255" type="QString"/>
-            <Option name="joinstyle" value="bevel" type="QString"/>
-            <Option name="offset" value="0,0" type="QString"/>
-            <Option name="offset_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
-            <Option name="offset_unit" value="MM" type="QString"/>
-            <Option name="outline_color" value="78,78,78,255" type="QString"/>
-            <Option name="outline_style" value="solid" type="QString"/>
-            <Option name="outline_width" value="0.26" type="QString"/>
-            <Option name="outline_width_unit" value="MM" type="QString"/>
-            <Option name="style" value="dense5" type="QString"/>
+            <Option type="QString" name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="color" value="120,86,207,255"/>
+            <Option type="QString" name="joinstyle" value="bevel"/>
+            <Option type="QString" name="offset" value="0,0"/>
+            <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="offset_unit" value="MM"/>
+            <Option type="QString" name="outline_color" value="78,78,78,255"/>
+            <Option type="QString" name="outline_style" value="solid"/>
+            <Option type="QString" name="outline_width" value="0.26"/>
+            <Option type="QString" name="outline_width_unit" value="MM"/>
+            <Option type="QString" name="style" value="dense5"/>
           </Option>
           <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
           <prop v="120,86,207,255" k="color"/>
@@ -255,36 +255,36 @@
           <prop v="dense5" k="style"/>
           <data_defined_properties>
             <Option type="Map">
-              <Option name="name" value="" type="QString"/>
+              <Option type="QString" name="name" value=""/>
               <Option name="properties"/>
-              <Option name="type" value="collection" type="QString"/>
+              <Option type="QString" name="type" value="collection"/>
             </Option>
           </data_defined_properties>
         </layer>
       </symbol>
     </symbols>
     <source-symbol>
-      <symbol alpha="1" force_rhr="0" name="0" clip_to_extent="1" type="fill">
+      <symbol alpha="1" clip_to_extent="1" type="fill" name="0" force_rhr="0">
         <data_defined_properties>
           <Option type="Map">
-            <Option name="name" value="" type="QString"/>
+            <Option type="QString" name="name" value=""/>
             <Option name="properties"/>
-            <Option name="type" value="collection" type="QString"/>
+            <Option type="QString" name="type" value="collection"/>
           </Option>
         </data_defined_properties>
-        <layer locked="0" enabled="1" class="SimpleFill" pass="0">
+        <layer enabled="1" class="SimpleFill" locked="0" pass="0">
           <Option type="Map">
-            <Option name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
-            <Option name="color" value="150,150,150,255" type="QString"/>
-            <Option name="joinstyle" value="bevel" type="QString"/>
-            <Option name="offset" value="0,0" type="QString"/>
-            <Option name="offset_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
-            <Option name="offset_unit" value="MM" type="QString"/>
-            <Option name="outline_color" value="78,78,78,255" type="QString"/>
-            <Option name="outline_style" value="solid" type="QString"/>
-            <Option name="outline_width" value="0.26" type="QString"/>
-            <Option name="outline_width_unit" value="MM" type="QString"/>
-            <Option name="style" value="b_diagonal" type="QString"/>
+            <Option type="QString" name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="color" value="150,150,150,255"/>
+            <Option type="QString" name="joinstyle" value="bevel"/>
+            <Option type="QString" name="offset" value="0,0"/>
+            <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="offset_unit" value="MM"/>
+            <Option type="QString" name="outline_color" value="78,78,78,255"/>
+            <Option type="QString" name="outline_style" value="solid"/>
+            <Option type="QString" name="outline_width" value="0.26"/>
+            <Option type="QString" name="outline_width_unit" value="MM"/>
+            <Option type="QString" name="style" value="b_diagonal"/>
           </Option>
           <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
           <prop v="150,150,150,255" k="color"/>
@@ -299,29 +299,26 @@
           <prop v="b_diagonal" k="style"/>
           <data_defined_properties>
             <Option type="Map">
-              <Option name="name" value="" type="QString"/>
+              <Option type="QString" name="name" value=""/>
               <Option name="properties"/>
-              <Option name="type" value="collection" type="QString"/>
+              <Option type="QString" name="type" value="collection"/>
             </Option>
           </data_defined_properties>
         </layer>
       </symbol>
     </source-symbol>
-    <colorramp name="[source]" type="randomcolors">
-      <Option/>
-    </colorramp>
     <rotation/>
     <sizescale/>
   </renderer-v2>
   <blendMode>0</blendMode>
   <featureBlendMode>0</featureBlendMode>
   <fieldConfiguration>
-    <field name="id">
+    <field name="fid">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
-            <Option name="IsMultiline" value="false" type="bool"/>
-            <Option name="UseHtml" value="false" type="bool"/>
+            <Option type="bool" name="IsMultiline" value="false"/>
+            <Option type="bool" name="UseHtml" value="false"/>
           </Option>
         </config>
       </editWidget>
@@ -330,8 +327,8 @@
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
-            <Option name="IsMultiline" value="false" type="bool"/>
-            <Option name="UseHtml" value="false" type="bool"/>
+            <Option type="bool" name="IsMultiline" value="false"/>
+            <Option type="bool" name="UseHtml" value="false"/>
           </Option>
         </config>
       </editWidget>
@@ -340,8 +337,8 @@
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
-            <Option name="IsMultiline" value="false" type="bool"/>
-            <Option name="UseHtml" value="false" type="bool"/>
+            <Option type="bool" name="IsMultiline" value="false"/>
+            <Option type="bool" name="UseHtml" value="false"/>
           </Option>
         </config>
       </editWidget>
@@ -350,11 +347,11 @@
       <editWidget type="DateTime">
         <config>
           <Option type="Map">
-            <Option name="allow_null" value="true" type="bool"/>
-            <Option name="calendar_popup" value="true" type="bool"/>
-            <Option name="display_format" value="dd.MM.yyyy HH:mm:ss" type="QString"/>
-            <Option name="field_format" value="dd.MM.yyyy HH:mm:ss" type="QString"/>
-            <Option name="field_iso_format" value="false" type="bool"/>
+            <Option type="bool" name="allow_null" value="true"/>
+            <Option type="bool" name="calendar_popup" value="true"/>
+            <Option type="QString" name="display_format" value="dd.MM.yyyy HH:mm:ss"/>
+            <Option type="QString" name="field_format" value="dd.MM.yyyy HH:mm:ss"/>
+            <Option type="bool" name="field_iso_format" value="false"/>
           </Option>
         </config>
       </editWidget>
@@ -363,11 +360,11 @@
       <editWidget type="DateTime">
         <config>
           <Option type="Map">
-            <Option name="allow_null" value="true" type="bool"/>
-            <Option name="calendar_popup" value="true" type="bool"/>
-            <Option name="display_format" value="dd.MM.yyyy HH:mm:ss" type="QString"/>
-            <Option name="field_format" value="dd.MM.yyyy HH:mm:ss" type="QString"/>
-            <Option name="field_iso_format" value="false" type="bool"/>
+            <Option type="bool" name="allow_null" value="true"/>
+            <Option type="bool" name="calendar_popup" value="true"/>
+            <Option type="QString" name="display_format" value="dd.MM.yyyy HH:mm:ss"/>
+            <Option type="QString" name="field_format" value="dd.MM.yyyy HH:mm:ss"/>
+            <Option type="bool" name="field_iso_format" value="false"/>
           </Option>
         </config>
       </editWidget>
@@ -376,11 +373,11 @@
       <editWidget type="DateTime">
         <config>
           <Option type="Map">
-            <Option name="allow_null" value="true" type="bool"/>
-            <Option name="calendar_popup" value="true" type="bool"/>
-            <Option name="display_format" value="dd.MM.yyyy HH:mm:ss" type="QString"/>
-            <Option name="field_format" value="dd.MM.yyyy HH:mm:ss" type="QString"/>
-            <Option name="field_iso_format" value="false" type="bool"/>
+            <Option type="bool" name="allow_null" value="true"/>
+            <Option type="bool" name="calendar_popup" value="true"/>
+            <Option type="QString" name="display_format" value="dd.MM.yyyy HH:mm:ss"/>
+            <Option type="QString" name="field_format" value="dd.MM.yyyy HH:mm:ss"/>
+            <Option type="bool" name="field_iso_format" value="false"/>
           </Option>
         </config>
       </editWidget>
@@ -389,19 +386,19 @@
       <editWidget type="ValueRelation">
         <config>
           <Option type="Map">
-            <Option name="AllowMulti" value="false" type="bool"/>
-            <Option name="AllowNull" value="true" type="bool"/>
-            <Option name="Description" value="" type="QString"/>
-            <Option name="FilterExpression" value="" type="QString"/>
-            <Option name="Key" value="lk_key" type="QString"/>
-            <Option name="Layer" value="oprindkode_id_1586473b_27f1_4155_a881_d98505492886" type="QString"/>
-            <Option name="LayerName" value="Oprindelse" type="QString"/>
-            <Option name="LayerProviderName" value="postgres" type="QString"/>
-            <Option name="LayerSource" value="dbname='dmp' host=localhost port=5432 user='postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;data&quot;.&quot;oprindkode-id&quot;" type="QString"/>
-            <Option name="NofColumns" value="1" type="int"/>
-            <Option name="OrderByValue" value="false" type="bool"/>
-            <Option name="UseCompleter" value="false" type="bool"/>
-            <Option name="Value" value="lk_value" type="QString"/>
+            <Option type="bool" name="AllowMulti" value="false"/>
+            <Option type="bool" name="AllowNull" value="true"/>
+            <Option type="QString" name="Description" value=""/>
+            <Option type="QString" name="FilterExpression" value=""/>
+            <Option type="QString" name="Key" value="lk_key"/>
+            <Option type="QString" name="Layer" value="oprindkode_id_1586473b_27f1_4155_a881_d98505492886"/>
+            <Option type="QString" name="LayerName" value="Oprindelse"/>
+            <Option type="QString" name="LayerProviderName" value="postgres"/>
+            <Option type="QString" name="LayerSource" value="dbname='dmp' host=localhost port=5432 user='postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;data&quot;.&quot;oprindkode-id&quot;"/>
+            <Option type="int" name="NofColumns" value="1"/>
+            <Option type="bool" name="OrderByValue" value="false"/>
+            <Option type="bool" name="UseCompleter" value="false"/>
+            <Option type="QString" name="Value" value="lk_value"/>
           </Option>
         </config>
       </editWidget>
@@ -410,19 +407,19 @@
       <editWidget type="ValueRelation">
         <config>
           <Option type="Map">
-            <Option name="AllowMulti" value="false" type="bool"/>
-            <Option name="AllowNull" value="true" type="bool"/>
-            <Option name="Description" value="" type="QString"/>
-            <Option name="FilterExpression" value="" type="QString"/>
-            <Option name="Key" value="lk_key" type="QString"/>
-            <Option name="Layer" value="statuskode_id_e22a0ae5_87fa_4605_81bc_256f2d9623b8" type="QString"/>
-            <Option name="LayerName" value="Gældende status" type="QString"/>
-            <Option name="LayerProviderName" value="postgres" type="QString"/>
-            <Option name="LayerSource" value="dbname='dmp' host=localhost port=5432 user='postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;data&quot;.&quot;statuskode-id&quot;" type="QString"/>
-            <Option name="NofColumns" value="1" type="int"/>
-            <Option name="OrderByValue" value="false" type="bool"/>
-            <Option name="UseCompleter" value="false" type="bool"/>
-            <Option name="Value" value="lk_value" type="QString"/>
+            <Option type="bool" name="AllowMulti" value="false"/>
+            <Option type="bool" name="AllowNull" value="true"/>
+            <Option type="QString" name="Description" value=""/>
+            <Option type="QString" name="FilterExpression" value=""/>
+            <Option type="QString" name="Key" value="lk_key"/>
+            <Option type="QString" name="Layer" value="statuskode_id_e22a0ae5_87fa_4605_81bc_256f2d9623b8"/>
+            <Option type="QString" name="LayerName" value="Gældende status"/>
+            <Option type="QString" name="LayerProviderName" value="postgres"/>
+            <Option type="QString" name="LayerSource" value="dbname='dmp' host=localhost port=5432 user='postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;data&quot;.&quot;statuskode-id&quot;"/>
+            <Option type="int" name="NofColumns" value="1"/>
+            <Option type="bool" name="OrderByValue" value="false"/>
+            <Option type="bool" name="UseCompleter" value="false"/>
+            <Option type="QString" name="Value" value="lk_value"/>
           </Option>
         </config>
       </editWidget>
@@ -431,19 +428,19 @@
       <editWidget type="ValueRelation">
         <config>
           <Option type="Map">
-            <Option name="AllowMulti" value="false" type="bool"/>
-            <Option name="AllowNull" value="true" type="bool"/>
-            <Option name="Description" value="" type="QString"/>
-            <Option name="FilterExpression" value="" type="QString"/>
-            <Option name="Key" value="lk_key" type="QString"/>
-            <Option name="Layer" value="off_kode_id_c36b77d8_a37c_4c6a_93e1_7822a0f6bb99" type="QString"/>
-            <Option name="LayerName" value="Tilgængelighed" type="QString"/>
-            <Option name="LayerProviderName" value="postgres" type="QString"/>
-            <Option name="LayerSource" value="dbname='dmp' host=localhost port=5432 user='postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;data&quot;.&quot;off-kode-id&quot;" type="QString"/>
-            <Option name="NofColumns" value="1" type="int"/>
-            <Option name="OrderByValue" value="false" type="bool"/>
-            <Option name="UseCompleter" value="false" type="bool"/>
-            <Option name="Value" value="lk_value" type="QString"/>
+            <Option type="bool" name="AllowMulti" value="false"/>
+            <Option type="bool" name="AllowNull" value="true"/>
+            <Option type="QString" name="Description" value=""/>
+            <Option type="QString" name="FilterExpression" value=""/>
+            <Option type="QString" name="Key" value="lk_key"/>
+            <Option type="QString" name="Layer" value="off_kode_id_c36b77d8_a37c_4c6a_93e1_7822a0f6bb99"/>
+            <Option type="QString" name="LayerName" value="Tilgængelighed"/>
+            <Option type="QString" name="LayerProviderName" value="postgres"/>
+            <Option type="QString" name="LayerSource" value="dbname='dmp' host=localhost port=5432 user='postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;data&quot;.&quot;off-kode-id&quot;"/>
+            <Option type="int" name="NofColumns" value="1"/>
+            <Option type="bool" name="OrderByValue" value="false"/>
+            <Option type="bool" name="UseCompleter" value="false"/>
+            <Option type="QString" name="Value" value="lk_value"/>
           </Option>
         </config>
       </editWidget>
@@ -452,19 +449,19 @@
       <editWidget type="ValueRelation">
         <config>
           <Option type="Map">
-            <Option name="AllowMulti" value="false" type="bool"/>
-            <Option name="AllowNull" value="true" type="bool"/>
-            <Option name="Description" value="" type="QString"/>
-            <Option name="FilterExpression" value="" type="QString"/>
-            <Option name="Key" value="lk_key" type="QString"/>
-            <Option name="Layer" value="cvr_kode_id_86547335_fa99_4f87_9032_dc5c36f5ae51" type="QString"/>
-            <Option name="LayerName" value="Myndighed" type="QString"/>
-            <Option name="LayerProviderName" value="postgres" type="QString"/>
-            <Option name="LayerSource" value="dbname='dmp' host=localhost port=5432 user='postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;data&quot;.&quot;cvr-kode-id&quot;" type="QString"/>
-            <Option name="NofColumns" value="1" type="int"/>
-            <Option name="OrderByValue" value="false" type="bool"/>
-            <Option name="UseCompleter" value="false" type="bool"/>
-            <Option name="Value" value="lk_value" type="QString"/>
+            <Option type="bool" name="AllowMulti" value="false"/>
+            <Option type="bool" name="AllowNull" value="true"/>
+            <Option type="QString" name="Description" value=""/>
+            <Option type="QString" name="FilterExpression" value=""/>
+            <Option type="QString" name="Key" value="lk_key"/>
+            <Option type="QString" name="Layer" value="cvr_kode_id_86547335_fa99_4f87_9032_dc5c36f5ae51"/>
+            <Option type="QString" name="LayerName" value="Myndighed"/>
+            <Option type="QString" name="LayerProviderName" value="postgres"/>
+            <Option type="QString" name="LayerSource" value="dbname='dmp' host=localhost port=5432 user='postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;data&quot;.&quot;cvr-kode-id&quot;"/>
+            <Option type="int" name="NofColumns" value="1"/>
+            <Option type="bool" name="OrderByValue" value="false"/>
+            <Option type="bool" name="UseCompleter" value="false"/>
+            <Option type="QString" name="Value" value="lk_value"/>
           </Option>
         </config>
       </editWidget>
@@ -473,8 +470,8 @@
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
-            <Option name="IsMultiline" value="false" type="bool"/>
-            <Option name="UseHtml" value="false" type="bool"/>
+            <Option type="bool" name="IsMultiline" value="false"/>
+            <Option type="bool" name="UseHtml" value="false"/>
           </Option>
         </config>
       </editWidget>
@@ -483,8 +480,8 @@
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
-            <Option name="IsMultiline" value="false" type="bool"/>
-            <Option name="UseHtml" value="false" type="bool"/>
+            <Option type="bool" name="IsMultiline" value="false"/>
+            <Option type="bool" name="UseHtml" value="false"/>
           </Option>
         </config>
       </editWidget>
@@ -493,8 +490,8 @@
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
-            <Option name="IsMultiline" value="false" type="bool"/>
-            <Option name="UseHtml" value="false" type="bool"/>
+            <Option type="bool" name="IsMultiline" value="false"/>
+            <Option type="bool" name="UseHtml" value="false"/>
           </Option>
         </config>
       </editWidget>
@@ -503,8 +500,8 @@
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
-            <Option name="IsMultiline" value="false" type="bool"/>
-            <Option name="UseHtml" value="false" type="bool"/>
+            <Option type="bool" name="IsMultiline" value="false"/>
+            <Option type="bool" name="UseHtml" value="false"/>
           </Option>
         </config>
       </editWidget>
@@ -513,19 +510,19 @@
       <editWidget type="ValueRelation">
         <config>
           <Option type="Map">
-            <Option name="AllowMulti" value="false" type="bool"/>
-            <Option name="AllowNull" value="true" type="bool"/>
-            <Option name="Description" value="" type="QString"/>
-            <Option name="FilterExpression" value="" type="QString"/>
-            <Option name="Key" value="lk_key" type="QString"/>
-            <Option name="Layer" value="omr_tkode_id_6d299118_6944_4b6c_87fd_525668416137" type="QString"/>
-            <Option name="LayerName" value="Type" type="QString"/>
-            <Option name="LayerProviderName" value="postgres" type="QString"/>
-            <Option name="LayerSource" value="dbname='dmp' host=localhost port=5432 user='postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;data&quot;.&quot;omr-tkode-id&quot;" type="QString"/>
-            <Option name="NofColumns" value="1" type="int"/>
-            <Option name="OrderByValue" value="false" type="bool"/>
-            <Option name="UseCompleter" value="false" type="bool"/>
-            <Option name="Value" value="lk_value" type="QString"/>
+            <Option type="bool" name="AllowMulti" value="false"/>
+            <Option type="bool" name="AllowNull" value="true"/>
+            <Option type="QString" name="Description" value=""/>
+            <Option type="QString" name="FilterExpression" value=""/>
+            <Option type="QString" name="Key" value="lk_key"/>
+            <Option type="QString" name="Layer" value="omr_tkode_id_6d299118_6944_4b6c_87fd_525668416137"/>
+            <Option type="QString" name="LayerName" value="Type"/>
+            <Option type="QString" name="LayerProviderName" value="postgres"/>
+            <Option type="QString" name="LayerSource" value="dbname='dmp' host=localhost port=5432 user='postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;data&quot;.&quot;omr-tkode-id&quot;"/>
+            <Option type="int" name="NofColumns" value="1"/>
+            <Option type="bool" name="OrderByValue" value="false"/>
+            <Option type="bool" name="UseCompleter" value="false"/>
+            <Option type="QString" name="Value" value="lk_value"/>
           </Option>
         </config>
       </editWidget>
@@ -534,11 +531,11 @@
       <editWidget type="DateTime">
         <config>
           <Option type="Map">
-            <Option name="allow_null" value="true" type="bool"/>
-            <Option name="calendar_popup" value="true" type="bool"/>
-            <Option name="display_format" value="dd.MM.yyyy HH:mm:ss" type="QString"/>
-            <Option name="field_format" value="dd.MM.yyyy HH:mm:ss" type="QString"/>
-            <Option name="field_iso_format" value="false" type="bool"/>
+            <Option type="bool" name="allow_null" value="true"/>
+            <Option type="bool" name="calendar_popup" value="true"/>
+            <Option type="QString" name="display_format" value="dd.MM.yyyy HH:mm:ss"/>
+            <Option type="QString" name="field_format" value="dd.MM.yyyy HH:mm:ss"/>
+            <Option type="bool" name="field_iso_format" value="false"/>
           </Option>
         </config>
       </editWidget>
@@ -547,11 +544,11 @@
       <editWidget type="DateTime">
         <config>
           <Option type="Map">
-            <Option name="allow_null" value="true" type="bool"/>
-            <Option name="calendar_popup" value="true" type="bool"/>
-            <Option name="display_format" value="dd.MM.yyyy HH:mm:ss" type="QString"/>
-            <Option name="field_format" value="dd.MM.yyyy HH:mm:ss" type="QString"/>
-            <Option name="field_iso_format" value="false" type="bool"/>
+            <Option type="bool" name="allow_null" value="true"/>
+            <Option type="bool" name="calendar_popup" value="true"/>
+            <Option type="QString" name="display_format" value="dd.MM.yyyy HH:mm:ss"/>
+            <Option type="QString" name="field_format" value="dd.MM.yyyy HH:mm:ss"/>
+            <Option type="bool" name="field_iso_format" value="false"/>
           </Option>
         </config>
       </editWidget>
@@ -581,33 +578,35 @@ def my_form_open(dialog, layer, feature):
   <featformsuppress>0</featformsuppress>
   <editorlayout>tablayout</editorlayout>
   <attributeEditorForm>
-    <attributeEditorContainer visibilityExpression="" name="Generelle" columnCount="1" showLabel="1" visibilityExpressionEnabled="0" groupBox="0">
-      <attributeEditorField name="oprindkode-id" index="6" showLabel="1"/>
-      <attributeEditorField name="statuskode-id" index="7" showLabel="1"/>
-      <attributeEditorField name="off-kode-id" index="8" showLabel="1"/>
-      <attributeEditorField name="cvr-kode-id" index="9" showLabel="1"/>
+    <attributeEditorContainer visibilityExpression="" name="Generelle" visibilityExpressionEnabled="0" groupBox="0" columnCount="1" showLabel="1">
+      <attributeEditorField name="oprindkode-id" showLabel="1" index="6"/>
+      <attributeEditorField name="statuskode-id" showLabel="1" index="7"/>
+      <attributeEditorField name="off-kode-id" showLabel="1" index="8"/>
+      <attributeEditorField name="cvr-kode-id" showLabel="1" index="9"/>
     </attributeEditorContainer>
-    <attributeEditorContainer visibilityExpression="" name="Tema " columnCount="1" showLabel="1" visibilityExpressionEnabled="0" groupBox="0">
-      <attributeEditorField name="omr-navn" index="13" showLabel="1"/>
-      <attributeEditorField name="omr-tkode-id" index="14" showLabel="1"/>
-      <attributeEditorField name="gyldig-fra" index="15" showLabel="1"/>
-      <attributeEditorField name="gyldig-til" index="16" showLabel="1"/>
+    <attributeEditorContainer visibilityExpression="" name="Tema " visibilityExpressionEnabled="0" groupBox="0" columnCount="1" showLabel="1">
+      <attributeEditorField name="omr-navn" showLabel="1" index="13"/>
+      <attributeEditorField name="omr-tkode-id" showLabel="1" index="14"/>
+      <attributeEditorField name="gyldig-fra" showLabel="1" index="15"/>
+      <attributeEditorField name="gyldig-til" showLabel="1" index="16"/>
     </attributeEditorContainer>
-    <attributeEditorContainer visibilityExpression="" name="System" columnCount="1" showLabel="1" visibilityExpressionEnabled="0" groupBox="0">
-      <attributeEditorField name="id" index="0" showLabel="1"/>
-      <attributeEditorField name="objekt-id" index="1" showLabel="1"/>
-      <attributeEditorField name="version-id" index="2" showLabel="1"/>
-      <attributeEditorField name="systid-fra" index="3" showLabel="1"/>
-      <attributeEditorField name="systid-til" index="4" showLabel="1"/>
-      <attributeEditorField name="oprettet" index="5" showLabel="1"/>
-      <attributeEditorField name="bruger-id" index="10" showLabel="1"/>
-      <attributeEditorField name="link" index="11" showLabel="1"/>
-      <attributeEditorField name="shape" index="12" showLabel="1"/>
+    <attributeEditorContainer visibilityExpression="" name="System" visibilityExpressionEnabled="0" groupBox="0" columnCount="1" showLabel="1">
+      <attributeEditorField name="id" showLabel="1" index="-1"/>
+      <attributeEditorField name="fid" showLabel="1" index="0"/>
+      <attributeEditorField name="objekt-id" showLabel="1" index="1"/>
+      <attributeEditorField name="version-id" showLabel="1" index="2"/>
+      <attributeEditorField name="systid-fra" showLabel="1" index="3"/>
+      <attributeEditorField name="systid-til" showLabel="1" index="4"/>
+      <attributeEditorField name="oprettet" showLabel="1" index="5"/>
+      <attributeEditorField name="bruger-id" showLabel="1" index="10"/>
+      <attributeEditorField name="link" showLabel="1" index="11"/>
+      <attributeEditorField name="shape" showLabel="1" index="12"/>
     </attributeEditorContainer>
   </attributeEditorForm>
   <editable>
     <field name="bruger-id" editable="0"/>
     <field name="cvr-kode-id" editable="1"/>
+    <field name="fid" editable="0"/>
     <field name="gyldig-fra" editable="1"/>
     <field name="gyldig-til" editable="1"/>
     <field name="id" editable="0"/>
@@ -627,6 +626,7 @@ def my_form_open(dialog, layer, feature):
   <labelOnTop>
     <field name="bruger-id" labelOnTop="0"/>
     <field name="cvr-kode-id" labelOnTop="0"/>
+    <field name="fid" labelOnTop="0"/>
     <field name="gyldig-fra" labelOnTop="0"/>
     <field name="gyldig-til" labelOnTop="0"/>
     <field name="id" labelOnTop="0"/>
@@ -646,6 +646,7 @@ def my_form_open(dialog, layer, feature):
   <reuseLastValue>
     <field name="bruger-id" reuseLastValue="0"/>
     <field name="cvr-kode-id" reuseLastValue="0"/>
+    <field name="fid" reuseLastValue="0"/>
     <field name="gyldig-fra" reuseLastValue="0"/>
     <field name="gyldig-til" reuseLastValue="0"/>
     <field name="id" reuseLastValue="0"/>

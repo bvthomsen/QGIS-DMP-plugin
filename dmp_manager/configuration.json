@@ -104,7 +104,7 @@
 		"Database_types" :{"MSSQL": "mssql", "Oracle": "oracle", "PostgreSQL": "postgres", "GeoPackage" : "ogr", "SpatiaLite": "spatialite"},
         "Database": "",
         "Schema": "",
-		"PKName": "id",
+		"PKName": "pk",
 		"PKQuote": "",
 		"GName": "geom",
 		"RefPrefix": "__reference__"
