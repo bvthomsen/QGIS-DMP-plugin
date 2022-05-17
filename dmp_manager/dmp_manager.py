@@ -1220,14 +1220,19 @@ class DMPManager:
 #        for k in QgsProviderRegistry.instance().providerList():
         for k, v in dbTypes.items():
         
-            metadata = QgsProviderRegistry.instance().providerMetadata(v)
-            conn = metadata.connections(False)
+            try: # A ugly workaround for Oracle missing connection method
 
-            for c in conn:
-                sd.cbDatabase.addItem('{} - {}'.format(k, c), [v, c])
-            sd.cbDatabase.setCurrentIndex(sd.cbDatabase.findText(dbItem))
-            sd.cbSchema.setCurrentIndex(sd.cbSchema.findText(scItem))
+                metadata = QgsProviderRegistry.instance().providerMetadata(v)
+                conn = metadata.connections(False)
 
+                for c in conn:
+                    sd.cbDatabase.addItem('{} - {}'.format(k, c), [v, c])
+
+                sd.cbDatabase.setCurrentIndex(sd.cbDatabase.findText(dbItem))
+                sd.cbSchema.setCurrentIndex(sd.cbSchema.findText(scItem))
+
+            except:
+               messI('Providertype: {} deprecated'.format(k))                    
 
     def cbDatabaseCurrentIndexChanged (self, index):
 
