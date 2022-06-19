@@ -1,10 +1,7 @@
 {
     "Access": {
-        "Logon"                : "https://arealeditering-api.demo.miljoeportal.dk/swagger/index.html",
         "Address"              : "https://arealeditering-api.demo.miljoeportal.dk",
         "Headers"              : {"content-type": "application/vnd.api+json", "accept": "application/vnd.api+json", "Authorization": "Bearer {}"},
-
-        "progName"             : "D:/GitHub/DMPLogin_udv/bin/Debug/netcoreapp3.1/DMPLogin.exe",
 		"clientId"             : "qgisplugin-integration-daiedittest",
         "host"                 : "http://localhost",
         "port"                 : 5001,
@@ -16,8 +13,21 @@
 	    "pipeName"             : null,
         "ShowConsole"          : true
     },
+    "Access_produktion": {
+        "Address"              : "https://arealeditering-api.miljoeportal.dk",
+        "Headers"              : {"content-type": "application/vnd.api+json", "accept": "application/vnd.api+json", "Authorization": "Bearer {}"},
+		"clientId"             : "qgisplugin-integration-daiedit",
+        "host"                 : "http://localhost",
+        "port"                 : 5001,
+        "redirectUri"          : "http://localhost:5001/",
+        "postLogoutRedirectUri": "http://localhost:5001/",
+        "authority"            : "https://log-in.miljoeportal.dk/runtime/oauth2",
+        "scope"                : "openid http://www.miljoeportal.dk/roles",
+        "api"                  : "https://arealeditering-api.miljoeportal.dk/",
+	    "pipeName"             : null,
+        "ShowConsole"          : true
+    },
     "Commands": {
-        "temakoder"      : "/temakoder",
         "temakoder"      : "/temakoder",
         "attributter"    : "/attributter",
         "temaattributter": "/temaattributter",
