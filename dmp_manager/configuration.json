@@ -1,5 +1,6 @@
 {
     "Access": {
+        "Name"                 : "DEMO",
         "Address"              : "https://arealeditering-api.demo.miljoeportal.dk",
         "Headers"              : {"content-type": "application/vnd.api+json", "accept": "application/vnd.api+json", "Authorization": "Bearer {}"},
 		"clientId"             : "qgisplugin-integration-daiedittest",
@@ -14,6 +15,7 @@
         "ShowConsole"          : true
     },
     "Access_produktion": {
+        "Name"                 : "PRODUKTION",
         "Address"              : "https://arealeditering-api.miljoeportal.dk",
         "Headers"              : {"content-type": "application/vnd.api+json", "accept": "application/vnd.api+json", "Authorization": "Bearer {}"},
 		"clientId"             : "qgisplugin-integration-daiedit",
