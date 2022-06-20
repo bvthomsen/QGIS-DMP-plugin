@@ -33,7 +33,8 @@ from PyQt5.QtCore import (QSettings,
                           QUrl,
                           QDateTime)
                           
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QFont
+
 from PyQt5.QtWidgets import (QAction,
                              QMenu,
                              QInputDialog,
@@ -891,6 +892,7 @@ class DMPManager:
         sd = self.dockwidget
         spv = self.parm["Values"]
         spd = self.parm["Data"]
+        spa = self.parm["Access"]
 
         sd.leCVRNo.setText(str(spv["CVR number"]))
         sd.lePrefLayer.setText(spv["Preferred layer"])
@@ -899,6 +901,8 @@ class DMPManager:
         sd.dtTimeout.setDateTime(QDateTime().fromString(spv["Token time"], Qt.ISODate))
         sd.lePkName.setText(spd["PKName"])
         sd.lePkQuote.setText(spd["PKQuote"])
+        sd.lMiljoe.setText('Miljøportalen: '+spa["Name"])
+        sd.lMiljoe.setStyleSheet('font: bold 24px') #; color: red')        
 
 
         self.loadCbDownload()

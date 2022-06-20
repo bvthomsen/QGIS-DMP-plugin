@@ -27,7 +27,7 @@ class NamedPipe:
         self.authority = authority
         self.scope = scope
         self.api = api
-        pipeName="qgisplugin-integration-daiedittest"
+        #pipeName="qgisplugin-integration-daiedittest"
         self.pipeName=pipeName
         self.showConsole = showConsole
         self.pid = None

@@ -27,7 +27,7 @@
         "scope"                : "openid http://www.miljoeportal.dk/roles",
         "api"                  : "https://arealeditering-api.miljoeportal.dk/",
 	    "pipeName"             : null,
-        "ShowConsole"          : true
+        "ShowConsole"          : false
     },
     "Commands": {
         "temakoder"      : "/temakoder",
