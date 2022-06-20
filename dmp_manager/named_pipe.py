@@ -91,6 +91,11 @@ class NamedPipe:
             result, data = win32file.ReadFile(self.handle, 4096, None) 
     
             res = data.decode("utf-8").rstrip('\x00')
+            try:
+                js = json.loads(res)
+            except:
+                js = {'error':'BadJSON: '+ res}
+            
             return json.loads(res)
         
         return {'error':'HandleNotSet'}

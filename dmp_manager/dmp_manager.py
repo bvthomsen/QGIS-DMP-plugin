@@ -256,6 +256,7 @@ class DMPManager:
             sd.pbSave.clicked.connect(self.pbSaveClicked)
             sd.leToken.textChanged.connect(self.leTokenTextChanged)
             sd.pbReqToken.clicked.connect(self.pbReqTokenClicked)
+            #sd.pbDeprToken.clicked.connect(self.pbDeprTokenClicked)
             sd.pbPrefLayer.clicked.connect(self.pbPrefLayerClicked)
             sd.pbRefresh.clicked.connect(self.pbRefreshClicked)
             sd.pbDownload.clicked.connect(self.pbDownloadClicked)
@@ -944,6 +945,20 @@ class DMPManager:
         if res == '':
             sd.leToken.setText(self.dmpPipe.accessToken)
             sd.dtTimeout.setDateTime(self.dmpPipe.expirationTime)
+        else:
+            messW('Login error: {}'.format(res))
+
+    def pbDeprTokenClicked(self):
+        """HTTP request to generate access ticket and token for DMP"""
+
+        sd = self.dockwidget
+        res = self.dmpPipe.logout()
+        if res == '':
+            sd.leToken.setText('')
+            sd.dtTimeout.setDateTime(QDateTime.setCurrentDateTime())
+        else:
+            messW('Logout error: {}'.format(res))
+            
 
     def pbPrefLayerClicked(self):
         """Change preferred layerid to current value from cbDownload combobox item value"""
