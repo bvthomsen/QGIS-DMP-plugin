@@ -4,39 +4,62 @@
 <context>
     <name>@default</name>
     <message>
-        <location filename="../dmp_manager.py" line="233"/>
+        <location filename="../dmp_manager.py" line="234"/>
         <source>&amp;DMP Manager</source>
         <translation>&amp;DMP Manager</translation>
     </message>
     <message>
-        <location filename="../dmp_manager.py" line="206"/>
+        <location filename="../dmp_manager.py" line="207"/>
         <source>DMP Manager</source>
         <translation>DMP Manager</translation>
     </message>
     <message>
         <location filename="../dmp_manager.py" line="322"/>
         <source>Cancel modification: &quot;{}&quot;</source>
-        <translation>Tilbagefør rettelse</translation>
+        <translation type="obsolete">Tilbagefør rettelse</translation>
     </message>
     <message>
         <location filename="../dmp_manager.py" line="326"/>
         <source>Upload modification to DMP: &quot;{}&quot;</source>
-        <translation>Skub rettelse til DMP</translation>
+        <translation type="obsolete">Skub rettelse til DMP</translation>
     </message>
     <message>
         <location filename="../dmp_manager.py" line="330"/>
         <source>Show DMP error: &quot;{}&quot;</source>
-        <translation>Vis swidste DMP fejl</translation>
+        <translation type="obsolete">Vis swidste DMP fejl</translation>
     </message>
     <message>
         <location filename="../dmp_manager.py" line="334"/>
         <source>Zoom/pan to feature: &quot;{}&quot;</source>
-        <translation>Zoom / Panorér til element</translation>
+        <translation type="obsolete">Zoom / Panorér til element</translation>
     </message>
     <message>
-        <location filename="../dmp_manager.py" line="1120"/>
+        <location filename="../dmp_manager.py" line="1139"/>
         <source>Database connection is not set</source>
         <translation>Database forbindelse ikke valgt</translation>
+    </message>
+</context>
+<context>
+    <name>DMPManager</name>
+    <message>
+        <location filename="../dmp_manager.py" line="324"/>
+        <source>Cancel modification: &quot;{}&quot;</source>
+        <translation>Tilbagefør rettelse</translation>
+    </message>
+    <message>
+        <location filename="../dmp_manager.py" line="328"/>
+        <source>Upload modification to DMP: &quot;{}&quot;</source>
+        <translation>Skub rettelse til DMP</translation>
+    </message>
+    <message>
+        <location filename="../dmp_manager.py" line="332"/>
+        <source>Show DMP error: &quot;{}&quot;</source>
+        <translation>Vis sidste DMP fejl</translation>
+    </message>
+    <message>
+        <location filename="../dmp_manager.py" line="336"/>
+        <source>Zoom/pan to feature: &quot;{}&quot;</source>
+        <translation>Zoom / Panorér til element</translation>
     </message>
 </context>
 <context>
@@ -195,6 +218,11 @@
         <location filename="../dmp_manager_dockwidget_base.ui" line="376"/>
         <source>Save as default</source>
         <translation>Gem opsætninger</translation>
+    </message>
+    <message>
+        <location filename="../dmp_manager_dockwidget_base.ui" line="400"/>
+        <source>Miljøportalen: TEST</source>
+        <translation></translation>
     </message>
 </context>
 </TS>
