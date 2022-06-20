@@ -1220,6 +1220,8 @@ class DMPManager:
                             else: 
                                 messC('Creation of layer {} ({}) failed. It might already exist'.format(title,ml.name())) 
 
+                        self.iface.mapCanvas().refreshAllLayers() 
+    
                     else:
 
                         messC('Error {} for download of {}'.format(status, 'objekter'))
