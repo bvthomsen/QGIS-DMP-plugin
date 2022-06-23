@@ -634,6 +634,8 @@ class DMPManager:
                         vref[0] = ''
                     refl = loadVectorTableFromConnection (connection, vref[0], vref[1], 'reference')
 
+                    status, result = handleRequest(url+spc["objektfilter 2"].format(tCode,pa["objekt-id"]), 'get', headers, None, self.dmpLog, 'dmptest')
+
                     updateLayers (curl,refl, result, pkName, pkQuote, pkid)
 
                     crawler.setEnabled(False)

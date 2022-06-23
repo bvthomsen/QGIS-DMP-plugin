@@ -661,7 +661,11 @@ def updateLayers (layerc, layerr, dicto, pkid, pkquote, value):
 
 
     f = QgsFeature(layerc.fields())
-    e = dicto["data"]["attributes"]
+    try:
+        e = dicto["data"]["attributes"]
+    except:
+        e = dicto["data"][0]["attributes"]
+
     for ff in f.fields().names(): logI ('layerc fieldnames {}'.format(ff))    
     # Copy attributes from dict to feature
     for k, v in e.items():
