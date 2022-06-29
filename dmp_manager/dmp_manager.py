@@ -269,6 +269,7 @@ class DMPManager:
             sd.tvCompare.setContextMenuPolicy(Qt.CustomContextMenu)
             sd.tvCompare.customContextMenuRequested.connect(self.tvCompareOpenMenu)
             sd.cbDatabase.currentIndexChanged.connect (self.cbDatabaseCurrentIndexChanged)
+            sd.pbDatabase.clicked.connect(self.pbDatabaseClicked)
             sd.pbSchema.clicked.connect(self.pbSchemaClicked)
 
             # connect to provide cleanup on closing of dockwidget
@@ -894,7 +895,6 @@ class DMPManager:
         sd.lMiljoe.setText('Miljøportalen: '+spa["Name"])
         sd.lMiljoe.setStyleSheet('font: bold 24px') #; color: red')        
 
-
         self.loadCbDownload()
         self.loadCbDatabase(spd["Database_types"],spd["Database"],spd["Schema"])
 
@@ -1232,11 +1232,11 @@ class DMPManager:
         
             try: # A ugly workaround for Oracle missing connection method
 
-                metadata = QgsProviderRegistry.instance().providerMetadata(v)
+                metadata = QgsProviderRegistry.instance().providerMetadata(v[0])
                 conn = metadata.connections(False)
 
                 for c in conn:
-                    sd.cbDatabase.addItem('{} - {}'.format(k, c), [v, c])
+                    sd.cbDatabase.addItem('{} - {}'.format(k, c), [v[0], c, v[1], v[2]])
 
                 sd.cbDatabase.setCurrentIndex(sd.cbDatabase.findText(dbItem))
                 sd.cbSchema.setCurrentIndex(sd.cbSchema.findText(scItem))
@@ -1254,9 +1254,21 @@ class DMPManager:
             conns = QgsProviderRegistry.instance().providerMetadata(data[0]).connections(False)
             conn = conns[data[1]]
 
+            sd.lePkName.setText(data[2])
+            sd.lePkQuote.setText(data[3])
+
             sd.pbSchema.setEnabled(conn.capabilities() & QgsAbstractDatabaseProviderConnection.Schemas)
             if sd.pbSchema.isEnabled():
                 for s in conn.schemas(): sd.cbSchema.addItem(s)
+
+
+    def pbDatabaseClicked (self):
+    
+        sd = self.dockwidget
+        spd = self.parm["Data"]
+
+        self.loadCbDatabase(spd["Database_types"],sd.cbDatabase.currentText(), sd.cbSchema.currentText())
+
                 
     def pbSchemaClicked (self):
     

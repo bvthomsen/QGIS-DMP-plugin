@@ -114,7 +114,7 @@
 
 
     "Data": {
-		"Database_types" :{"MSSQL": "mssql", "Oracle": "oracle", "PostgreSQL": "postgres", "GeoPackage" : "ogr", "SpatiaLite": "spatialite"},
+		"Database_types" :{"MSSQL": ["mssql","id",""], "Oracle": ["oracle","id",""], "PostgreSQL": ["postgres","id",""], "GeoPackage" : ["ogr","fid",""], "SpatiaLite": ["spatialite","fid",""]},
         "Database": "",
         "Schema": "",
 		"PKName": "pk",
