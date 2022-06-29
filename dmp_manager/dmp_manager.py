@@ -410,7 +410,7 @@ class DMPManager:
             msgBox = QMessageBox()
             msgBox.setIcon(QMessageBox.Information)
             msgBox.setText(str(crawler.data(Qt.UserRole+1)))
-            msgBox.setWindowTitle('Message for {}'.format(pkid))
+            msgBox.setWindowTitle(tr('Message for {}').format(pkid))
             msgBox.setStandardButtons(QMessageBox.Close)
             msgBox.exec()
             
@@ -457,9 +457,11 @@ class DMPManager:
                 connection.executeSql(sql.format(cur=tblRef, pk=pkName, qt=pkQuote, val=pkid)) 
                 self.iface.mapCanvas().refreshAllLayers() 
 
-                messI('Status: {} - Delete of {}:{} done\n{}'.format(status, pkName, pkid, result))
+                messI(tr('Status: {} - Delete of {}:{} done\n{}').format(status, pkName, pkid, result))
             else:
-                messC('Error {} - Delete of {}:{}\n{}'.format(status, pkName, pkid, result))
+                messC(tr('Error {} - Delete of {}:{}\n{}').format(status, pkName, pkid, result))
+                crawler.setData(result, Qt.UserRole+1)
+
 
     def insDMP(self, pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode):
 
@@ -553,9 +555,11 @@ class DMPManager:
                     self.iface.mapCanvas().refreshAllLayers() 
 
 
-                    messI('Status: {} - Insert of {}:{} done\n{}'.format(status, pkName, pkid, result))
+                    messI(tr('Status: {} - Insert of {}:{} done\n{}').format(status, pkName, pkid, result))
                 else:
-                    messC('Error: {} - Insert of {}:{}\n{}'.format(status, pkName, pkid, result))
+                    messC(tr('Error: {} - Insert of {}:{}\n{}').format(status, pkName, pkid, result))
+                    crawler.setData(result, Qt.UserRole+1)
+
 
                     
     def cnvDBField(self, ta,fv):
@@ -571,7 +575,6 @@ class DMPManager:
 
     def updDMP(self, pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode):
 
-        messI('i updDMP')
         sd = self.dockwidget
         spc = self.parm["Commands"]
         spa = self.parm["Access"]  
@@ -642,9 +645,11 @@ class DMPManager:
 
                     self.iface.mapCanvas().refreshAllLayers() 
 
-                    messI('Status: {} - Update of {}:{} done\n{}'.format(status, pkName, pkid, result))
+                    messI(tr('Status: {} - Update of {}:{} done\n{}').format(status, pkName, pkid, result))
                 else:
-                    messC('Error: {} - Update of {}:{}\n{}'.format(status, pkName, pkid, result))
+                    messC(tr('Error: {} - Update of {}:{}\n{}').format(status, pkName, pkid, result))
+                    crawler.setData(result, Qt.UserRole+1)
+
 
     def genDictWhere(self, name, expr=r'cur."{0}" {1} ref."{0}"', opr = r'!=', conc='or', gname='geom', prefix='', postfix=''):
         """Generate where part from dictCompare chosen """
@@ -679,10 +684,6 @@ class DMPManager:
                 whr += ' ' + conc + ' ' + expr.format(f,opr)
 
         return prefix + whr + postfix
-
-#    def pbUploadClicked(self):
-#    
-#        messW ('Function "Upload" is disabled')
 
     def pbCheckClicked(self):
 
@@ -787,7 +788,7 @@ class DMPManager:
                     for f in lins.getFeatures():
                     
                         iins = QStandardItem(str(f[spd["PKName"]])) 
-                        iins.setData('No message yet', Qt.UserRole+1)
+                        iins.setData(tr('No message yet'), Qt.UserRole+1)
                         iins.setData(str(f.id()), Qt.UserRole+2)
                         iins.setEditable(False)
                         rins.appendRow(iins)
@@ -808,7 +809,7 @@ class DMPManager:
  
                     for f in ldel.getFeatures():
                         idel = QStandardItem(str(f[spd["PKName"]])) 
-                        idel.setData('No message yet', Qt.UserRole+1)
+                        idel.setData(tr('No message yet'), Qt.UserRole+1)
                         idel.setData(str(f.id()), Qt.UserRole+2)
                         idel.setEditable(False)
                         rdel.appendRow(idel)
@@ -829,7 +830,7 @@ class DMPManager:
 
                     for f in lmod.getFeatures():
                         imod = QStandardItem(str(f[spd["PKName"]])) 
-                        imod.setData('No message yet', Qt.UserRole+1)
+                        imod.setData(tr('No message yet'), Qt.UserRole+1)
                         imod.setData(str(f.id()), Qt.UserRole+2)
                         imod.setEditable(False)
                         rmod.appendRow(imod)
@@ -844,27 +845,8 @@ class DMPManager:
                 sd.tvCompare.setModel(tmc)
 
             else:
-                messI('No inserts, deletes og modifications in layer: {}'.format(layer.name()))
+                messI(tr('No inserts, deletes og modifications in layer: {}').format(layer.name()))
                 
-#    def restoreOriginalFeature(self, layerSrc, id, layerDest, val, cit=''):
-#        """Restore original feature using fid, mode and layerCompare chosen datalayer with its reference layer"""
-#
-#        logI('layerSrc = {}'.format(layerSrc.name()))
-#        logI('id = {}'.format(id))
-#        logI('layerDst = {}'.format(layerDst.name()))
-#        logI('val = {}'.format(val))
-#        logI('cit = {}'.format(cit))
-#        # Inserted: slet element fra layerdest
-#        # Deleted : copy element fra layersrc til layerdest
-#        # Modified: slet element fra layerdest + copy element fra layersrc til layerdst
-#        expression = '"{id}" = {cit}{val}{cit}'.format(id=id, val=val, cit=cit)
-#        request = QgsFeatureRequest().setFilterExpression(expression)
-#
-#        f = layerSrc.layer().getFeature(id)        
-#        with edit(layerDest.layer()):
-#            for g in layerDest.layer().getFeatures(request): layerDest.deleteFeature(g.id())            
-#            layerDest.layer().addFeature(f)
-
 
     def pbClearCompareClicked(self):
         """Clear compare reseults"""
@@ -882,6 +864,11 @@ class DMPManager:
                     if parent: parent.removeChildNode(root)
 
     def twMainCurrentChanged(self, indx):
+
+        sd = self.dockwidget
+
+        if indx != 2: 
+           if sd.cbDatabase.currentIndex() < 0 : messC(tr('Database not set, go to tab "Administration" and select a database to store downloaded DMP data'))
     
         if indx == 1: # "Checks" tab
             self.loadcbLayerCheck()
@@ -948,7 +935,7 @@ class DMPManager:
             sd.leToken.setText(self.dmpPipe.accessToken)
             sd.dtTimeout.setDateTime(self.dmpPipe.expirationTime)
         else:
-            messW('Login error: {}'.format(res))
+            messW(tr('Login error: {}').format(res))
 
     def pbDeprTokenClicked(self):
         """HTTP request to generate access ticket and token for DMP"""
@@ -959,7 +946,7 @@ class DMPManager:
             sd.leToken.setText('')
             sd.dtTimeout.setDateTime(QDateTime.setCurrentDateTime())
         else:
-            messW('Logout error: {}'.format(res))
+            messW(tr('Logout error: {}').format(res))
             
 
     def pbPrefLayerClicked(self):
@@ -997,9 +984,9 @@ class DMPManager:
             if status == 200:
                 sa['temakoder'] = result['data']
                 self.loadCbDownload()
-                messI('Download of {} done'.format('temakoder'))
+                messI(tr('Download of {} done').format('temakoder'))
             else:
-                messC('Error {} for download of {}'.format(status, 'temakoder'))
+                messC(tr('Error {} for download of {}').format(status, 'temakoder'))
 
             url = spa['Address'] + spc['attributter']
             # logI(url)
@@ -1007,9 +994,9 @@ class DMPManager:
             status, result = handleRequest(url, 'get', headers, None, self.dmpLog, 'dmptest')
             if status == 200:
                 sa['attributter'] = result['data']
-                messI('Download of {} done'.format('attributter'))
+                messI(tr('Download of {} done').format('attributter'))
             else:
-                messC('Error {} for download of {}'.format(status, 'attributter'))
+                messC(tr('Error {} for download of {}').format(status, 'attributter'))
 
             url = spa['Address'] + spc['temaattributter'] + spc['temaattributfilter 1']
             # logI(url)
@@ -1018,9 +1005,9 @@ class DMPManager:
             status, result = handleRequest(url, 'get', headers, None, self.dmpLog, 'dmptest')
             if status == 200:
                 sa['temaattributter'] = result['data']
-                messI('Download of {} done'.format('temaattributter'))
+                messI(tr('Download of {} done').format('temaattributter'))
             else:
-                messC('Error {} for download of {}'.format(status, 'temaattributter'))
+                messC(tr('Error {} for download of {}').format(status, 'temaattributter'))
 
     def checkToken(self):
         """Check if token still is valid (not to old)"""
@@ -1029,7 +1016,7 @@ class DMPManager:
 
         res = self.dmpPipe.refresh()
 
-        if sd.dtTimeout.dateTime() != self.dmpPipe.expirationTime: messI('Access token and expiration time updated') 
+        if sd.dtTimeout.dateTime() != self.dmpPipe.expirationTime: messI(tr('Access token and expiration time updated')) 
 
         sd.leToken.setText(self.dmpPipe.accessToken)
         sd.dtTimeout.setDateTime(self.dmpPipe.expirationTime)
@@ -1218,18 +1205,18 @@ class DMPManager:
                                 udict['tname'] = '__reference__' + ml.name() 
                                 ml3 = copyLayer2Layer(ml, udict, True)
                                 
-                                messI('Creation of layer {} ({}) succeeded'.format(title,ml.name())) 
+                                messI(tr('Creation of layer {} ({}) succeeded').format(title,ml.name())) 
                             else: 
-                                messC('Creation of layer {} ({}) failed. It might already exist'.format(title,ml.name())) 
+                                messC(tr('Creation of layer {} ({}) failed. It might already exist').format(title,ml.name())) 
 
                         self.iface.mapCanvas().refreshAllLayers() 
     
                     else:
 
-                        messC('Error {} for download of {}'.format(status, 'objekter'))
+                        messC(tr('Error {} for download of {}').format(status, 'objekter'))
 
             else:
-                messC('Error, no selection of download layer')
+                messC(tr('Error, no selection of download layer'))
 
     def loadCbDatabase(self, dbTypes, dbItem, scItem):
         """Load cbDatabase combobox from main settings"""
@@ -1255,7 +1242,7 @@ class DMPManager:
                 sd.cbSchema.setCurrentIndex(sd.cbSchema.findText(scItem))
 
             except:
-               messI('Providertype: {} deprecated'.format(k))                    
+               messI(tr('Providertype: {} deprecated').format(k))                    
 
     def cbDatabaseCurrentIndexChanged (self, index):
 
@@ -1288,10 +1275,10 @@ class DMPManager:
                     sd.cbSchema.addItem(name)
                     sd.cbSchema.setCurrentIndex(sd.cbSchema.findText(name))
                 except:
-                    messW('Error, Schema {} not created'.format(name))                    
+                    messW(tr('Error, Schema {} not created').format(name))                    
 
         else:
-            messW('Database not set')
+            messW(tr('Database not set'))
 
     def lookupTemakoder(dtk, temanr):
         for d in dtk:
