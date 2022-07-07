@@ -423,6 +423,8 @@ class DMPManager:
 
         elif operation == 'commit':
 
+            messI('cur='+tblCur+', ref='+tblRef+', name='+spa["Name"][:4].lower()) 
+
             if ltype == 'Inserted':
                 self.insDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode)
 
@@ -1195,14 +1197,13 @@ class DMPManager:
                         
                             loadLayer(ml, result)
 
-
-                            udict['tname'] = ml.name() 
+                            udict['tname'] = spa["Name"][:4].lower()+ '_' + ml.name() 
                             udict['gname'] = 'geom' 
                             udict['pkname'] = ''
                             ml2 = copyLayer2Layer(ml, udict, sd.chbOverwrite.isChecked())
                             if ml2: 
                                 addLayer2Tree(mprg, ml2, False, "DMPManager","DATA¤" + ml2.name() + "¤" + str(val['id']), os.path.join(spath, val['title'] + '.qml'), title)
-                                udict['tname'] = '__reference__' + ml.name() 
+                                udict['tname'] = spd['RefPrefix'] + spa["Name"][:4].lower()+ '_' + ml.name()  
                                 ml3 = copyLayer2Layer(ml, udict, True)
                                 
                                 messI(tr('Creation of layer {} ({}) succeeded').format(title,ml.name())) 

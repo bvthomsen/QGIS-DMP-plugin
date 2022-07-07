@@ -4,9 +4,9 @@
 
 [general]
 name=DMP Manager
-qgisMinimumVersion=3.0
+qgisMinimumVersion=3.22
 description=Manage data from Danmarmarks Miljøportal (DMP)
-version=0.1
+version=1.1
 author=Bo Victor Thomsen, AestasGIS Danmark 
 email=bvt@aestas.dk
 

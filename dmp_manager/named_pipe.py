@@ -88,7 +88,7 @@ class NamedPipe:
             win32file.WriteFile(self.handle, b)
     
             win32file.SetFilePointer(self.handle, 0, win32file.FILE_BEGIN)
-            result, data = win32file.ReadFile(self.handle, 4096, None) 
+            result, data = win32file.ReadFile(self.handle, 8192, None) 
     
             res = data.decode("utf-8").rstrip('\x00')
             try:
@@ -96,7 +96,7 @@ class NamedPipe:
             except:
                 js = {'error':'BadJSON: '+ res}
             
-            return json.loads(res)
+            return js
         
         return {'error':'HandleNotSet'}
 
