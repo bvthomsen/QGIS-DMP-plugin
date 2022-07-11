@@ -423,17 +423,19 @@ class DMPManager:
 
         elif operation == 'commit':
 
-            messI('cur='+tblCur+', ref='+tblRef+', name='+spa["Name"][:4].lower()) 
+            if spa["Name"][:4].lower() == tblCur(:4) + '_':
+    
+                if ltype == 'Inserted':
+                    self.insDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode)
+    
+                elif ltype == 'Deleted':
+                    self.delDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote)
+                    
+                elif ltype == 'Modified':
+                    self.updDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode)
 
-            if ltype == 'Inserted':
-                self.insDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode)
-
-            elif ltype == 'Deleted':
-                self.delDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote)
-                
-            elif ltype == 'Modified':
-                self.updDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode)
-             
+            else:
+                messC(tr('You can''t commit changes made in previous environment into environment: {}').format(spa["Name"]), tr('Changed environment with outstanding commits'))            
 
         self.iface.mapCanvas().refreshAllLayers() 
 
@@ -712,6 +714,7 @@ class DMPManager:
         spn = self.parm["Names"]        
         sps = self.parm["Selections"]
         spd = self.parm["Data"]
+        spa = self.parm["Access"] 
 
 
         # Clear current model
@@ -735,11 +738,11 @@ class DMPManager:
             dbCon = conns[dbData[1]]
 
             if sd.cbSchema.currentIndex() >=0:
-                tblRef = '"{}"."{}{}"'.format(sd.cbSchema.currentText(),spd['RefPrefix'],lcData[1])
-                tblCur = '"{}"."{}"'.format(sd.cbSchema.currentText(),lcData[1])
+                tblRef = '"{}"."{}_{}_{}"'.format(sd.cbSchema.currentText(), spd['RefPrefix'], spa["Name"][:4].lower(), lcData[1])
+                tblCur = '"{}"."{}_{}"'.format(sd.cbSchema.currentText(), spa["Name"][:4].lower(), lcData[1])
             else:
-                tblRef = '"{}{}"'.format(spd['RefPrefix'],lcData[1])
-                tblCur = '"{}"'.format(lcData[1])
+                tblRef = '"{}_{}_{}"'.format(spd['RefPrefix'], spa["Name"][:4].lower(), lcData[1])
+                tblCur = '"{}_{}"'.format(spa["Name"][:4].lower(), lcData[1])
 
             svlo = QgsAbstractDatabaseProviderConnection.SqlVectorLayerOptions()
             svlo.primaryKeyColumns = [spd["PKName"]]
@@ -1090,21 +1093,6 @@ class DMPManager:
 
         return udict
 
-    def createUriDictFile(self, fpth, ftyp, tname, gname = 'geom', pkname='objekt-id'):
-
-        rdict = {'MapInfo TAB':'.tab', 'ESRI Shapefile':'.shp', 'SpatiaLite':'.sqlite','GeoPackage':'.gpkg'}        
-
-        udict = {}
-        udict['gname'] = gname
-        udict['pkname'] = pkname
-        udict['path'] = fpth
-        udict['tname'] = tname
-        udict['contype'] = 'ogr'
-        udict['filetype'] = ftyp
-        udict['ext'] = rdict[ftyp]
-
-        return udict
-
     def createUri(self, tname, gname = 'geom', pkname='objekt-id'):
     
         sd = self.dockwidget
@@ -1197,13 +1185,13 @@ class DMPManager:
                         
                             loadLayer(ml, result)
 
-                            udict['tname'] = spa["Name"][:4].lower()+ '_' + ml.name() 
+                            udict['tname'] = '{}_{}'.format(spa["Name"][:4].lower(), ml.name()) 
                             udict['gname'] = 'geom' 
                             udict['pkname'] = ''
                             ml2 = copyLayer2Layer(ml, udict, sd.chbOverwrite.isChecked())
                             if ml2: 
                                 addLayer2Tree(mprg, ml2, False, "DMPManager","DATA¤" + ml2.name() + "¤" + str(val['id']), os.path.join(spath, val['title'] + '.qml'), title)
-                                udict['tname'] = spd['RefPrefix'] + spa["Name"][:4].lower()+ '_' + ml.name()  
+                                udict['tname'] = '{}_{}_{}'.format(spd['RefPrefix'], spa["Name"][:4].lower(), ml.name())  
                                 ml3 = copyLayer2Layer(ml, udict, True)
                                 
                                 messI(tr('Creation of layer {} ({}) succeeded').format(title,ml.name())) 
