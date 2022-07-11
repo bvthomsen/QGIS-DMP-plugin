@@ -27,21 +27,9 @@ class NamedPipe:
         self.authority = authority
         self.scope = scope
         self.api = api
-        #pipeName="qgisplugin-integration-daiedittest"
         self.pipeName=pipeName
         self.showConsole = showConsole
         self.pid = None
-#        print(self.progName)
-#        print(self.clientId)
-#        print(self.host)
-#        print(self.port)
-#        print(self.redirectUri)
-#        print(self.postLogoutRedirectUri)
-#        print(self.authority)
-#        print(self.scope)
-#        print(self.api)
-#        print(self.pipeName)
-#        print(self.showConsole)
         
         self.accessToken = None
         self.expirationTime = None
