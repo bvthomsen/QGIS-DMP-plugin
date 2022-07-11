@@ -426,7 +426,8 @@
             "attributes": {
                 "title": "Beskyttede sten- og jorddiger",
                 "name": "bes_sten_jorddiger",
-                "geometry-type": "MultiLineString"
+                "geometry-type": "MultiLineString",
+                "id": "2001"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2001"
@@ -438,7 +439,8 @@
             "attributes": {
                 "title": "S\u00f8beskyttelseslinjer",
                 "name": "soe_bes_linjer",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2003"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2003"
@@ -450,7 +452,8 @@
             "attributes": {
                 "title": "\u00c5beskyttelseslinjer",
                 "name": "aa_bes_linjer",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2004"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2004"
@@ -462,7 +465,8 @@
             "attributes": {
                 "title": "Skovbyggelinjer",
                 "name": "skovbyggelinjer",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2005"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2005"
@@ -474,7 +478,8 @@
             "attributes": {
                 "title": "Kirkebyggelinjer",
                 "name": "kirkebyggelinjer",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2008"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2008"
@@ -486,7 +491,8 @@
             "attributes": {
                 "title": "Fredede omr\u00e5der",
                 "name": "fredede_omr",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2009"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2009"
@@ -498,7 +504,8 @@
             "attributes": {
                 "title": "Fredede omr\u00e5der, forslag",
                 "name": "fredede_omr_forslag",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2010"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2010"
@@ -510,7 +517,8 @@
             "attributes": {
                 "title": "Beskyttede naturtyper",
                 "name": "bes_naturtyper",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2013"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2013"
@@ -522,7 +530,8 @@
             "attributes": {
                 "title": "Beskyttede vandl\u00f8b",
                 "name": "bes_vandloeb",
-                "geometry-type": "MultiLineString"
+                "geometry-type": "MultiLineString",
+                "id": "2014"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2014"
@@ -534,7 +543,8 @@
             "attributes": {
                 "title": "NATURA 2000 - Fuglebeskyttelse",
                 "name": "fugle_bes_omr",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2018"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2018"
@@ -546,7 +556,8 @@
             "attributes": {
                 "title": "NATURA 2000 - Habitatomr\u00e5der",
                 "name": "habitat_omr",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2019"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2019"
@@ -558,7 +569,8 @@
             "attributes": {
                 "title": "Ramsar omr\u00e5der",
                 "name": "ramsar_omr",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2020"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2020"
@@ -570,7 +582,8 @@
             "attributes": {
                 "title": "Natur- og vildtreservater",
                 "name": "natur_vildt_reservat",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2037"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2037"
@@ -582,7 +595,8 @@
             "attributes": {
                 "title": "Kystn\u00e6rhedszone",
                 "name": "kystnaerhedszone",
-                "geometry-type": "LineString"
+                "geometry-type": "LineString",
+                "id": "2038"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2038"
@@ -594,7 +608,8 @@
             "attributes": {
                 "title": "Omr\u00e5deklassificering",
                 "name": "omr_klassificering",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2054"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2054"
@@ -606,7 +621,8 @@
             "attributes": {
                 "title": "R\u00e5stofomr\u00e5der",
                 "name": "raastofomr",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2055"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2055"
@@ -618,7 +634,8 @@
             "attributes": {
                 "title": "Kv\u00e6lstofreduktionspotentialer",
                 "name": "kvaelstof_red_pot",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2079"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2079"
@@ -630,7 +647,8 @@
             "attributes": {
                 "title": "Igangv\u00e6rende p\u00e5bud JFL",
                 "name": "paabud_jfl",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2097"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2097"
@@ -642,7 +660,8 @@
             "attributes": {
                 "title": "Indsatsplaner for grundvandsbeskyttelse",
                 "name": "indsatsplaner",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2112"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2112"
@@ -654,7 +673,8 @@
             "attributes": {
                 "title": "Bekendtg\u00f8relsesfredninger",
                 "name": "fredede_omr_bk",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2140"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2140"
@@ -666,7 +686,8 @@
             "attributes": {
                 "title": "Aftalearealer for grundvandsbeskyttelse",
                 "name": "aftarea_grvbes",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2141"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2141"
@@ -678,7 +699,8 @@
             "attributes": {
                 "title": "Status p\u00e5 BNBO",
                 "name": "status_bnbo",
-                "geometry-type": "MultiPolygon"
+                "geometry-type": "MultiPolygon",
+                "id": "2142"
             },
             "links": {
                 "self": "https://arealeditering-api.demo.miljoeportal.dk/temakoder/2142"
