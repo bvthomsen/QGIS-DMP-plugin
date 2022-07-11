@@ -1,0 +1,62 @@
+{
+    "data": {
+        "id": "8536a281-a2db-42c5-a900-720f3806f42c",
+        "attributes": {
+            "temaattributter": {
+                "omr-navn": "bvt test2",
+                "omr-tkode-id": 1,
+                "gyldig-fra": "2022-05-03T10:00:00.0000000+00:00",
+                "gyldig-til": null
+            },
+            "objekt-id": "0ec32dff-a1f4-4069-8598-a04fbced4b0b",
+            "version-id": "8536a281-a2db-42c5-a900-720f3806f42c",
+            "systid-fra": "2022-05-03T11:22:11.762+00:00",
+            "systid-til": null,
+            "oprettet": "2022-05-03T11:10:14.226+00:00",
+            "bruger-id": "fb2da291-c692-4cab-ab1d-105266614d5a",
+            "link": null,
+            "shape": {
+                "type": "MultiPolygon",
+                "coordinates": [
+                    [
+                        [
+                            [
+                                557776.4837819189,
+                                6082696.256038647
+                            ],
+                            [
+                                557274.4133885441,
+                                6081022.688060732
+                            ],
+                            [
+                                560872.584541063,
+                                6079139.924085576
+                            ],
+                            [
+                                561876.7253278126,
+                                6079767.512077294
+                            ],
+                            [
+                                557776.4837819189,
+                                6082696.256038647
+                            ]
+                        ]
+                    ]
+                ]
+            },
+            "oprindkode-id": null,
+            "statuskode-id": 3,
+            "off-kode-id": 3,
+            "cvr-kode-id": 29190658
+        },
+        "relationships": {
+            "temakode": {
+                "data": {
+                    "type": "temakoder",
+                    "id": "2055"
+                }
+            }
+        },
+        "type": "objekter"
+    }
+}

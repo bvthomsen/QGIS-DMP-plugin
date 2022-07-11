@@ -21,21 +21,30 @@ namespace NetCoreConsoleApp
 {
     public class Program
     {
-        
 
-        static readonly string _clientId = "qgisplugin-integration-daiedittest";
+
+        static readonly string _clientId = "qgisplugin-integration-daiedit";
+        //        static readonly string _clientSecret = "ccN4hszgLVizQCQL4lMV3hpLQH5nRzAcHJwem5MTSOE=";
+        static readonly string _clientSecret = "";
+
         static readonly string _host = "http://localhost";
         static readonly int _port = 5001;
-        static readonly string _redirectUri = $"{_host}:{_port}/login";
-        static readonly string _postLogoutRedirectUri = $"{_host}:{_port}/login";
-
-        static readonly string _authority = "https://log-in.test.miljoeportal.dk/runtime/oauth2";
+        static readonly string _redirectUri = $"{_host}:{_port}/";
+        static readonly string _postLogoutRedirectUri = $"{_host}:{_port}/";
+        static readonly string _authority = "https://log-in.miljoeportal.dk/runtime/oauth2";
         static readonly string _scope = "openid http://www.miljoeportal.dk/roles";
-        //static readonly string _api = "https://arealeditering-api.test.miljoeportal.dk/";
-        static readonly string _api = "https://arealeditering-api.test.miljoeportal.dk/";
-//        static readonly string _api = "https://arealeditering-api.miljoeportal.dk/";
+        static readonly string _api = "https://arealeditering-api.miljoeportal.dk/";
 
-
+//        static readonly string _clientId = "qgisplugin-integration-daiedittest";
+//        static readonly string _clientSecret = "";
+//        static readonly string _host = "http://localhost";
+//        static readonly int _port = 5001;
+//        static readonly string _redirectUri = $"{_host}:{_port}/login";
+//        static readonly string _postLogoutRedirectUri = $"{_host}:{_port}/login";
+//        static readonly string _authority = "https://log-in.test.miljoeportal.dk/runtime/oauth2";
+//        static readonly string _scope = "openid http://www.miljoeportal.dk/roles";
+//        static readonly string _api = "https://arealeditering-api.test.miljoeportal.dk/";
+        
         static OidcClient _oidcClient;
         static HttpClient _apiClient = new HttpClient { BaseAddress = new Uri(_api) };
 
@@ -67,6 +76,7 @@ namespace NetCoreConsoleApp
             {
                 Authority = _authority,
                 ClientId = _clientId,
+                ClientSecret = _clientSecret,
                 RedirectUri = _redirectUri,
                 Scope = _scope,
                 FilterClaims = false,
@@ -197,6 +207,8 @@ namespace NetCoreConsoleApp
                 if (key.Key == ConsoleKey.P)
                 {
                     var payload = JsonConvert.SerializeObject(CreateObjekt(), serializerSettings);
+                    payload = payload.Replace("\"type\":\"temakode\"", "\"type\":\"temakoder\"");
+                    Console.WriteLine(payload);
                     response = await CallApi("post", currentAccessToken, "objekter", payload);
                     if (response.IsSuccessStatusCode)
                     {

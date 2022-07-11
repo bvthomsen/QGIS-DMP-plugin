@@ -27,9 +27,10 @@ class NamedPipe:
         self.authority = authority
         self.scope = scope
         self.api = api
+        #pipeName="qgisplugin-integration-daiedittest"
         self.pipeName=pipeName
         self.showConsole = showConsole
- 
+        self.pid = None
 #        print(self.progName)
 #        print(self.clientId)
 #        print(self.host)
@@ -55,6 +56,10 @@ class NamedPipe:
                      self.authority,
                      self.scope,
                      self.api]
+
+        if self.pid: 
+            self.pid.kill()
+            self.pid = None
 
         if self.showConsole == True:                     
             subprocess.Popen(startArgs, creationflags = subprocess.CREATE_NEW_PROCESS_GROUP)
@@ -83,10 +88,15 @@ class NamedPipe:
             win32file.WriteFile(self.handle, b)
     
             win32file.SetFilePointer(self.handle, 0, win32file.FILE_BEGIN)
-            result, data = win32file.ReadFile(self.handle, 4096, None) 
+            result, data = win32file.ReadFile(self.handle, 8192, None) 
     
             res = data.decode("utf-8").rstrip('\x00')
-            return json.loads(res)
+            try:
+                js = json.loads(res)
+            except:
+                js = {'error':'BadJSON: '+ res}
+            
+            return js
         
         return {'error':'HandleNotSet'}
 

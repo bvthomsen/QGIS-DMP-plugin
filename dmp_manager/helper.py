@@ -9,6 +9,7 @@ from PyQt5.QtCore import (QCoreApplication,
                           QVariant,
                           QUrl)
                           
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtGui import QPolygonF
 from PyQt5.QtNetwork import QNetworkRequest 
 
@@ -21,10 +22,15 @@ from qgis.core import (QgsMessageLog,
                        QgsCoordinateTransform,QgsGeometry,
                        QgsField, 
                        QgsExpressionContextUtils,
-                       QgsFeature,QgsPointXY,
+                       QgsFeature,
+                       QgsPointXY,
                        QgsVectorLayerExporter,
                        QgsNetworkAccessManager,
-                       QgsLayerTreeGroup)
+                       QgsFeatureRequest,
+                       QgsLayerTreeGroup,
+                       QgsAbstractDatabaseProviderConnection,
+                       QgsProviderRegistry,
+                       QgsDataSourceUri)
 
 trClassName = ''
 
@@ -253,28 +259,38 @@ def write_config(filename, config):
     file.close()
 
 
-def createRequestLog(ename, evalue, lname, root=None, top=True, style=None):
+def createRequestLog(ename, evalue, lname, root=None, top=True, style=None, dbConn=None, schName=None):
     """TBD"""
 
     ltl, ml = findLayerVariableValue(ename, evalue)
 
     if ml is None:
+        fields = [QgsField("operation", QVariant.String),
+                  QgsField("url", QVariant.String),
+                  QgsField("package", QVariant.String),
+                  QgsField("status_code", QVariant.String),
+                  QgsField("dict", QVariant.String),
+                  QgsField("timestamp", QVariant.String),
+                  QgsField("errortext", QVariant.String),
+                  QgsField("module", QVariant.String)]
 
-        ml = QgsVectorLayer("None", lname, "memory")
-        ml.dataProvider().addAttributes([QgsField("operation", QVariant.String),
-                                         QgsField("url", QVariant.String),
-                                         QgsField("package", QVariant.String),
-                                         QgsField("status_code", QVariant.String),
-                                         QgsField("dict", QVariant.String),
-                                         QgsField("timestamp", QVariant.String),
-                                         QgsField("module", QVariant.String)])
-        ml.updateFields()
-        ltl = addLayer2Tree(root, ml, top, ename, evalue, style)
+        if dbConn is None:
+            ml = QgsVectorLayer("None", lname, "memory")
+            ml.dataProvider().addAttributes(fields)
+            ml.updateFields()
+        else:
+            if not dbConn.tableExists(schName, lname): dbConn.createVectorTable(schName, lname, fields, 100)
+            options = QgsAbstractDatabaseProviderConnection.SqlVectorLayerOptions()
+            options.sql = 'SELECT * from FROM "{}"."{}"'.format(schName, lname)
+            options.primaryKeyColumns = []
+            options.geometryColumn = ''
+            ml = conn.createSqlVectorLayer(options)             
+    ltl = addLayer2Tree(root, ml, top, ename, evalue, style)
 
     return ltl, ml
 
 
-def handleRequest(urlstr, isPost=False, headers=None, package=None, loglayer=None, module='', authconf = ''):
+def handleRequest_new(urlstr, isPost=False, headers=None, package=None, loglayer=None, module='', authconf = ''):
     """TBD"""
 
     nam = QgsNetworkAccessManager()
@@ -304,19 +320,104 @@ def handleRequest(urlstr, isPost=False, headers=None, package=None, loglayer=Non
 
     return scode, dictR
 
-def handleRequest_old(url, isPost=False, headers=None, package=None, loglayer=None, module=''):
+def handleRequest_old2(urlstr, isPost=False, headers=None, package=None, loglayer=None, module='', authconf = ''):
     """TBD"""
 
-    if isPost:
+    nam = QgsNetworkAccessManager()
+    url = QUrl(urlstr)
+    req = QNetworkRequest(url)
+
+    if headers:
+        for key, value in headers.items():
+            req.setRawHeader(bytes(key, "utf-8"), bytes(value, "utf-8"))
+ 
+    resp = nam.blockingPost(req, bytes(json.dumps(package) if package else None, "utf-8"), authconf) if isPost else nam.blockingGet(req, authconf)
+    scode = resp.attribute(QNetworkRequest.HttpStatusCodeAttribute)
+    dictR = loads(str(resp.content(), "utf-8" )) if scode == 200 else None
+
+    if loglayer:
+
+        stime = QDateTime.currentDateTime().toString(Qt.ISODate)
+        feat = QgsFeature(loglayer.fields())
+        feat['operation'] = 'post' if isPost else 'get'
+        feat['url'] = urlstr
+        feat['package'] = dumps(package, indent=2) if package else ''
+        feat['status_code'] = str(scode)
+        feat['dict'] = dumps(dictR, indent=2)[:100000] if dictR else ''
+        feat['timestamp'] = stime
+        feat['module'] = module
+        loglayer.dataProvider().addFeatures([feat])
+
+    return scode, dictR
+
+def handleRequest    (url, method='get', headers=None, package=None, loglayer=None, module=''):
+    """TBD"""
+    
+    method = method.lower()
+    
+    if method == 'post':
+        r = requests.post(url, json=package, headers=headers)
+ 
+    elif method == 'get':
+        r = requests.get(url, headers=headers)
+
+    elif method == 'patch':
+        r = requests.patch(url, json=package, headers=headers)
+
+    elif method == 'delete':
+        r = requests.delete(url, headers=headers)
+
+    scode = r.status_code
+    try:
+        dictR = r.json() 
+    except:
+        dictR = {}
+
+    if loglayer:
+
+        stime = QDateTime.currentDateTime().toString(Qt.ISODate)
+
+        feat = QgsFeature(loglayer.fields())
+        feat['operation'] = method
+        feat['url'] = url
+        feat['package'] = dumps(package, indent=2) if package else ''
+        feat['status_code'] = str(scode)
+        feat['dict'] = dumps(dictR, indent=2)[:100000] if dictR else ''
+        feat['timestamp'] = stime
+#        feat['errortext'] = r.text
+        feat['module'] = module
+        loglayer.dataProvider().addFeatures([feat])
+
+    return scode, dictR
+
+def handleRequest2    (url, method='get', headers=None, package=None, loglayer=None, module=''):
+    """TBD"""
+    
+    method = method.lower()
+    
+    if method == 'post':
         if headers:
             r = requests.post(url, json=package, headers=headers)\
                 if package else requests.post(url, headers=headers)
         else:
             r = requests.post(url, json=package)\
                 if package else requests.post(url)
-    else:
+
+    elif method == 'get':
         r = requests.get(url, headers=headers)\
             if headers else requests.get(url)
+
+    elif method == 'patch':
+        if headers:
+            r = requests.patch(url, json=package, headers=headers)\
+                if package else requests.patch(url, headers=headers)
+        else:
+            r = requests.patch(url, json=package)\
+                if package else requests.patch(url)
+
+    elif method == 'delete':
+        r = requests.delete(url, headers=headers)\
+            if headers else requests.delete(url)
 
     scode = r.status_code
     dictR = r.json() if r.status_code == 200 else None
@@ -326,7 +427,7 @@ def handleRequest_old(url, isPost=False, headers=None, package=None, loglayer=No
         stime = QDateTime.currentDateTime().toString(Qt.ISODate)
 
         feat = QgsFeature(loglayer.fields())
-        feat['operation'] = 'post' if isPost else 'get'
+        feat['operation'] = method
         feat['url'] = url
         feat['package'] = dumps(package, indent=2) if package else ''
         feat['status_code'] = str(scode)
@@ -485,8 +586,12 @@ def createField(e):
         f.setType(QVariant.String)
         le, tf = createMemLookup(e["domain"], e["name"], e["title"])
 
+    elif e['data-type'] == "domain-multi":
+        f.setType(QVariant.String)
+        le, tf = createMemLookup(e["domain"], e["name"], e["title"])
+
     else:
-        e.setType(QVariant.String)
+        f.setType(QVariant.String)
 
     if e["default"]:
         f.setDefaultValueDefinition(e["default"])
@@ -512,6 +617,100 @@ def createMemLookup(domain, tfield, ttitle):
 
     return vl, ttitle
 
+def updateLayer(layer, dicto, pkid = None, pkquote = None, value = None):
+    """Converts an dictionary object to a layer feature and update the layer by inserting or updating"""
+
+    j = 0
+    d = dicto["data"]
+    f = QgsFeature(layer.fields())
+    e = d["attributes"]
+    
+    for k, v in e.items():
+        if k == "temaattributter":
+            for k2, v2 in v.items():
+                logI ('TemaAttributter: ' + k2 + '~ ' + str(v2))
+                f.setAttribute(k2, v2)
+        elif k == "shape":
+            f.setGeometry(cnvGJ2QgsGeometry(v))
+        else:
+            logI ('Attributter: ' + k + '~ ' + str(v))
+            f.setAttribute(k, v)
+    if pkid:
+        pkids = layer.primaryKeyAttributes() 
+        logI ('pkid = ' + str(pkid) + ', value = ' + str(value))
+        layer.startEditing()
+        expression = '"{0}"={2}{1}{2}'.format(pkid,value,pkquote)
+        logI ('expression: '+ expression)
+        for g in layer.getFeatures(QgsFeatureRequest().setFilterExpression(expression)): 
+            logI ('g.id = ' + str(g.id()))
+            for ff in f.fields().names(): 
+                if f.fields().indexFromName(ff) not in pkids:
+                    g.setAttribute(ff, f[ff])  
+                    logI('......' + ff + ' :: ' + str(f[ff]) + ' :: ' + str(g[ff]))
+            layer.updateFeature(g)
+        layer.commitChanges()
+    else:
+        logI ('insert uden pkid')
+        dp = layer.dataProvider()
+        dp.addFeatures([f])
+
+def updateLayers (layerc, layerr, dicto, pkid, pkquote, value):
+    """Converts an dictionary object to a layer feature and update the layers by inserting or updating"""
+
+    logI ('I updateLayers, layerc = {}, layerr = {}, pkid = {}, pkquote = {}, value = {}'.format(layerc.name(), layerr.name(), pkid, pkquote, value))
+
+
+    f = QgsFeature(layerc.fields())
+    try:
+        e = dicto["data"]["attributes"]
+    except:
+        e = dicto["data"][0]["attributes"]
+
+    for ff in f.fields().names(): logI ('layerc fieldnames {}'.format(ff))    
+    # Copy attributes from dict to feature
+    for k, v in e.items():
+        if k == "temaattributter":
+            for k2, v2 in v.items():
+                logI ('TemaAttributter: ' + k2 + '~ ' + str(v2))
+                f.setAttribute(k2, v2)
+        elif k == "shape":
+            f.setGeometry(cnvGJ2QgsGeometry(v))
+        else:
+            logI ('Attributter: ' + k + '~ ' + str(v))
+            f.setAttribute(k, v)
+
+    f.setAttribute(pkid,value)
+
+    # set filter to find update object
+    expression = '"{0}"={2}{1}{2}'.format(pkid,value,pkquote)
+    logI ('Expression = ' + expression)
+
+    # Update current layer
+    layerc.startEditing()
+    for g in layerc.getFeatures(QgsFeatureRequest().setFilterExpression(expression)): 
+        g.setGeometry(f.geometry())      
+        for ff in f.fields().names(): 
+            logI ('layerc ff = {}, f[ff] = {}'.format(ff, f[ff]))
+            g.setAttribute(ff, f[ff])  
+        gr = g
+        layerc.updateFeature(g)
+    layerc.commitChanges()
+
+    # Update reference layer
+    layerr.startEditing()
+    i = 0 
+    for g in layerr.getFeatures(QgsFeatureRequest().setFilterExpression(expression)):
+        i += 1
+        g.setGeometry(f.geometry())      
+        for ff in f.fields().names(): 
+            logI ('layerr ff = {}, f[ff] = {}'.format(ff, f[ff]))
+            g.setAttribute(ff, f[ff])  
+        layerr.updateFeature(g)
+    layerr.commitChanges()
+
+    if i == 0: 
+        logI('Insert...')
+        layerr.dataProvider().addFeatures([gr])
 
 def loadLayer(layer, dicto):
     """Converts an object dictionary to a list of features"""
@@ -636,33 +835,24 @@ def copyLayer2Layer(lyr, udict, owrite):
 
     if  contype == 'ogr':
 
-        ext = udict['ext'] 
-        
-        if ext in ['.gpkg','.sqlite']:
-            options['update'] = True
-            options['driverName'] = ext.replace('.','')
-            options['layerName'] = udict['tname']
-            uristr = udict['path']
-            logI('gpkg/spatialite: ' + uristr)
-            err = QgsVectorLayerExporter.exportLayer(lyr, uristr, "ogr", lyr.crs(), False, options)
-            uristr += '|layername={}'.format(udict['tname'])
-        elif ext in ['.tab','.shp']:
-            uristr = os.path.join(udict['path'],udict['tname']+ext)
-            logI('tab/shape: ' + uristr)
-            options['driverName'] = 'MapInfo File' if ext == '.tab' else 'ESRI Shapefile'
-            err = QgsVectorLayerExporter.exportLayer(lyr, uristr, "ogr", lyr.crs(), False, options)
+        options['update'] = True
+        options['layerName'] = udict['tname']
+        uristr = udict['uri']
+        options['driverName'] = 'gpkg'
+        logI('uristr='+uristr)
+        err = QgsVectorLayerExporter.exportLayer(lyr, uristr, "ogr", lyr.crs(), False, options)
+        uristr += '|layername={}'.format(udict['tname'])
+        logI('uri='+uristr)
+        logI('options='+options['driverName'])
 
     else:
 
         uri = udict['uri']
-
         uri.setTable(udict['tname'])
         if 'gname' in udict and udict['gname'] != '': uri.setGeometryColumn(udict['gname'])
         #if udict['pkname'] != '': uri.setKeyColumn(udict['pkname'])
 
         uristr = uri.uri()
-        logI(uristr)
-
         err = QgsVectorLayerExporter.exportLayer(lyr, uristr, contype, lyr.crs(), False, options)
 
 
@@ -673,4 +863,28 @@ def copyLayer2Layer(lyr, udict, owrite):
         logI('Layer {} : {} : import ok'.format(lyr.name(),uristr))
         return QgsVectorLayer(uristr, lyr.name(),contype)
         
+
+def loadVectorTableFromConnection (connection, schema, table, layername): 
+
+    urlstr = connection.tableUri(schema, table)
+    
+    tableprm = connection.table(schema, table)
+    pkidlst = tableprm.primaryKeyColumns() 
+    geomstr = tableprm.geometryColumn()
+
+    uri = QgsDataSourceUri(urlstr)
+
+    if connection.providerKey() != 'ogr': 
+        uri.setKeyColumn(pkidlst[0])
+        uri.setGeometryColumn(geomstr)
+
+    logI('*'+uri.uri())
+    logI(connection.providerKey())
+    if connection.providerKey() != 'ogr':
+        layer = QgsVectorLayer(uri.uri(), layername, connection.providerKey())
+    else:
+
+        layer = QgsVectorLayer(uri.uri().replace("'","").replace("/","\\"),layername, connection.providerKey())
+
+    return layer
 

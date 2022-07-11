@@ -95,7 +95,7 @@ namespace DMPLoginApp
                     dmprec.token = "";
                     dmprec.time = "";
 
-                    Console.WriteLine("Command is: " + dmprec.command);
+                    Console.WriteLine("Command is: " + line);
 
 
                     if (line == "login")
@@ -118,6 +118,7 @@ namespace DMPLoginApp
                         if (result.IsError)
                         {
                             dmprec.error = result.Error;
+                            Console.WriteLine("Error is: " + dmprec.error);
                         }
                         else
                         {
@@ -125,6 +126,8 @@ namespace DMPLoginApp
                             currentIdentityToken = result.IdentityToken;
                             dmprec.token = result.AccessToken;
                             dmprec.time = result.AccessTokenExpiration.ToString("s");
+                            Console.WriteLine("Token is: " + dmprec.token);
+                            Console.WriteLine("Time is: " + dmprec.time);
                         }
                         WriteDMPrecord(server, dmprec, bufSize);
                     }
@@ -135,6 +138,7 @@ namespace DMPLoginApp
                         if (result.IsError)
                         {
                             dmprec.error = result.Error;
+                            Console.WriteLine("Error is: " + dmprec.error);
                         }
                         else
                         {
@@ -142,6 +146,8 @@ namespace DMPLoginApp
                             currentIdentityToken = result.IdentityToken;
                             dmprec.token = result.AccessToken;
                             dmprec.time = result.AccessTokenExpiration.ToString("s");
+                            Console.WriteLine("Token is: " + dmprec.token);
+                            Console.WriteLine("Time is: " + dmprec.time);
                         }
                         WriteDMPrecord(server, dmprec, bufSize);
                     }
@@ -156,19 +162,20 @@ namespace DMPLoginApp
                         if (result.IsError)
                         {
                             dmprec.error = result.Error;
+                            Console.WriteLine("Error is: " + dmprec.error);
                         }
                         WriteDMPrecord(server, dmprec, bufSize);
                     }
 
                     else if (line == "stop")
                     {
-                        Console.WriteLine("stop commando...");
                         WriteDMPrecord(server, dmprec, bufSize);
                         anotherround = false;
                     }
                     else
                     {
                         dmprec.error = "Unknown command : " + line;
+                        Console.WriteLine("Error is: " + dmprec.error);
                         WriteDMPrecord(server, dmprec, bufSize);
                     }
                 }

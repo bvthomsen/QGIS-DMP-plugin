@@ -1,20 +1,41 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis readOnly="0" version="3.16.3-Hannover" maxScale="0" simplifyDrawingHints="1" simplifyLocal="1" simplifyAlgorithm="0" simplifyMaxScale="1" styleCategories="AllStyleCategories" hasScaleBasedVisibilityFlag="0" minScale="100000000" simplifyDrawingTol="1" labelsEnabled="0">
+<qgis maxScale="0" labelsEnabled="0" simplifyMaxScale="1" version="3.22.0-Białowieża" simplifyAlgorithm="0" minScale="100000000" styleCategories="AllStyleCategories" simplifyLocal="1" symbologyReferenceScale="-1" simplifyDrawingTol="1" readOnly="0" hasScaleBasedVisibilityFlag="0" simplifyDrawingHints="1">
   <flags>
     <Identifiable>1</Identifiable>
     <Removable>1</Removable>
     <Searchable>1</Searchable>
+    <Private>0</Private>
   </flags>
-  <temporal durationField="" accumulate="0" enabled="0" mode="0" startExpression="" endExpression="" startField="" fixedDuration="0" durationUnit="min" endField="">
+  <temporal limitMode="0" durationUnit="min" endField="" endExpression="" accumulate="0" mode="0" fixedDuration="0" startField="" enabled="0" durationField="" startExpression="">
     <fixedRange>
       <start></start>
       <end></end>
     </fixedRange>
   </temporal>
-  <renderer-v2 symbollevels="0" forceraster="0" type="singleSymbol" enableorderby="0">
+  <renderer-v2 type="singleSymbol" forceraster="0" symbollevels="0" referencescale="-1" enableorderby="0">
     <symbols>
-      <symbol alpha="1" force_rhr="0" clip_to_extent="1" type="fill" name="0">
-        <layer enabled="1" locked="0" class="SimpleFill" pass="0">
+      <symbol type="fill" name="0" force_rhr="0" alpha="1" clip_to_extent="1">
+        <data_defined_properties>
+          <Option type="Map">
+            <Option type="QString" name="name" value=""/>
+            <Option name="properties"/>
+            <Option type="QString" name="type" value="collection"/>
+          </Option>
+        </data_defined_properties>
+        <layer pass="0" locked="0" class="SimpleFill" enabled="1">
+          <Option type="Map">
+            <Option type="QString" name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="color" value="164,113,88,255"/>
+            <Option type="QString" name="joinstyle" value="bevel"/>
+            <Option type="QString" name="offset" value="0,0"/>
+            <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            <Option type="QString" name="offset_unit" value="MM"/>
+            <Option type="QString" name="outline_color" value="35,35,35,255"/>
+            <Option type="QString" name="outline_style" value="solid"/>
+            <Option type="QString" name="outline_width" value="0.26"/>
+            <Option type="QString" name="outline_width_unit" value="MM"/>
+            <Option type="QString" name="style" value="dense4"/>
+          </Option>
           <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
           <prop v="164,113,88,255" k="color"/>
           <prop v="bevel" k="joinstyle"/>
@@ -28,9 +49,9 @@
           <prop v="dense4" k="style"/>
           <data_defined_properties>
             <Option type="Map">
-              <Option value="" type="QString" name="name"/>
+              <Option type="QString" name="name" value=""/>
               <Option name="properties"/>
-              <Option value="collection" type="QString" name="type"/>
+              <Option type="QString" name="type" value="collection"/>
             </Option>
           </data_defined_properties>
         </layer>
@@ -40,23 +61,67 @@
     <sizescale/>
   </renderer-v2>
   <customproperties>
-    <property key="dualview/previewExpressions">
-      <value>"objekt-id"</value>
-    </property>
-    <property value="0" key="embeddedWidgets/count"/>
-    <property value="DMPManager" key="variableNames"/>
-    <property value="habitat_omr" key="variableValues"/>
+    <Option type="Map">
+      <Option type="StringList" name="dualview/previewExpressions">
+        <Option type="QString" value="&quot;objekt-id&quot;"/>
+      </Option>
+      <Option type="QString" name="embeddedWidgets/count" value="0"/>
+      <Option type="StringList" name="variableNames">
+        <Option type="QString" value="DMPManager"/>
+        <Option type="QString" value="DMPManager"/>
+      </Option>
+      <Option type="StringList" name="variableValues">
+        <Option type="QString" value="DATA - habitat_omr"/>
+        <Option type="QString" value="DATA - habitat_omr"/>
+      </Option>
+    </Option>
   </customproperties>
   <blendMode>0</blendMode>
   <featureBlendMode>0</featureBlendMode>
   <layerOpacity>1</layerOpacity>
   <SingleCategoryDiagramRenderer diagramType="Histogram" attributeLegend="1">
-    <DiagramCategory height="15" scaleDependency="Area" lineSizeScale="3x:0,0,0,0,0,0" diagramOrientation="Up" maxScaleDenominator="1e+08" enabled="0" spacing="5" opacity="1" rotationOffset="270" backgroundColor="#ffffff" backgroundAlpha="255" direction="0" spacingUnitScale="3x:0,0,0,0,0,0" minScaleDenominator="0" minimumSize="0" showAxis="1" penWidth="0" penColor="#000000" labelPlacementMethod="XHeight" sizeType="MM" lineSizeType="MM" barWidth="5" scaleBasedVisibility="0" penAlpha="255" spacingUnit="MM" sizeScale="3x:0,0,0,0,0,0" width="15">
+    <DiagramCategory backgroundColor="#ffffff" direction="0" spacingUnit="MM" penWidth="0" lineSizeScale="3x:0,0,0,0,0,0" lineSizeType="MM" scaleBasedVisibility="0" sizeScale="3x:0,0,0,0,0,0" barWidth="5" rotationOffset="270" backgroundAlpha="255" diagramOrientation="Up" minimumSize="0" enabled="0" width="15" minScaleDenominator="0" height="15" opacity="1" spacing="5" scaleDependency="Area" maxScaleDenominator="1e+08" penAlpha="255" labelPlacementMethod="XHeight" showAxis="1" spacingUnitScale="3x:0,0,0,0,0,0" penColor="#000000" sizeType="MM">
       <fontProperties description="MS Shell Dlg 2,7.8,-1,5,50,0,0,0,0,0" style=""/>
-      <attribute color="#000000" label="" field=""/>
+      <attribute field="" color="#000000" label=""/>
       <axisSymbol>
-        <symbol alpha="1" force_rhr="0" clip_to_extent="1" type="line" name="">
-          <layer enabled="1" locked="0" class="SimpleLine" pass="0">
+        <symbol type="line" name="" force_rhr="0" alpha="1" clip_to_extent="1">
+          <data_defined_properties>
+            <Option type="Map">
+              <Option type="QString" name="name" value=""/>
+              <Option name="properties"/>
+              <Option type="QString" name="type" value="collection"/>
+            </Option>
+          </data_defined_properties>
+          <layer pass="0" locked="0" class="SimpleLine" enabled="1">
+            <Option type="Map">
+              <Option type="QString" name="align_dash_pattern" value="0"/>
+              <Option type="QString" name="capstyle" value="square"/>
+              <Option type="QString" name="customdash" value="5;2"/>
+              <Option type="QString" name="customdash_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+              <Option type="QString" name="customdash_unit" value="MM"/>
+              <Option type="QString" name="dash_pattern_offset" value="0"/>
+              <Option type="QString" name="dash_pattern_offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+              <Option type="QString" name="dash_pattern_offset_unit" value="MM"/>
+              <Option type="QString" name="draw_inside_polygon" value="0"/>
+              <Option type="QString" name="joinstyle" value="bevel"/>
+              <Option type="QString" name="line_color" value="35,35,35,255"/>
+              <Option type="QString" name="line_style" value="solid"/>
+              <Option type="QString" name="line_width" value="0.26"/>
+              <Option type="QString" name="line_width_unit" value="MM"/>
+              <Option type="QString" name="offset" value="0"/>
+              <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+              <Option type="QString" name="offset_unit" value="MM"/>
+              <Option type="QString" name="ring_filter" value="0"/>
+              <Option type="QString" name="trim_distance_end" value="0"/>
+              <Option type="QString" name="trim_distance_end_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+              <Option type="QString" name="trim_distance_end_unit" value="MM"/>
+              <Option type="QString" name="trim_distance_start" value="0"/>
+              <Option type="QString" name="trim_distance_start_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+              <Option type="QString" name="trim_distance_start_unit" value="MM"/>
+              <Option type="QString" name="tweak_dash_pattern_on_corners" value="0"/>
+              <Option type="QString" name="use_custom_dash" value="0"/>
+              <Option type="QString" name="width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
+            </Option>
             <prop v="0" k="align_dash_pattern"/>
             <prop v="square" k="capstyle"/>
             <prop v="5;2" k="customdash"/>
@@ -75,14 +140,20 @@
             <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
             <prop v="MM" k="offset_unit"/>
             <prop v="0" k="ring_filter"/>
+            <prop v="0" k="trim_distance_end"/>
+            <prop v="3x:0,0,0,0,0,0" k="trim_distance_end_map_unit_scale"/>
+            <prop v="MM" k="trim_distance_end_unit"/>
+            <prop v="0" k="trim_distance_start"/>
+            <prop v="3x:0,0,0,0,0,0" k="trim_distance_start_map_unit_scale"/>
+            <prop v="MM" k="trim_distance_start_unit"/>
             <prop v="0" k="tweak_dash_pattern_on_corners"/>
             <prop v="0" k="use_custom_dash"/>
             <prop v="3x:0,0,0,0,0,0" k="width_map_unit_scale"/>
             <data_defined_properties>
               <Option type="Map">
-                <Option value="" type="QString" name="name"/>
+                <Option type="QString" name="name" value=""/>
                 <Option name="properties"/>
-                <Option value="collection" type="QString" name="type"/>
+                <Option type="QString" name="type" value="collection"/>
               </Option>
             </data_defined_properties>
           </layer>
@@ -90,12 +161,12 @@
       </axisSymbol>
     </DiagramCategory>
   </SingleCategoryDiagramRenderer>
-  <DiagramLayerSettings zIndex="0" placement="1" dist="0" showAll="1" obstacle="0" priority="0" linePlacementFlags="18">
+  <DiagramLayerSettings obstacle="0" zIndex="0" showAll="1" linePlacementFlags="18" priority="0" dist="0" placement="1">
     <properties>
       <Option type="Map">
-        <Option value="" type="QString" name="name"/>
+        <Option type="QString" name="name" value=""/>
         <Option name="properties"/>
-        <Option value="collection" type="QString" name="type"/>
+        <Option type="QString" name="type" value="collection"/>
       </Option>
     </properties>
   </DiagramLayerSettings>
@@ -103,278 +174,343 @@
     <activeChecks/>
     <checkConfiguration type="Map">
       <Option type="Map" name="QgsGeometryGapCheck">
-        <Option value="0" type="double" name="allowedGapsBuffer"/>
-        <Option value="false" type="bool" name="allowedGapsEnabled"/>
-        <Option value="" type="QString" name="allowedGapsLayer"/>
+        <Option type="double" name="allowedGapsBuffer" value="0"/>
+        <Option type="bool" name="allowedGapsEnabled" value="false"/>
+        <Option type="QString" name="allowedGapsLayer" value=""/>
       </Option>
     </checkConfiguration>
   </geometryOptions>
-  <legend type="default-vector"/>
+  <legend type="default-vector" showLabelLegend="0"/>
   <referencedLayers/>
   <fieldConfiguration>
-    <field configurationFlags="None" name="objekt-id">
+    <field name="fid" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option/>
         </config>
       </editWidget>
     </field>
-    <field configurationFlags="None" name="version-id">
-      <editWidget type="TextEdit">
-        <config>
-          <Option/>
-        </config>
-      </editWidget>
-    </field>
-    <field configurationFlags="None" name="systid-fra">
-      <editWidget type="DateTime">
-        <config>
-          <Option/>
-        </config>
-      </editWidget>
-    </field>
-    <field configurationFlags="None" name="systid-til">
-      <editWidget type="DateTime">
-        <config>
-          <Option/>
-        </config>
-      </editWidget>
-    </field>
-    <field configurationFlags="None" name="oprettet">
-      <editWidget type="DateTime">
-        <config>
-          <Option/>
-        </config>
-      </editWidget>
-    </field>
-    <field configurationFlags="None" name="oprindkode-id">
-      <editWidget type="ValueRelation">
-        <config>
-          <Option type="Map">
-            <Option value="false" type="bool" name="AllowMulti"/>
-            <Option value="false" type="bool" name="AllowNull"/>
-            <Option value="" type="QString" name="Description"/>
-            <Option value="" type="QString" name="FilterExpression"/>
-            <Option value="key" type="QString" name="Key"/>
-            <Option value="oprindkode_id_42e0b7fe_cc5e_4805_bd44_35940c535849" type="QString" name="Layer"/>
-            <Option value="oprindkode-id" type="QString" name="LayerName"/>
-            <Option value="memory" type="QString" name="LayerProviderName"/>
-            <Option value="None&amp;uid={5ac7cebc-876c-4d10-b393-f39c4ccc7db7}" type="QString" name="LayerSource"/>
-            <Option value="1" type="int" name="NofColumns"/>
-            <Option value="false" type="bool" name="OrderByValue"/>
-            <Option value="false" type="bool" name="UseCompleter"/>
-            <Option value="value" type="QString" name="Value"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field configurationFlags="None" name="statuskode-id">
-      <editWidget type="ValueRelation">
-        <config>
-          <Option type="Map">
-            <Option value="false" type="bool" name="AllowMulti"/>
-            <Option value="false" type="bool" name="AllowNull"/>
-            <Option value="" type="QString" name="Description"/>
-            <Option value="" type="QString" name="FilterExpression"/>
-            <Option value="key" type="QString" name="Key"/>
-            <Option value="statuskode_id_690eae4c_9bc7_4d34_8c40_a33973e58fa4" type="QString" name="Layer"/>
-            <Option value="statuskode-id" type="QString" name="LayerName"/>
-            <Option value="memory" type="QString" name="LayerProviderName"/>
-            <Option value="None&amp;uid={ceb65c87-f6a7-4421-9115-2de29576ebc1}" type="QString" name="LayerSource"/>
-            <Option value="1" type="int" name="NofColumns"/>
-            <Option value="false" type="bool" name="OrderByValue"/>
-            <Option value="false" type="bool" name="UseCompleter"/>
-            <Option value="value" type="QString" name="Value"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field configurationFlags="None" name="off-kode-id">
-      <editWidget type="ValueRelation">
-        <config>
-          <Option type="Map">
-            <Option value="false" type="bool" name="AllowMulti"/>
-            <Option value="false" type="bool" name="AllowNull"/>
-            <Option value="" type="QString" name="Description"/>
-            <Option value="" type="QString" name="FilterExpression"/>
-            <Option value="key" type="QString" name="Key"/>
-            <Option value="off_kode_id_abae66e6_cfa0_43ea_9455_ca370623bdc0" type="QString" name="Layer"/>
-            <Option value="off-kode-id" type="QString" name="LayerName"/>
-            <Option value="memory" type="QString" name="LayerProviderName"/>
-            <Option value="None&amp;uid={ac531b85-0b18-44dd-aba4-4c337bcc112d}" type="QString" name="LayerSource"/>
-            <Option value="1" type="int" name="NofColumns"/>
-            <Option value="false" type="bool" name="OrderByValue"/>
-            <Option value="false" type="bool" name="UseCompleter"/>
-            <Option value="value" type="QString" name="Value"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field configurationFlags="None" name="cvr-kode-id">
-      <editWidget type="ValueRelation">
-        <config>
-          <Option type="Map">
-            <Option value="false" type="bool" name="AllowMulti"/>
-            <Option value="false" type="bool" name="AllowNull"/>
-            <Option value="" type="QString" name="Description"/>
-            <Option value="" type="QString" name="FilterExpression"/>
-            <Option value="key" type="QString" name="Key"/>
-            <Option value="cvr_kode_id_21547e69_7524_4296_b185_d2d48b00529f" type="QString" name="Layer"/>
-            <Option value="cvr-kode-id" type="QString" name="LayerName"/>
-            <Option value="memory" type="QString" name="LayerProviderName"/>
-            <Option value="None&amp;uid={a65ee476-d0e6-4a74-85be-65e0a40f9558}" type="QString" name="LayerSource"/>
-            <Option value="1" type="int" name="NofColumns"/>
-            <Option value="false" type="bool" name="OrderByValue"/>
-            <Option value="false" type="bool" name="UseCompleter"/>
-            <Option value="value" type="QString" name="Value"/>
-          </Option>
-        </config>
-      </editWidget>
-    </field>
-    <field configurationFlags="None" name="bruger-id">
+    <field name="objekt-id" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
           <Option type="Map">
-            <Option value="false" type="bool" name="IsMultiline"/>
-            <Option value="false" type="bool" name="UseHtml"/>
+            <Option type="bool" name="IsMultiline" value="false"/>
+            <Option type="bool" name="UseHtml" value="false"/>
           </Option>
         </config>
       </editWidget>
     </field>
-    <field configurationFlags="None" name="link">
+    <field name="version-id" configurationFlags="None">
+      <editWidget type="TextEdit">
+        <config>
+          <Option type="Map">
+            <Option type="bool" name="IsMultiline" value="false"/>
+            <Option type="bool" name="UseHtml" value="false"/>
+          </Option>
+        </config>
+      </editWidget>
+    </field>
+    <field name="systid-fra" configurationFlags="None">
+      <editWidget type="DateTime">
+        <config>
+          <Option type="Map">
+            <Option type="bool" name="allow_null" value="true"/>
+            <Option type="bool" name="calendar_popup" value="true"/>
+            <Option type="QString" name="display_format" value="yyyy-MM-dd HH:mm:ss"/>
+            <Option type="QString" name="field_format" value="yyyy-MM-dd HH:mm:ss"/>
+            <Option type="bool" name="field_iso_format" value="false"/>
+          </Option>
+        </config>
+      </editWidget>
+    </field>
+    <field name="systid-til" configurationFlags="None">
+      <editWidget type="DateTime">
+        <config>
+          <Option type="Map">
+            <Option type="bool" name="allow_null" value="true"/>
+            <Option type="bool" name="calendar_popup" value="true"/>
+            <Option type="QString" name="display_format" value="yyyy-MM-dd HH:mm:ss"/>
+            <Option type="QString" name="field_format" value="yyyy-MM-dd HH:mm:ss"/>
+            <Option type="bool" name="field_iso_format" value="false"/>
+          </Option>
+        </config>
+      </editWidget>
+    </field>
+    <field name="oprettet" configurationFlags="None">
+      <editWidget type="DateTime">
+        <config>
+          <Option type="Map">
+            <Option type="bool" name="allow_null" value="true"/>
+            <Option type="bool" name="calendar_popup" value="true"/>
+            <Option type="QString" name="display_format" value="yyyy-MM-dd HH:mm:ss"/>
+            <Option type="QString" name="field_format" value="yyyy-MM-dd HH:mm:ss"/>
+            <Option type="bool" name="field_iso_format" value="false"/>
+          </Option>
+        </config>
+      </editWidget>
+    </field>
+    <field name="oprindkode-id" configurationFlags="None">
+      <editWidget type="ValueRelation">
+        <config>
+          <Option type="Map">
+            <Option type="bool" name="AllowMulti" value="false"/>
+            <Option type="bool" name="AllowNull" value="false"/>
+            <Option type="QString" name="Description" value=""/>
+            <Option type="QString" name="FilterExpression" value=""/>
+            <Option type="QString" name="Key" value="lk_key"/>
+            <Option type="QString" name="Layer" value="oprindkode_id_723777d6_7921_4d48_a9f1_307619ba7101"/>
+            <Option type="QString" name="LayerName" value="Oprindelse"/>
+            <Option type="QString" name="LayerProviderName" value="ogr"/>
+            <Option type="QString" name="LayerSource" value="D:/Projekter/DMPmanager/test2.gpkg|layername=oprindkode-id"/>
+            <Option type="int" name="NofColumns" value="1"/>
+            <Option type="bool" name="OrderByValue" value="false"/>
+            <Option type="bool" name="UseCompleter" value="false"/>
+            <Option type="QString" name="Value" value="lk_value"/>
+          </Option>
+        </config>
+      </editWidget>
+    </field>
+    <field name="statuskode-id" configurationFlags="None">
+      <editWidget type="ValueRelation">
+        <config>
+          <Option type="Map">
+            <Option type="bool" name="AllowMulti" value="false"/>
+            <Option type="bool" name="AllowNull" value="false"/>
+            <Option type="QString" name="Description" value=""/>
+            <Option type="QString" name="FilterExpression" value=""/>
+            <Option type="QString" name="Key" value="lk_key"/>
+            <Option type="QString" name="Layer" value="statuskode_id_88bdde26_c28f_4faf_aa3e_250a295db8ca"/>
+            <Option type="QString" name="LayerName" value="Gældende status"/>
+            <Option type="QString" name="LayerProviderName" value="ogr"/>
+            <Option type="QString" name="LayerSource" value="D:/Projekter/DMPmanager/test2.gpkg|layername=statuskode-id"/>
+            <Option type="int" name="NofColumns" value="1"/>
+            <Option type="bool" name="OrderByValue" value="false"/>
+            <Option type="bool" name="UseCompleter" value="false"/>
+            <Option type="QString" name="Value" value="lk_value"/>
+          </Option>
+        </config>
+      </editWidget>
+    </field>
+    <field name="off-kode-id" configurationFlags="None">
+      <editWidget type="ValueRelation">
+        <config>
+          <Option type="Map">
+            <Option type="bool" name="AllowMulti" value="false"/>
+            <Option type="bool" name="AllowNull" value="false"/>
+            <Option type="QString" name="Description" value=""/>
+            <Option type="QString" name="FilterExpression" value=""/>
+            <Option type="QString" name="Key" value="lk_key"/>
+            <Option type="QString" name="Layer" value="off_kode_id_9b1dba4a_d0bd_4998_ab9e_d27ced3a0e47"/>
+            <Option type="QString" name="LayerName" value="Tilgængelighed"/>
+            <Option type="QString" name="LayerProviderName" value="ogr"/>
+            <Option type="QString" name="LayerSource" value="D:/Projekter/DMPmanager/test2.gpkg|layername=off-kode-id"/>
+            <Option type="int" name="NofColumns" value="1"/>
+            <Option type="bool" name="OrderByValue" value="false"/>
+            <Option type="bool" name="UseCompleter" value="false"/>
+            <Option type="QString" name="Value" value="lk_value"/>
+          </Option>
+        </config>
+      </editWidget>
+    </field>
+    <field name="cvr-kode-id" configurationFlags="None">
+      <editWidget type="ValueRelation">
+        <config>
+          <Option type="Map">
+            <Option type="bool" name="AllowMulti" value="false"/>
+            <Option type="bool" name="AllowNull" value="false"/>
+            <Option type="QString" name="Description" value=""/>
+            <Option type="QString" name="FilterExpression" value=""/>
+            <Option type="QString" name="Key" value="lk_key"/>
+            <Option type="QString" name="Layer" value="cvr_kode_id_edf6affa_786c_4603_83f5_33ea8778b495"/>
+            <Option type="QString" name="LayerName" value="Myndighed"/>
+            <Option type="QString" name="LayerProviderName" value="ogr"/>
+            <Option type="QString" name="LayerSource" value="D:/Projekter/DMPmanager/test2.gpkg|layername=cvr-kode-id"/>
+            <Option type="int" name="NofColumns" value="1"/>
+            <Option type="bool" name="OrderByValue" value="false"/>
+            <Option type="bool" name="UseCompleter" value="false"/>
+            <Option type="QString" name="Value" value="lk_value"/>
+          </Option>
+        </config>
+      </editWidget>
+    </field>
+    <field name="bruger-id" configurationFlags="None">
+      <editWidget type="TextEdit">
+        <config>
+          <Option type="Map">
+            <Option type="bool" name="IsMultiline" value="false"/>
+            <Option type="bool" name="UseHtml" value="false"/>
+          </Option>
+        </config>
+      </editWidget>
+    </field>
+    <field name="link" configurationFlags="None">
       <editWidget type="ExternalResource">
         <config>
           <Option type="Map">
-            <Option value="2" type="int" name="DocumentViewer"/>
-            <Option value="0" type="int" name="DocumentViewerHeight"/>
-            <Option value="0" type="int" name="DocumentViewerWidth"/>
-            <Option value="true" type="bool" name="FileWidget"/>
-            <Option value="false" type="bool" name="FileWidgetButton"/>
-            <Option value="" type="QString" name="FileWidgetFilter"/>
-            <Option value="true" type="bool" name="FullUrl"/>
+            <Option type="int" name="DocumentViewer" value="2"/>
+            <Option type="int" name="DocumentViewerHeight" value="0"/>
+            <Option type="int" name="DocumentViewerWidth" value="0"/>
+            <Option type="bool" name="FileWidget" value="true"/>
+            <Option type="bool" name="FileWidgetButton" value="false"/>
+            <Option type="QString" name="FileWidgetFilter" value=""/>
+            <Option type="bool" name="FullUrl" value="true"/>
             <Option type="Map" name="PropertyCollection">
-              <Option value="" type="QString" name="name"/>
-              <Option name="properties"/>
-              <Option value="collection" type="QString" name="type"/>
+              <Option type="QString" name="name" value=""/>
+              <Option type="invalid" name="properties"/>
+              <Option type="QString" name="type" value="collection"/>
             </Option>
-            <Option value="0" type="int" name="RelativeStorage"/>
-            <Option value="0" type="int" name="StorageMode"/>
-            <Option value="true" type="bool" name="UseLink"/>
+            <Option type="int" name="RelativeStorage" value="0"/>
+            <Option type="QString" name="StorageAuthConfigId" value=""/>
+            <Option type="int" name="StorageMode" value="0"/>
+            <Option type="QString" name="StorageType" value=""/>
+            <Option type="bool" name="UseLink" value="true"/>
           </Option>
         </config>
       </editWidget>
     </field>
-    <field configurationFlags="None" name="shape">
+    <field name="shape" configurationFlags="None">
       <editWidget type="Hidden">
         <config>
           <Option/>
         </config>
       </editWidget>
     </field>
-    <field configurationFlags="None" name="site-nr">
+    <field name="site-nr" configurationFlags="None">
       <editWidget type="Range">
         <config>
-          <Option/>
+          <Option type="Map">
+            <Option type="bool" name="AllowNull" value="true"/>
+            <Option type="int" name="Max" value="2147483647"/>
+            <Option type="int" name="Min" value="-2147483648"/>
+            <Option type="int" name="Precision" value="0"/>
+            <Option type="int" name="Step" value="1"/>
+            <Option type="QString" name="Style" value="SpinBox"/>
+          </Option>
         </config>
       </editWidget>
     </field>
-    <field configurationFlags="None" name="objektnavn">
+    <field name="objektnavn" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
-          <Option/>
+          <Option type="Map">
+            <Option type="bool" name="IsMultiline" value="false"/>
+            <Option type="bool" name="UseHtml" value="false"/>
+          </Option>
         </config>
       </editWidget>
     </field>
-    <field configurationFlags="None" name="loc-ident">
+    <field name="loc-ident" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
-          <Option/>
+          <Option type="Map">
+            <Option type="bool" name="IsMultiline" value="false"/>
+            <Option type="bool" name="UseHtml" value="false"/>
+          </Option>
         </config>
       </editWidget>
     </field>
-    <field configurationFlags="None" name="site-ident">
+    <field name="site-ident" configurationFlags="None">
       <editWidget type="TextEdit">
         <config>
-          <Option/>
+          <Option type="Map">
+            <Option type="bool" name="IsMultiline" value="false"/>
+            <Option type="bool" name="UseHtml" value="false"/>
+          </Option>
         </config>
       </editWidget>
     </field>
-    <field configurationFlags="None" name="gyldig-fra">
+    <field name="gyldig-fra" configurationFlags="None">
       <editWidget type="DateTime">
         <config>
-          <Option/>
+          <Option type="Map">
+            <Option type="bool" name="allow_null" value="true"/>
+            <Option type="bool" name="calendar_popup" value="true"/>
+            <Option type="QString" name="display_format" value="yyyy-MM-dd HH:mm:ss"/>
+            <Option type="QString" name="field_format" value="yyyy-MM-dd HH:mm:ss"/>
+            <Option type="bool" name="field_iso_format" value="false"/>
+          </Option>
         </config>
       </editWidget>
     </field>
-    <field configurationFlags="None" name="gyldig-til">
+    <field name="gyldig-til" configurationFlags="None">
       <editWidget type="DateTime">
         <config>
-          <Option/>
+          <Option type="Map">
+            <Option type="bool" name="allow_null" value="true"/>
+            <Option type="bool" name="calendar_popup" value="true"/>
+            <Option type="QString" name="display_format" value="yyyy-MM-dd HH:mm:ss"/>
+            <Option type="QString" name="field_format" value="yyyy-MM-dd HH:mm:ss"/>
+            <Option type="bool" name="field_iso_format" value="false"/>
+          </Option>
         </config>
       </editWidget>
     </field>
   </fieldConfiguration>
   <aliases>
-    <alias index="0" field="objekt-id" name="ObjektId"/>
-    <alias index="1" field="version-id" name="VersionId"/>
-    <alias index="2" field="systid-fra" name="Start systemtid"/>
-    <alias index="3" field="systid-til" name="Slut systemtid"/>
-    <alias index="4" field="oprettet" name="Systemtid for oprettelse"/>
-    <alias index="5" field="oprindkode-id" name="Oprindelse"/>
-    <alias index="6" field="statuskode-id" name="Gældende status"/>
-    <alias index="7" field="off-kode-id" name="Tilgængelighed"/>
-    <alias index="8" field="cvr-kode-id" name="Myndighed"/>
-    <alias index="9" field="bruger-id" name="Brugere"/>
-    <alias index="10" field="link" name="URL-link"/>
-    <alias index="11" field="shape" name="Shape"/>
-    <alias index="12" field="site-nr" name="SiteNr (Kodeværdi for GIS objekt)"/>
-    <alias index="13" field="objektnavn" name="Objektnavn"/>
-    <alias index="14" field="loc-ident" name="SPA + identifikation af objektet"/>
-    <alias index="15" field="site-ident" name="Officiel EU Sitecode fra bekendtgørelse"/>
-    <alias index="16" field="gyldig-fra" name="Start på gyldighedsperiode"/>
-    <alias index="17" field="gyldig-til" name="Slut på gyldighedsperiode"/>
+    <alias name="" index="0" field="fid"/>
+    <alias name="ObjektId" index="1" field="objekt-id"/>
+    <alias name="VersionId" index="2" field="version-id"/>
+    <alias name="Start systemtid" index="3" field="systid-fra"/>
+    <alias name="Slut systemtid" index="4" field="systid-til"/>
+    <alias name="Systemtid for oprettelse" index="5" field="oprettet"/>
+    <alias name="Oprindelse" index="6" field="oprindkode-id"/>
+    <alias name="Gældende status" index="7" field="statuskode-id"/>
+    <alias name="Tilgængelighed" index="8" field="off-kode-id"/>
+    <alias name="Myndighed" index="9" field="cvr-kode-id"/>
+    <alias name="Brugere" index="10" field="bruger-id"/>
+    <alias name="URL-link" index="11" field="link"/>
+    <alias name="Shape" index="12" field="shape"/>
+    <alias name="SiteNr (Kodeværdi for GIS objekt)" index="13" field="site-nr"/>
+    <alias name="Objektnavn" index="14" field="objektnavn"/>
+    <alias name="SPA + identifikation af objektet" index="15" field="loc-ident"/>
+    <alias name="Officiel EU Sitecode fra bekendtgørelse" index="16" field="site-ident"/>
+    <alias name="Start på gyldighedsperiode" index="17" field="gyldig-fra"/>
+    <alias name="Slut på gyldighedsperiode" index="18" field="gyldig-til"/>
   </aliases>
   <defaults>
-    <default expression="" applyOnUpdate="0" field="objekt-id"/>
-    <default expression="" applyOnUpdate="0" field="version-id"/>
-    <default expression="" applyOnUpdate="0" field="systid-fra"/>
-    <default expression="" applyOnUpdate="0" field="systid-til"/>
-    <default expression="" applyOnUpdate="0" field="oprettet"/>
-    <default expression="" applyOnUpdate="0" field="oprindkode-id"/>
-    <default expression="" applyOnUpdate="0" field="statuskode-id"/>
-    <default expression="" applyOnUpdate="0" field="off-kode-id"/>
-    <default expression="" applyOnUpdate="0" field="cvr-kode-id"/>
-    <default expression="" applyOnUpdate="0" field="bruger-id"/>
-    <default expression="" applyOnUpdate="0" field="link"/>
-    <default expression="" applyOnUpdate="0" field="shape"/>
-    <default expression="" applyOnUpdate="0" field="site-nr"/>
-    <default expression="" applyOnUpdate="0" field="objektnavn"/>
-    <default expression="" applyOnUpdate="0" field="loc-ident"/>
-    <default expression="" applyOnUpdate="0" field="site-ident"/>
-    <default expression="" applyOnUpdate="0" field="gyldig-fra"/>
-    <default expression="" applyOnUpdate="0" field="gyldig-til"/>
+    <default field="fid" expression="" applyOnUpdate="0"/>
+    <default field="objekt-id" expression="" applyOnUpdate="0"/>
+    <default field="version-id" expression="" applyOnUpdate="0"/>
+    <default field="systid-fra" expression="" applyOnUpdate="0"/>
+    <default field="systid-til" expression="" applyOnUpdate="0"/>
+    <default field="oprettet" expression="" applyOnUpdate="0"/>
+    <default field="oprindkode-id" expression="" applyOnUpdate="0"/>
+    <default field="statuskode-id" expression="" applyOnUpdate="0"/>
+    <default field="off-kode-id" expression="" applyOnUpdate="0"/>
+    <default field="cvr-kode-id" expression="" applyOnUpdate="0"/>
+    <default field="bruger-id" expression="" applyOnUpdate="0"/>
+    <default field="link" expression="" applyOnUpdate="0"/>
+    <default field="shape" expression="" applyOnUpdate="0"/>
+    <default field="site-nr" expression="" applyOnUpdate="0"/>
+    <default field="objektnavn" expression="" applyOnUpdate="0"/>
+    <default field="loc-ident" expression="" applyOnUpdate="0"/>
+    <default field="site-ident" expression="" applyOnUpdate="0"/>
+    <default field="gyldig-fra" expression="" applyOnUpdate="0"/>
+    <default field="gyldig-til" expression="" applyOnUpdate="0"/>
   </defaults>
   <constraints>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="objekt-id" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="version-id" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="systid-fra" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="systid-til" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="oprettet" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="oprindkode-id" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="statuskode-id" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="off-kode-id" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="cvr-kode-id" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="bruger-id" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="link" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="shape" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="site-nr" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="objektnavn" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="loc-ident" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="site-ident" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="gyldig-fra" constraints="0"/>
-    <constraint notnull_strength="0" exp_strength="0" unique_strength="0" field="gyldig-til" constraints="0"/>
+    <constraint unique_strength="1" exp_strength="0" field="fid" constraints="3" notnull_strength="1"/>
+    <constraint unique_strength="0" exp_strength="0" field="objekt-id" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="version-id" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="systid-fra" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="systid-til" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="oprettet" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="oprindkode-id" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="statuskode-id" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="off-kode-id" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="cvr-kode-id" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="bruger-id" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="link" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="shape" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="site-nr" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="objektnavn" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="loc-ident" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="site-ident" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="gyldig-fra" constraints="0" notnull_strength="0"/>
+    <constraint unique_strength="0" exp_strength="0" field="gyldig-til" constraints="0" notnull_strength="0"/>
   </constraints>
   <constraintExpressions>
+    <constraint exp="" desc="" field="fid"/>
     <constraint exp="" desc="" field="objekt-id"/>
     <constraint exp="" desc="" field="version-id"/>
     <constraint exp="" desc="" field="systid-fra"/>
@@ -398,27 +534,28 @@
   <attributeactions>
     <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
   </attributeactions>
-  <attributetableconfig sortOrder="0" sortExpression="" actionWidgetStyle="dropDown">
+  <attributetableconfig sortExpression="" actionWidgetStyle="dropDown" sortOrder="0">
     <columns>
-      <column width="-1" hidden="0" type="field" name="objekt-id"/>
-      <column width="-1" hidden="0" type="field" name="version-id"/>
-      <column width="-1" hidden="0" type="field" name="systid-fra"/>
-      <column width="-1" hidden="0" type="field" name="systid-til"/>
-      <column width="-1" hidden="0" type="field" name="oprettet"/>
-      <column width="-1" hidden="0" type="field" name="oprindkode-id"/>
-      <column width="-1" hidden="0" type="field" name="statuskode-id"/>
-      <column width="-1" hidden="0" type="field" name="off-kode-id"/>
-      <column width="-1" hidden="0" type="field" name="cvr-kode-id"/>
-      <column width="-1" hidden="0" type="field" name="bruger-id"/>
-      <column width="-1" hidden="0" type="field" name="link"/>
-      <column width="-1" hidden="0" type="field" name="shape"/>
-      <column width="-1" hidden="0" type="field" name="site-nr"/>
-      <column width="-1" hidden="0" type="field" name="objektnavn"/>
-      <column width="-1" hidden="0" type="field" name="loc-ident"/>
-      <column width="-1" hidden="0" type="field" name="site-ident"/>
-      <column width="-1" hidden="0" type="field" name="gyldig-fra"/>
-      <column width="-1" hidden="0" type="field" name="gyldig-til"/>
-      <column width="-1" hidden="1" type="actions"/>
+      <column type="field" name="objekt-id" width="-1" hidden="0"/>
+      <column type="field" name="version-id" width="-1" hidden="0"/>
+      <column type="field" name="systid-fra" width="-1" hidden="0"/>
+      <column type="field" name="systid-til" width="-1" hidden="0"/>
+      <column type="field" name="oprettet" width="-1" hidden="0"/>
+      <column type="field" name="oprindkode-id" width="-1" hidden="0"/>
+      <column type="field" name="statuskode-id" width="-1" hidden="0"/>
+      <column type="field" name="off-kode-id" width="-1" hidden="0"/>
+      <column type="field" name="cvr-kode-id" width="-1" hidden="0"/>
+      <column type="field" name="bruger-id" width="-1" hidden="0"/>
+      <column type="field" name="link" width="-1" hidden="0"/>
+      <column type="field" name="shape" width="-1" hidden="0"/>
+      <column type="field" name="site-nr" width="-1" hidden="0"/>
+      <column type="field" name="objektnavn" width="-1" hidden="0"/>
+      <column type="field" name="loc-ident" width="-1" hidden="0"/>
+      <column type="field" name="site-ident" width="-1" hidden="0"/>
+      <column type="field" name="gyldig-fra" width="-1" hidden="0"/>
+      <column type="field" name="gyldig-til" width="-1" hidden="0"/>
+      <column type="field" name="fid" width="-1" hidden="0"/>
+      <column type="actions" width="-1" hidden="1"/>
     </columns>
   </attributetableconfig>
   <conditionalstyles>
@@ -450,45 +587,68 @@ def my_form_open(dialog, layer, feature):
   <featformsuppress>0</featformsuppress>
   <editorlayout>generatedlayout</editorlayout>
   <editable>
-    <field editable="1" name="bruger-id"/>
-    <field editable="1" name="cvr-kode-id"/>
-    <field editable="1" name="gyldig-fra"/>
-    <field editable="1" name="gyldig-til"/>
-    <field editable="1" name="link"/>
-    <field editable="1" name="loc-ident"/>
-    <field editable="1" name="objekt-id"/>
-    <field editable="1" name="objektnavn"/>
-    <field editable="1" name="off-kode-id"/>
-    <field editable="1" name="oprettet"/>
-    <field editable="1" name="oprindkode-id"/>
-    <field editable="0" name="shape"/>
-    <field editable="1" name="site-ident"/>
-    <field editable="1" name="site-nr"/>
-    <field editable="1" name="statuskode-id"/>
-    <field editable="1" name="systid-fra"/>
-    <field editable="1" name="systid-til"/>
-    <field editable="1" name="version-id"/>
+    <field name="bruger-id" editable="1"/>
+    <field name="cvr-kode-id" editable="1"/>
+    <field name="fid" editable="1"/>
+    <field name="gyldig-fra" editable="1"/>
+    <field name="gyldig-til" editable="1"/>
+    <field name="link" editable="1"/>
+    <field name="loc-ident" editable="1"/>
+    <field name="objekt-id" editable="1"/>
+    <field name="objektnavn" editable="1"/>
+    <field name="off-kode-id" editable="1"/>
+    <field name="oprettet" editable="1"/>
+    <field name="oprindkode-id" editable="1"/>
+    <field name="shape" editable="0"/>
+    <field name="site-ident" editable="1"/>
+    <field name="site-nr" editable="1"/>
+    <field name="statuskode-id" editable="1"/>
+    <field name="systid-fra" editable="1"/>
+    <field name="systid-til" editable="1"/>
+    <field name="version-id" editable="1"/>
   </editable>
   <labelOnTop>
-    <field labelOnTop="0" name="bruger-id"/>
-    <field labelOnTop="0" name="cvr-kode-id"/>
-    <field labelOnTop="0" name="gyldig-fra"/>
-    <field labelOnTop="0" name="gyldig-til"/>
-    <field labelOnTop="0" name="link"/>
-    <field labelOnTop="0" name="loc-ident"/>
-    <field labelOnTop="0" name="objekt-id"/>
-    <field labelOnTop="0" name="objektnavn"/>
-    <field labelOnTop="0" name="off-kode-id"/>
-    <field labelOnTop="0" name="oprettet"/>
-    <field labelOnTop="0" name="oprindkode-id"/>
-    <field labelOnTop="0" name="shape"/>
-    <field labelOnTop="0" name="site-ident"/>
-    <field labelOnTop="0" name="site-nr"/>
-    <field labelOnTop="0" name="statuskode-id"/>
-    <field labelOnTop="0" name="systid-fra"/>
-    <field labelOnTop="0" name="systid-til"/>
-    <field labelOnTop="0" name="version-id"/>
+    <field name="bruger-id" labelOnTop="0"/>
+    <field name="cvr-kode-id" labelOnTop="0"/>
+    <field name="fid" labelOnTop="0"/>
+    <field name="gyldig-fra" labelOnTop="0"/>
+    <field name="gyldig-til" labelOnTop="0"/>
+    <field name="link" labelOnTop="0"/>
+    <field name="loc-ident" labelOnTop="0"/>
+    <field name="objekt-id" labelOnTop="0"/>
+    <field name="objektnavn" labelOnTop="0"/>
+    <field name="off-kode-id" labelOnTop="0"/>
+    <field name="oprettet" labelOnTop="0"/>
+    <field name="oprindkode-id" labelOnTop="0"/>
+    <field name="shape" labelOnTop="0"/>
+    <field name="site-ident" labelOnTop="0"/>
+    <field name="site-nr" labelOnTop="0"/>
+    <field name="statuskode-id" labelOnTop="0"/>
+    <field name="systid-fra" labelOnTop="0"/>
+    <field name="systid-til" labelOnTop="0"/>
+    <field name="version-id" labelOnTop="0"/>
   </labelOnTop>
+  <reuseLastValue>
+    <field name="bruger-id" reuseLastValue="0"/>
+    <field name="cvr-kode-id" reuseLastValue="0"/>
+    <field name="fid" reuseLastValue="0"/>
+    <field name="gyldig-fra" reuseLastValue="0"/>
+    <field name="gyldig-til" reuseLastValue="0"/>
+    <field name="link" reuseLastValue="0"/>
+    <field name="loc-ident" reuseLastValue="0"/>
+    <field name="objekt-id" reuseLastValue="0"/>
+    <field name="objektnavn" reuseLastValue="0"/>
+    <field name="off-kode-id" reuseLastValue="0"/>
+    <field name="oprettet" reuseLastValue="0"/>
+    <field name="oprindkode-id" reuseLastValue="0"/>
+    <field name="shape" reuseLastValue="0"/>
+    <field name="site-ident" reuseLastValue="0"/>
+    <field name="site-nr" reuseLastValue="0"/>
+    <field name="statuskode-id" reuseLastValue="0"/>
+    <field name="systid-fra" reuseLastValue="0"/>
+    <field name="systid-til" reuseLastValue="0"/>
+    <field name="version-id" reuseLastValue="0"/>
+  </reuseLastValue>
   <dataDefinedFieldProperties/>
   <widgets/>
   <previewExpression>"objekt-id"</previewExpression>

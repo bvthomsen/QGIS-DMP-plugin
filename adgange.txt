@@ -1,6 +1,6 @@
 Adgange til test miljø
 Type			Bruger			Kodeord	
 ==================================================================
-Stat			MSTaesta		MSTtests2020!
-Region			1085aesta		REGtests2020!
-Kommune			173aesta		LYNGBYtests2020!
+Stat			MSTaesta		S0mm3r__2o22
+Region			1085aesta		S0mm3r__2o22
+Kommune			173aesta		V1nt3r__2o21
