@@ -666,6 +666,7 @@ def updateLayers (layerc, layerr, dicto, pkid, pkquote, value):
     except:
         e = dicto["data"][0]["attributes"]
 
+
     for ff in f.fields().names(): logI ('layerc fieldnames {}'.format(ff))    
     # Copy attributes from dict to feature
     for k, v in e.items():
@@ -867,24 +868,22 @@ def copyLayer2Layer(lyr, udict, owrite):
 def loadVectorTableFromConnection (connection, schema, table, layername): 
 
     urlstr = connection.tableUri(schema, table)
-    
-    tableprm = connection.table(schema, table)
-    pkidlst = tableprm.primaryKeyColumns() 
-    geomstr = tableprm.geometryColumn()
+    logI('I loadVectorTableFromConnection urlstr = ' + urlstr)
 
-    uri = QgsDataSourceUri(urlstr)
-
-    if connection.providerKey() != 'ogr': 
-        uri.setKeyColumn(pkidlst[0])
-        uri.setGeometryColumn(geomstr)
-
-    logI('*'+uri.uri())
-    logI(connection.providerKey())
-    if connection.providerKey() != 'ogr':
-        layer = QgsVectorLayer(uri.uri(), layername, connection.providerKey())
-    else:
-
-        layer = QgsVectorLayer(uri.uri().replace("'","").replace("/","\\"),layername, connection.providerKey())
+#    if connection.providerKey() == 'ogr': 
+    layer = QgsVectorLayer(urlstr, layername, connection.providerKey())    
+#    else:
+#
+#        tableprm = connection.table(schema, table)
+#        pkidlst = tableprm.primaryKeyColumns() 
+#        geomstr = tableprm.geometryColumn()
+#
+#        uri = QgsDataSourceUri(urlstr)
+#
+#        uri.setKeyColumn(pkidlst[0])
+#        uri.setGeometryColumn(geomstr)
+#
+#        layer = QgsVectorLayer(uri.uri(), layername, connection.providerKey())
 
     return layer
 

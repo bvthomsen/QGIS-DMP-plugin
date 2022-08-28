@@ -356,15 +356,11 @@ class DMPManager:
         sd = self.dockwidget
         spn = self.parm["Names"]
        
-        if self.dmpLog is None:
-            root = QgsProject.instance().layerTreeRoot()
-            mprg = createGroup(spn["Global root"], root)
-            mpag = createGroup(spn["Administration root"], mprg)
-            spath = os.path.join(self.plugin_dir, 'templates')
-            ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
-            self.dmpLog = llog
-        else:
-            llog = self.dmpLog
+        root = QgsProject.instance().layerTreeRoot()
+        mprg = createGroup(spn["Global root"], root)
+        mpag = createGroup(spn["Administration root"], mprg)
+        spath = os.path.join(self.plugin_dir, 'templates')
+        ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
 
         return llog
         
@@ -378,15 +374,7 @@ class DMPManager:
         spc = self.parm["Commands"]
         spa = self.parm["Access"]  
         
-        if self.dmpLog is None:
-            root = QgsProject.instance().layerTreeRoot()
-            mprg = createGroup(spn["Global root"], root)
-            mpag = createGroup(spn["Administration root"], mprg)
-            spath = os.path.join(self.plugin_dir, 'templates')
-            ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
-            self.dmpLog = llog
-        else:
-            llog = self.dmpLog
+        llog = self.setDmpLog()
 
         ltype  = str(crawler.parent().data(Qt.UserRole+1))
         fid = str(crawler.data(Qt.UserRole+2))
@@ -423,8 +411,10 @@ class DMPManager:
 
         elif operation == 'commit':
 
-            if spa["Name"][:4].lower() == tblCur(:4) + '_':
-    
+            tblc= tblCur.replace('"','').split('.')
+            logI ('Tjek af tabel navn: {} & {} & {}'.format(tblCur,tblc[len(tblc)-1],spa["Name"]))
+            if spa["Name"][:4].lower() == tblc[len(tblc)-1][:4].lower():
+     
                 if ltype == 'Inserted':
                     self.insDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode)
     
@@ -547,6 +537,10 @@ class DMPManager:
                         vcur[0] = ''
                     curl = loadVectorTableFromConnection (connection, vcur[0], vcur[1], 'current')
 
+#                    options.sql = 'SELECT * FROM {ref} WHERE \"{pk}\" = {qt}{val}{qt}'.format(ref=tblRef, pk=pkName, qt=pkQuote, val=pkid)
+#                    options.layerName = 'reference'
+#                    refl = connection.createSqlVectorLayer(options)
+
                     vref = tblRef.replace('"','').split('.')
                     if len(vref) == 1:
                         vref.append(vref[0])
@@ -635,12 +629,14 @@ class DMPManager:
                         vcur.append(vcur[0])
                         vcur[0] = ''
                     curl = loadVectorTableFromConnection (connection, vcur[0], vcur[1], 'current')
+                    QgsProject.instance().addMapLayer(curl)
 
                     vref = tblRef.replace('"','').split('.')
                     if len(vref) == 1:
                         vref.append(vref[0])
                         vref[0] = ''
                     refl = loadVectorTableFromConnection (connection, vref[0], vref[1], 'reference')
+                    QgsProject.instance().addMapLayer(refl)
 
                     status, result = handleRequest(url+spc["objektfilter 2"].format(tCode,pa["objekt-id"]), 'get', headers, None, self.dmpLog, 'dmptest')
 
@@ -970,8 +966,7 @@ class DMPManager:
 
         if self.checkToken():
 
-            self.setDmpLog()
-
+            llog = self.setDmpLog()
 
             sa = self.attributes
             sd = self.dockwidget
@@ -1139,11 +1134,7 @@ class DMPManager:
             mpag = createGroup(spn["Administration root"], mprg)
             spath = os.path.join(self.plugin_dir, 'templates')
     
-            if self.dmpLog is None:
-                ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
-                self.dmpLog = llog
-            else:
-                llog = self.dmpLog
+            llog = self.setDmpLog()
             
             # theme number from combobox
             indx = sd.cbDownload.currentIndex()
