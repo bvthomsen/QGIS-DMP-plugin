@@ -493,13 +493,6 @@ class DMPManager:
             options.geometryColumn = 'geom'
             vl = connection.createSqlVectorLayer(options)
 
-#            for f in vl.getFeatures():
-#                # Insert column values into package
-#                for n in f.fields().names():
-#                    if f[n]:
-#                        if n in pa: pa[n] = f[n]
-#                        if n in pa["temaattributter"]: pa["temaattributter"][n] = f[n]
-
             del pa["id"]
 
             for f in vl.getFeatures():
@@ -1259,7 +1252,7 @@ class DMPManager:
             conns = QgsProviderRegistry.instance().providerMetadata(data[0]).connections(False)
             conn = conns[data[1]]
 
-            name , pressed = QInputDialog.getText(None, "Create new schema", "Scemaname: ", QLineEdit.Normal, "")
+            name , pressed = QInputDialog.getText(None, "Create new schema", "Schemaname: ", QLineEdit.Normal, "")
     
             if pressed: 
                 try:

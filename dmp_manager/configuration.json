@@ -114,7 +114,7 @@
 
 
     "Data": {
-		"Database_types" :{"MSSQL": ["mssql","id",""], "PostgreSQL": ["postgres","id",""], "GeoPackage" : ["ogr","fid",""]},
+		"Database_types" :{"PostgreSQL": ["postgres","id",""], "GeoPackage" : ["ogr","fid",""]},
         "Database": "",
         "Schema": "",
 		"PKName": "pk",

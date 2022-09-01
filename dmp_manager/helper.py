@@ -868,22 +868,6 @@ def copyLayer2Layer(lyr, udict, owrite):
 def loadVectorTableFromConnection (connection, schema, table, layername): 
 
     urlstr = connection.tableUri(schema, table)
-    logI('I loadVectorTableFromConnection urlstr = ' + urlstr)
-
-#    if connection.providerKey() == 'ogr': 
     layer = QgsVectorLayer(urlstr, layername, connection.providerKey())    
-#    else:
-#
-#        tableprm = connection.table(schema, table)
-#        pkidlst = tableprm.primaryKeyColumns() 
-#        geomstr = tableprm.geometryColumn()
-#
-#        uri = QgsDataSourceUri(urlstr)
-#
-#        uri.setKeyColumn(pkidlst[0])
-#        uri.setGeometryColumn(geomstr)
-#
-#        layer = QgsVectorLayer(uri.uri(), layername, connection.providerKey())
-
     return layer
 
