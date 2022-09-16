@@ -263,6 +263,7 @@ class DMPManager:
             sd.twMain.currentChanged.connect(self.twMainCurrentChanged)
             sd.pbClearCompare.clicked.connect(self.pbClearCompareClicked)
             sd.pbCompare.clicked.connect(self.pbCompareClicked)
+            sd.pbLayerStyle.clicked.connect(self.pbLayerStyleClicked)
             sd.pbCheck.clicked.connect(self.pbCheckClicked)
             #sd.pbUpload.clicked.connect(self.pbUploadClicked)
 
@@ -695,6 +696,20 @@ class DMPManager:
             logI(layerSource)
             processing.execAlgorithmDialog('qgis:checkvalidity') #,{ 'ERROR_OUTPUT' : 'TEMPORARY_OUTPUT', 'IGNORE_RING_SELF_INTERSECTION' : False, 'INPUT_LAYER' : layerSource , 'INVALID_OUTPUT' : 'TEMPORARY_OUTPUT', 'METHOD' : 2, 'VALID_OUTPUT' : 'TEMPORARY_OUTPUT'})
 
+    def pbLayerStyleClicked(self):
+
+        sd = self.dockwidget 
+        # Find layer to be compared
+        indx = sd.cbLayerStyle.currentIndex()        
+
+        if indx >=0:
+
+            # Generate string for Current layer...         
+            data = sd.cbLayerStyle.itemData(indx)
+            mlayer = data[0]
+            layer = mlayer.layer()       
+            style_path = os.path.join(self.plugin_dir,'templates','{}.qml'.format(mlayer.name()))
+            layer.saveNamedStyle(style_path)
     
     def pbCompareClicked(self):
         """Compare chosen datalayer with its reference layer"""
@@ -868,6 +883,9 @@ class DMPManager:
         if indx == 1: # "Checks" tab
             self.loadcbLayerCheck()
 
+        if indx == 2: # "Administration" tab
+            self.loadcbLayerStyle()
+
     def pbResetClicked(self):
         """Reread configuration json file and set the self.parm dict"""
 
@@ -1027,6 +1045,17 @@ class DMPManager:
             if evalue:
                 evalue = evalue.split("¤")
                 if evalue[0]=="DATA": sd.cbLayerCheck.addItem(ltLayer.name(),[ltLayer,evalue[1],evalue[2]])
+                
+    def loadcbLayerStyle(self):
+    
+        sd = self.dockwidget
+        sd.cbLayerStyle.clear()
+        
+        for ltLayer in QgsProject.instance().layerTreeRoot().findLayers():
+            evalue = evalLayerVariable(ltLayer.layer(), 'DMPManager')
+            if evalue:
+                evalue = evalue.split("¤")
+                if evalue[0]=="DATA": sd.cbLayerStyle.addItem(ltLayer.name(),[ltLayer,evalue[1],evalue[2]])
 
     def loadCbDownload(self):
         """Load cbDownload combobox from attributes dict"""
