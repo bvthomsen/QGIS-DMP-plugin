@@ -263,6 +263,7 @@ class DMPManager:
             sd.twMain.currentChanged.connect(self.twMainCurrentChanged)
             sd.pbClearCompare.clicked.connect(self.pbClearCompareClicked)
             sd.pbCompare.clicked.connect(self.pbCompareClicked)
+            sd.pbLayerStyle.clicked.connect(self.pbLayerStyleClicked)
             sd.pbCheck.clicked.connect(self.pbCheckClicked)
             #sd.pbUpload.clicked.connect(self.pbUploadClicked)
 
@@ -356,15 +357,11 @@ class DMPManager:
         sd = self.dockwidget
         spn = self.parm["Names"]
        
-        if self.dmpLog is None:
-            root = QgsProject.instance().layerTreeRoot()
-            mprg = createGroup(spn["Global root"], root)
-            mpag = createGroup(spn["Administration root"], mprg)
-            spath = os.path.join(self.plugin_dir, 'templates')
-            ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
-            self.dmpLog = llog
-        else:
-            llog = self.dmpLog
+        root = QgsProject.instance().layerTreeRoot()
+        mprg = createGroup(spn["Global root"], root)
+        mpag = createGroup(spn["Administration root"], mprg)
+        spath = os.path.join(self.plugin_dir, 'templates')
+        ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
 
         return llog
         
@@ -378,15 +375,7 @@ class DMPManager:
         spc = self.parm["Commands"]
         spa = self.parm["Access"]  
         
-        if self.dmpLog is None:
-            root = QgsProject.instance().layerTreeRoot()
-            mprg = createGroup(spn["Global root"], root)
-            mpag = createGroup(spn["Administration root"], mprg)
-            spath = os.path.join(self.plugin_dir, 'templates')
-            ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
-            self.dmpLog = llog
-        else:
-            llog = self.dmpLog
+        llog = self.setDmpLog()
 
         ltype  = str(crawler.parent().data(Qt.UserRole+1))
         fid = str(crawler.data(Qt.UserRole+2))
@@ -423,17 +412,21 @@ class DMPManager:
 
         elif operation == 'commit':
 
-            messI('cur='+tblCur+', ref='+tblRef+', name='+spa["Name"][:4].lower()) 
+            tblc= tblCur.replace('"','').split('.')
+            logI ('Tjek af tabel navn: {} & {} & {}'.format(tblCur,tblc[len(tblc)-1],spa["Name"]))
+            if spa["Name"][:4].lower() == tblc[len(tblc)-1][:4].lower():
+     
+                if ltype == 'Inserted':
+                    self.insDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode)
+    
+                elif ltype == 'Deleted':
+                    self.delDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote)
+                    
+                elif ltype == 'Modified':
+                    self.updDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode)
 
-            if ltype == 'Inserted':
-                self.insDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode)
-
-            elif ltype == 'Deleted':
-                self.delDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote)
-                
-            elif ltype == 'Modified':
-                self.updDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode)
-             
+            else:
+                messC(tr('You can''t commit changes made in previous environment into environment: {}').format(spa["Name"]), tr('Changed environment with outstanding commits'))            
 
         self.iface.mapCanvas().refreshAllLayers() 
 
@@ -501,13 +494,6 @@ class DMPManager:
             options.geometryColumn = 'geom'
             vl = connection.createSqlVectorLayer(options)
 
-#            for f in vl.getFeatures():
-#                # Insert column values into package
-#                for n in f.fields().names():
-#                    if f[n]:
-#                        if n in pa: pa[n] = f[n]
-#                        if n in pa["temaattributter"]: pa["temaattributter"][n] = f[n]
-
             del pa["id"]
 
             for f in vl.getFeatures():
@@ -544,6 +530,10 @@ class DMPManager:
                         vcur.append(vcur[0])
                         vcur[0] = ''
                     curl = loadVectorTableFromConnection (connection, vcur[0], vcur[1], 'current')
+
+#                    options.sql = 'SELECT * FROM {ref} WHERE \"{pk}\" = {qt}{val}{qt}'.format(ref=tblRef, pk=pkName, qt=pkQuote, val=pkid)
+#                    options.layerName = 'reference'
+#                    refl = connection.createSqlVectorLayer(options)
 
                     vref = tblRef.replace('"','').split('.')
                     if len(vref) == 1:
@@ -633,12 +623,14 @@ class DMPManager:
                         vcur.append(vcur[0])
                         vcur[0] = ''
                     curl = loadVectorTableFromConnection (connection, vcur[0], vcur[1], 'current')
+                    QgsProject.instance().addMapLayer(curl)
 
                     vref = tblRef.replace('"','').split('.')
                     if len(vref) == 1:
                         vref.append(vref[0])
                         vref[0] = ''
                     refl = loadVectorTableFromConnection (connection, vref[0], vref[1], 'reference')
+                    QgsProject.instance().addMapLayer(refl)
 
                     status, result = handleRequest(url+spc["objektfilter 2"].format(tCode,pa["objekt-id"]), 'get', headers, None, self.dmpLog, 'dmptest')
 
@@ -704,6 +696,20 @@ class DMPManager:
             logI(layerSource)
             processing.execAlgorithmDialog('qgis:checkvalidity') #,{ 'ERROR_OUTPUT' : 'TEMPORARY_OUTPUT', 'IGNORE_RING_SELF_INTERSECTION' : False, 'INPUT_LAYER' : layerSource , 'INVALID_OUTPUT' : 'TEMPORARY_OUTPUT', 'METHOD' : 2, 'VALID_OUTPUT' : 'TEMPORARY_OUTPUT'})
 
+    def pbLayerStyleClicked(self):
+
+        sd = self.dockwidget 
+        # Find layer to be compared
+        indx = sd.cbLayerStyle.currentIndex()        
+
+        if indx >=0:
+
+            # Generate string for Current layer...         
+            data = sd.cbLayerStyle.itemData(indx)
+            mlayer = data[0]
+            layer = mlayer.layer()       
+            style_path = os.path.join(self.plugin_dir,'templates','{}.qml'.format(mlayer.name()))
+            layer.saveNamedStyle(style_path)
     
     def pbCompareClicked(self):
         """Compare chosen datalayer with its reference layer"""
@@ -712,6 +718,7 @@ class DMPManager:
         spn = self.parm["Names"]        
         sps = self.parm["Selections"]
         spd = self.parm["Data"]
+        spa = self.parm["Access"] 
 
 
         # Clear current model
@@ -735,11 +742,11 @@ class DMPManager:
             dbCon = conns[dbData[1]]
 
             if sd.cbSchema.currentIndex() >=0:
-                tblRef = '"{}"."{}{}"'.format(sd.cbSchema.currentText(),spd['RefPrefix'],lcData[1])
-                tblCur = '"{}"."{}"'.format(sd.cbSchema.currentText(),lcData[1])
+                tblRef = '"{}"."{}_{}_{}"'.format(sd.cbSchema.currentText(), spd['RefPrefix'], spa["Name"][:4].lower(), lcData[1])
+                tblCur = '"{}"."{}_{}"'.format(sd.cbSchema.currentText(), spa["Name"][:4].lower(), lcData[1])
             else:
-                tblRef = '"{}{}"'.format(spd['RefPrefix'],lcData[1])
-                tblCur = '"{}"'.format(lcData[1])
+                tblRef = '"{}_{}_{}"'.format(spd['RefPrefix'], spa["Name"][:4].lower(), lcData[1])
+                tblCur = '"{}_{}"'.format(spa["Name"][:4].lower(), lcData[1])
 
             svlo = QgsAbstractDatabaseProviderConnection.SqlVectorLayerOptions()
             svlo.primaryKeyColumns = [spd["PKName"]]
@@ -876,6 +883,9 @@ class DMPManager:
         if indx == 1: # "Checks" tab
             self.loadcbLayerCheck()
 
+        if indx == 2: # "Administration" tab
+            self.loadcbLayerStyle()
+
     def pbResetClicked(self):
         """Reread configuration json file and set the self.parm dict"""
 
@@ -967,8 +977,7 @@ class DMPManager:
 
         if self.checkToken():
 
-            self.setDmpLog()
-
+            llog = self.setDmpLog()
 
             sa = self.attributes
             sd = self.dockwidget
@@ -1036,6 +1045,17 @@ class DMPManager:
             if evalue:
                 evalue = evalue.split("¤")
                 if evalue[0]=="DATA": sd.cbLayerCheck.addItem(ltLayer.name(),[ltLayer,evalue[1],evalue[2]])
+                
+    def loadcbLayerStyle(self):
+    
+        sd = self.dockwidget
+        sd.cbLayerStyle.clear()
+        
+        for ltLayer in QgsProject.instance().layerTreeRoot().findLayers():
+            evalue = evalLayerVariable(ltLayer.layer(), 'DMPManager')
+            if evalue:
+                evalue = evalue.split("¤")
+                if evalue[0]=="DATA": sd.cbLayerStyle.addItem(ltLayer.name(),[ltLayer,evalue[1],evalue[2]])
 
     def loadCbDownload(self):
         """Load cbDownload combobox from attributes dict"""
@@ -1090,21 +1110,6 @@ class DMPManager:
 
         return udict
 
-    def createUriDictFile(self, fpth, ftyp, tname, gname = 'geom', pkname='objekt-id'):
-
-        rdict = {'MapInfo TAB':'.tab', 'ESRI Shapefile':'.shp', 'SpatiaLite':'.sqlite','GeoPackage':'.gpkg'}        
-
-        udict = {}
-        udict['gname'] = gname
-        udict['pkname'] = pkname
-        udict['path'] = fpth
-        udict['tname'] = tname
-        udict['contype'] = 'ogr'
-        udict['filetype'] = ftyp
-        udict['ext'] = rdict[ftyp]
-
-        return udict
-
     def createUri(self, tname, gname = 'geom', pkname='objekt-id'):
     
         sd = self.dockwidget
@@ -1151,11 +1156,7 @@ class DMPManager:
             mpag = createGroup(spn["Administration root"], mprg)
             spath = os.path.join(self.plugin_dir, 'templates')
     
-            if self.dmpLog is None:
-                ltlog, llog = createRequestLog("DMPManager", "LOG - Requestlog", spn["Log layername"], mpag, True, os.path.join(spath, spn["Log layername"] + '.qml'))
-                self.dmpLog = llog
-            else:
-                llog = self.dmpLog
+            llog = self.setDmpLog()
             
             # theme number from combobox
             indx = sd.cbDownload.currentIndex()
@@ -1197,13 +1198,13 @@ class DMPManager:
                         
                             loadLayer(ml, result)
 
-                            udict['tname'] = spa["Name"][:4].lower()+ '_' + ml.name() 
+                            udict['tname'] = '{}_{}'.format(spa["Name"][:4].lower(), ml.name()) 
                             udict['gname'] = 'geom' 
                             udict['pkname'] = ''
                             ml2 = copyLayer2Layer(ml, udict, sd.chbOverwrite.isChecked())
                             if ml2: 
                                 addLayer2Tree(mprg, ml2, False, "DMPManager","DATA¤" + ml2.name() + "¤" + str(val['id']), os.path.join(spath, val['title'] + '.qml'), title)
-                                udict['tname'] = spd['RefPrefix'] + spa["Name"][:4].lower()+ '_' + ml.name()  
+                                udict['tname'] = '{}_{}_{}'.format(spd['RefPrefix'], spa["Name"][:4].lower(), ml.name())  
                                 ml3 = copyLayer2Layer(ml, udict, True)
                                 
                                 messI(tr('Creation of layer {} ({}) succeeded').format(title,ml.name())) 
@@ -1280,7 +1281,7 @@ class DMPManager:
             conns = QgsProviderRegistry.instance().providerMetadata(data[0]).connections(False)
             conn = conns[data[1]]
 
-            name , pressed = QInputDialog.getText(None, "Create new schema", "Scemaname: ", QLineEdit.Normal, "")
+            name , pressed = QInputDialog.getText(None, "Create new schema", "Schemaname: ", QLineEdit.Normal, "")
     
             if pressed: 
                 try:

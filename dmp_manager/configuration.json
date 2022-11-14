@@ -114,13 +114,13 @@
 
 
     "Data": {
-		"Database_types" :{"MSSQL": ["mssql","id",""], "Oracle": ["oracle","id",""], "PostgreSQL": ["postgres","id",""], "GeoPackage" : ["ogr","fid",""], "SpatiaLite": ["spatialite","fid",""]},
+		"Database_types" :{"PostgreSQL": ["postgres","id",""], "GeoPackage" : ["ogr","fid",""]},
         "Database": "",
         "Schema": "",
 		"PKName": "pk",
 		"PKQuote": "",
 		"GName": "geom",
-		"RefPrefix": "_ref_"
+		"RefPrefix": "_ref"
     }
     
 }
