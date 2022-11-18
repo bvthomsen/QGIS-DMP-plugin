@@ -666,7 +666,6 @@ def updateLayers (layerc, layerr, dicto, pkid, pkquote, value):
     except:
         e = dicto["data"][0]["attributes"]
 
-
     for ff in f.fields().names(): logI ('layerc fieldnames {}'.format(ff))    
     # Copy attributes from dict to feature
     for k, v in e.items():
@@ -864,12 +863,10 @@ def copyLayer2Layer(lyr, udict, owrite):
         logI('Layer {} : {} : import ok'.format(lyr.name(),uristr))
         return QgsVectorLayer(uristr, lyr.name(),contype)
         
+
 def loadVectorTableFromConnection (connection, schema, table, layername): 
 
     urlstr = connection.tableUri(schema, table)
-    logI('I loadVectorTableFromConnection; urlstr før korrektion: '+urlstr)
-
-    # correction, adding pk and geom information if database
     if connection.providerKey() != 'ogr': 
         uri = QgsDataSourceUri(urlstr)
         tableprm = connection.table(schema, table)
@@ -878,9 +875,35 @@ def loadVectorTableFromConnection (connection, schema, table, layername):
         uri.setKeyColumn(pkidlst[0])
         uri.setGeometryColumn(geomstr)
         urlstr = uri.uri()
+
+    logI(urlstr)
         
-    logI('I loadVectorTableFromConnection; urlstr eft korrektion: '+urlstr)
-            
     layer = QgsVectorLayer(urlstr, layername, connection.providerKey())    
+    return layer
+
+
+
+def loadVectorTableFromConnection_old (connection, schema, table, layername): 
+
+    urlstr = connection.tableUri(schema, table)
+    
+    tableprm = connection.table(schema, table)
+    pkidlst = tableprm.primaryKeyColumns() 
+    geomstr = tableprm.geometryColumn()
+
+    uri = QgsDataSourceUri(urlstr)
+
+    if connection.providerKey() != 'ogr': 
+        uri.setKeyColumn(pkidlst[0])
+        uri.setGeometryColumn(geomstr)
+
+    logI('*'+uri.uri())
+    logI(connection.providerKey())
+    if connection.providerKey() != 'ogr':
+        layer = QgsVectorLayer(uri.uri(), layername, connection.providerKey())
+    else:
+
+        layer = QgsVectorLayer(uri.uri().replace("'","").replace("/","\\"),layername, connection.providerKey())
+
     return layer
 

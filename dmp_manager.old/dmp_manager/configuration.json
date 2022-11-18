@@ -1,0 +1,126 @@
+{
+    "Access": {
+        "Name"                 : "DEMO",
+        "Address"              : "https://arealeditering-api.demo.miljoeportal.dk",
+        "Headers"              : {"content-type": "application/vnd.api+json", "accept": "application/vnd.api+json", "Authorization": "Bearer {}"},
+		"clientId"             : "qgisplugin-integration-daiedittest",
+        "host"                 : "http://localhost",
+        "port"                 : 5001,
+        "redirectUri"          : "http://localhost:5001/login",
+        "postLogoutRedirectUri": "http://localhost:5001/login",
+        "authority"            : "https://log-in.test.miljoeportal.dk/runtime/oauth2",
+        "scope"                : "openid http://www.miljoeportal.dk/roles",
+        "api"                  : "https://arealeditering-api.udv.miljoeportal.dk/",
+	    "pipeName"             : null,
+        "ShowConsole"          : true
+    },
+    "Access_produktion": {
+        "Name"                 : "PRODUKTION",
+        "Address"              : "https://arealeditering-api.miljoeportal.dk",
+        "Headers"              : {"content-type": "application/vnd.api+json", "accept": "application/vnd.api+json", "Authorization": "Bearer {}"},
+		"clientId"             : "qgisplugin-integration-daiedit",
+        "host"                 : "http://localhost",
+        "port"                 : 5001,
+        "redirectUri"          : "http://localhost:5001/",
+        "postLogoutRedirectUri": "http://localhost:5001/",
+        "authority"            : "https://log-in.miljoeportal.dk/runtime/oauth2",
+        "scope"                : "openid http://www.miljoeportal.dk/roles",
+        "api"                  : "https://arealeditering-api.miljoeportal.dk/",
+	    "pipeName"             : null,
+        "ShowConsole"          : false
+    },
+    "Commands": {
+        "temakoder"      : "/temakoder",
+        "attributter"    : "/attributter",
+        "temaattributter": "/temaattributter",
+        "objekter"       : "/objekter",
+        "objektfilter 1" : "?intersects={}&filter=equals(temakode.id,'{}')&include=temakode", 
+        "objektfilter 2" : "?filter=and(equals(temakode.id,'{}'),equals(objekt-id,'{}'))&include=temakode", 
+        "temaattributfilter 1" : "?include=temakode",
+        "temaattributfilter 1 duer ikke" : "?filter=equals(temakode.id,'{}')&include=temakode"
+    },
+    "Templates": {
+		"Objekter": {
+            "data":{
+                "id": null,
+                "type": "objekter",
+                "attributes": {
+                    "temaattributter": {},
+                    "id": null,
+                    "objekt-id": null,
+                    "version-id": null,
+                    "systid-fra": null,
+                    "systid-til": null,
+                    "oprettet": null,
+                    "oprindkode-id": null,
+                    "statuskode-id": null,
+                    "off-kode-id": null,
+                    "cvr-kode-id": null,
+                    "bruger-id": null,
+                    "link": null,
+                    "shape": {}
+                },
+                "relationships": {
+                    "temakode": {
+                        "data": {
+                            "id": null,
+                            "type": null
+                        }
+                    }
+                }
+            }
+		}
+	},
+    "Values": {
+        "Use extent": false,
+        "Use CVR": true,
+        "Preferred layer": "",
+        "CVR number": 9876543,
+        "Token value": "",
+        "Token time": "",
+        "Max extent": "POLYGON ((400000 6405000, 900000 6405000, 900000 6045000, 400000 6045000, 400000 6405000))",
+        "EPSG code": 25832,
+        "Log_reference": {},
+        "example_Log_reference": {"uri":"blah.shp","name":"blah","type":"ogr"},
+        "Pnt_reference": {"uri":"point?crs=epsg:{}&field=id:integer&field=name:string(20)&index=yes","name":"elements_pnt_ref","type":"memory"},
+        "Lin_reference": {"uri":"linestring?crs=epsg:{}&field=id:integer&field=name:string(20)&index=yes","name":"elements_pnt_ref","type":"memory"},
+        "Pol_reference": {"uri":"polygon?crs=epsg:{}&field=id:integer&field=name:string(20)&index=yes","name":"elements_pnt_ref","type":"memory"}
+    },
+    "Names": {
+        "Global root" : "Miljøportalen", 
+        "Administration root" : "Administration", 
+        "Edited root" : "Rettede data", 
+        "Log layername": "DMP logtable",
+        "Inserted" : "Oprettede elementer", 
+        "Deleted" : "Slettede elementer", 
+        "Modified" : "Rettede elementer"
+    },
+    "Selections": {
+        "Inserted" :"SELECT cur.* FROM {cur} cur LEFT JOIN {ref} ref on cur.\"{pk}\" = ref.\"{pk}\" WHERE ref.\"{pk}\" IS NULL", 
+        "Deleted" : "SELECT ref.* FROM {ref} ref LEFT JOIN {cur} cur on ref.\"{pk}\" = cur.\"{pk}\" WHERE cur.\"{pk}\" IS NULL", 
+		"Modified_cur" : "SELECT cur.* FROM {cur} cur LEFT JOIN {ref} ref on cur.\"{pk}\" = ref.\"{pk}\" WHERE ref.\"{pk}\" IS NOT NULL EXCEPT SELECT ref.* FROM {ref} ref LEFT JOIN {cur} cur on cur.\"{pk}\" = ref.\"{pk}\" WHERE cur.\"{pk}\" IS NOT NULL",       
+		"Modified_ref" : "SELECT ref.* FROM {ref} ref LEFT JOIN {cur} cur on cur.\"{pk}\" = ref.\"{pk}\" WHERE cur.\"{pk}\" IS NOT NULL EXCEPT SELECT cur.* FROM {cur} cur LEFT JOIN {ref} ref on cur.\"{pk}\" = ref.\"{pk}\" WHERE ref.\"{pk}\" IS NOT NULL"
+    },
+    "rollback": {
+        "Inserted" : "DELETE FROM {cur} WHERE \"{pk}\" = {qt}{val}{qt}", 
+        "Deleted" :  "INSERT INTO {cur} SELECT * FROM {ref} WHERE \"{pk}\" = {qt}{val}{qt}", 
+		"Modified" : "DELETE FROM {cur} WHERE \"{pk}\" = {qt}{val}{qt}; INSERT INTO {cur} SELECT * FROM {ref} WHERE \"{pk}\" = {qt}{val}{qt}"
+    },
+    "commit": {
+        "Inserted" : "SELECT * FROM {cur} WHERE \"{pk}\" = {qt}{val}{qt}", 
+        "Deleted" :  "SELECT * FROM {ref} WHERE \"{pk}\" = {qt}{val}{qt}", 
+		"Modified" : "SELECT * FROM {cur} WHERE \"{pk}\" = {qt}{val}{qt}"
+    },
+
+
+    "Data": {
+		"Database_types" :{"PostgreSQL": "postgres", "GeoPackage" : "ogr"},
+        "Database": "",
+        "Schema": "",
+		"PKName": "pk",
+		"PKQuote": "",
+		"GName": "geom",
+		"RefPrefix": "__reference__"
+    }
+    
+}
