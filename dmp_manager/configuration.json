@@ -35,6 +35,7 @@
         "temaattributter": "/temaattributter",
         "objekter"       : "/objekter",
         "objektfilter 1" : "?intersects={}&filter=equals(temakode.id,'{}')&include=temakode", 
+        "objektfilter 3" : "?intersects={}&filter=and(equals(temakode.id,'{}'),equals(cvr-kode-id,'{}'))&include=temakode", 
         "objektfilter 2" : "?filter=and(equals(temakode.id,'{}'),equals(objekt-id,'{}'))&include=temakode", 
         "temaattributfilter 1" : "?include=temakode",
         "temaattributfilter 1 duer ikke" : "?filter=equals(temakode.id,'{}')&include=temakode"

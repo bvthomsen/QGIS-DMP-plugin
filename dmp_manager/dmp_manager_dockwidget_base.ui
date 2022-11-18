@@ -18,13 +18,13 @@
     <item>
      <widget class="QTabWidget" name="twMain">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
         <string>Fetch</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_10">
+       <layout class="QVBoxLayout" name="verticalLayout_7">
         <item>
          <widget class="QGroupBox" name="groupBox_5">
           <property name="title">
@@ -82,6 +82,13 @@
             <widget class="QCheckBox" name="chbMapExtent">
              <property name="text">
               <string>Use mapper extend as datafilter</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chbUseCVR">
+             <property name="text">
+              <string>Use CVR Number as datafilter</string>
              </property>
             </widget>
            </item>

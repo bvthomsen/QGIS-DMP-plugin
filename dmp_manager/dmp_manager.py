@@ -1169,7 +1169,13 @@ class DMPManager:
                     headers = copy.deepcopy(spa['Headers'])
                     headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
                     extent = mapperExtent(spv["EPSG code"]).asWkt() if sd.chbMapExtent.isChecked() else spv["Max extent"]
-                    url = spa['Address'] + spc['objekter'] + spc['objektfilter 1'].format(extent, val['id'])
+
+                    if sd.leCVRNo.text().strip() != '' and sd.chbUseCVR.isChecked():
+                        url = spa['Address'] + spc['objekter'] + spc['objektfilter 3'].format(extent, val['id'], sd.leCVRNo.text().strip())
+                    else:
+                        url = spa['Address'] + spc['objekter'] + spc['objektfilter 1'].format(extent, val['id'])
+
+                    logI ('I pbDownloadClicked, url='+url)
 
                     status, result = handleRequest(url, 'get', headers, None, llog, '')
 
