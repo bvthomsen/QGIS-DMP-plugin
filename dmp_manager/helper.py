@@ -883,4 +883,4 @@ def loadVectorTableFromConnection (connection, schema, table, layername):
             
     layer = QgsVectorLayer(urlstr, layername, connection.providerKey())    
     return layer
-
+  

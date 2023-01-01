@@ -51,6 +51,7 @@ from qgis.core import (QgsProject,
                        QgsFeatureRequest,
                        QgsAbstractDatabaseProviderConnection,
                        QgsGeometry,
+                       QgsFeature,
                        QgsWkbTypes)
 
 from qgis.gui import QgsFileWidget
@@ -265,6 +266,7 @@ class DMPManager:
             sd.pbCompare.clicked.connect(self.pbCompareClicked)
             sd.pbLayerStyle.clicked.connect(self.pbLayerStyleClicked)
             sd.pbCheck.clicked.connect(self.pbCheckClicked)
+            sd.pbSinglepart.clicked.connect(self.pbSinglepartClicked)
             #sd.pbUpload.clicked.connect(self.pbUploadClicked)
 
             sd.tvCompare.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -690,6 +692,68 @@ class DMPManager:
             layerSource = "{pt}:{sc}:cur:UTF-8".format(pt=layer.providerType(),sc=layer.source())
             logI(layerSource)
             processing.execAlgorithmDialog('qgis:checkvalidity') #,{ 'ERROR_OUTPUT' : 'TEMPORARY_OUTPUT', 'IGNORE_RING_SELF_INTERSECTION' : False, 'INPUT_LAYER' : layerSource , 'INVALID_OUTPUT' : 'TEMPORARY_OUTPUT', 'METHOD' : 2, 'VALID_OUTPUT' : 'TEMPORARY_OUTPUT'})
+
+    def pbSinglepartClicked(self):
+
+        sd = self.dockwidget 
+        # Find layer to be compared
+        indx = sd.cbLayerCheck.currentIndex()        
+
+        if indx >=0:
+
+            # Generate string for Current layer...         
+            data = sd.cbLayerCheck.itemData(indx)
+            mlayer = data[0]
+            layer = mlayer.layer()       
+
+            if layer.isEditable():
+            
+                messW(tr('The layer chosen is in edit mode; please change this before using "Multipart to singlepart" function'))            
+            
+            else:
+            
+                layer.startEditing()
+
+                fields = layer.fields()
+                pkfields = layer.primaryKeyAttributes()
+
+                cnt_mod = 0
+                cnt_app = 0
+
+                features = layer.getSelectedFeatures()
+                for feature in features:
+
+                    new_features = list()
+                    fid = feature.id()
+                    geoms = feature.geometry()
+                    attribs = feature.attributes()
+
+                    for i in pkfields:
+                        attribs[i] = None
+
+                    for p in geoms.parts():
+                        new_feature = QgsFeature()
+                        new_feature.setFields(fields)
+                        geom = QgsGeometry()
+                        geom.fromWkb(p.asWkb())
+                        new_feature.setGeometry(geom)
+                        new_feature.setAttributes(attribs)
+                        new_features.append(new_feature)
+
+                    l = len(new_features)
+                    if l > 1:
+                        layer.changeGeometry(fid, new_features[0].geometry())
+                        layer.addFeatures(new_features[1:])
+                        cnt_mod += 1
+                        cnt_app += l-1
+                
+                layer.commitChanges()
+                
+                if cnt_mod > 0:
+                    messI(tr('No of features modified: {}; No features added: {}').format(cnt_mod, cnt_app))
+                else:
+                    messW(tr('No selection made in chosen layer or the selection didn''t contain any mulipart polygons'))            
+            
 
     def pbLayerStyleClicked(self):
 
