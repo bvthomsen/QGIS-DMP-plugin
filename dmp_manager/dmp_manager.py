@@ -263,6 +263,9 @@ class DMPManager:
             sd.pbDownload.clicked.connect(self.pbDownloadClicked)
             sd.twMain.currentChanged.connect(self.twMainCurrentChanged)
             sd.pbClearCompare.clicked.connect(self.pbClearCompareClicked)
+            sd.pbUncheckAll.clicked.connect(self.pbUncheckAllClicked)
+            sd.pbCheckAll.clicked.connect(self.pbCheckAllClicked)
+            sd.pbUploadChecked.clicked.connect(self.pbUploadCheckedClicked)
             sd.pbCompare.clicked.connect(self.pbCompareClicked)
             sd.pbLayerStyle.clicked.connect(self.pbLayerStyleClicked)
             sd.pbCheck.clicked.connect(self.pbCheckClicked)
@@ -642,6 +645,16 @@ class DMPManager:
                     messC(tr('Error: {} - Update of {}:{}\n{}').format(status, pkName, pkid, result))
                     crawler.setData(result, Qt.UserRole+1)
 
+    def loadCbCVRNo (self, cb, keyid):
+
+        saa = self.attributes["attributter"]
+        for d in saa:
+            if d["id"] == 'cvr-kode-id': 
+                cb.clear()
+                list = d["attributes"]["domain"]
+                for key, value in list.items(): cb.addItem(value, key)                     
+                index = cb.findData(keyid)
+                if index != -1: cb.setCurrentIndex(index);
 
     def genDictWhere(self, name, expr=r'cur."{0}" {1} ref."{0}"', opr = r'!=', conc='or', gname='geom', prefix='', postfix=''):
         """Generate where part from dictCompare chosen """
@@ -857,6 +870,8 @@ class DMPManager:
                     for f in lins.getFeatures():
                     
                         iins = QStandardItem(str(f[spd["PKName"]])) 
+                        iins.setCheckable(True)
+                        iins.setCheckState(Qt.Unchecked)
                         iins.setData(tr('No message yet'), Qt.UserRole+1)
                         iins.setData(str(f.id()), Qt.UserRole+2)
                         iins.setEditable(False)
@@ -878,6 +893,8 @@ class DMPManager:
  
                     for f in ldel.getFeatures():
                         idel = QStandardItem(str(f[spd["PKName"]])) 
+                        idel.setCheckable(True)
+                        idel.setCheckState(Qt.Unchecked)
                         idel.setData(tr('No message yet'), Qt.UserRole+1)
                         idel.setData(str(f.id()), Qt.UserRole+2)
                         idel.setEditable(False)
@@ -899,6 +916,8 @@ class DMPManager:
 
                     for f in lmod.getFeatures():
                         imod = QStandardItem(str(f[spd["PKName"]])) 
+                        imod.setCheckable(True)
+                        imod.setCheckState(Qt.Unchecked)
                         imod.setData(tr('No message yet'), Qt.UserRole+1)
                         imod.setData(str(f.id()), Qt.UserRole+2)
                         imod.setEditable(False)
@@ -916,6 +935,49 @@ class DMPManager:
             else:
                 messI(tr('No inserts, deletes og modifications in layer: {}').format(layer.name()))
                 
+    def pbUncheckAllClicked(self):
+        """TBD"""
+        sd = self.dockwidget
+        tmc = sd.tvCompare.model()
+        if tmc:
+            root = tmc.invisibleRootItem()
+            if root.hasChildren():
+                for i in range(root.rowCount()):
+                    childroot = root.child(i)
+                    if childroot.hasChildren():
+                        for j in range(childroot.rowCount()):
+                            item = childroot.child(j)
+                            item.setCheckState(Qt.Unchecked)
+
+    def pbCheckAllClicked(self):
+        """TBD"""
+        sd = self.dockwidget
+        tmc = sd.tvCompare.model()
+        if tmc:
+            root = tmc.invisibleRootItem()
+            if root.hasChildren():
+                for i in range(root.rowCount()):
+                    childroot = root.child(i)
+                    if childroot.hasChildren():
+                        for j in range(childroot.rowCount()):
+                            item = childroot.child(j)
+                            item.setCheckState(Qt.Checked)
+                
+    def pbUploadCheckedClicked(self):
+        """TBD"""
+        sd = self.dockwidget
+        tmc = sd.tvCompare.model()
+        if tmc:
+            root = tmc.invisibleRootItem()
+            if root.hasChildren():
+                for i in range(root.rowCount()):
+                    childroot = root.child(i)
+                    if childroot.hasChildren():
+                        for j in range(childroot.rowCount()):
+                            item = childroot.child(j)
+                            if item.checkState() == Qt.Checked:
+                                logI('{} --> {} uploads...'.format(childroot.text(),item.text()))
+                            
 
     def pbClearCompareClicked(self):
         """Clear compare reseults"""
@@ -956,7 +1018,7 @@ class DMPManager:
         spd = self.parm["Data"]
         spa = self.parm["Access"]
 
-        sd.leCVRNo.setText(str(spv["CVR number"]))
+        #sd.leCVRNo.setText(str(spv["CVR number"]))
         sd.lePrefLayer.setText(spv["Preferred layer"])
         sd.chbMapExtent.setChecked(spv["Use extent"])
         sd.leToken.setText(spv["Token value"])
@@ -968,7 +1030,8 @@ class DMPManager:
 
         self.loadCbDownload()
         self.loadCbDatabase(spd["Database_types"],spd["Database"],spd["Schema"])
-
+        self.loadCbCVRNo (sd.cbCVRNo, str(spv["CVR number"]))
+        
     def pbSaveClicked(self):
         """Save values from several subwidgets into the self.parm dictionary and save it
         permanently into json file"""
@@ -977,7 +1040,7 @@ class DMPManager:
         spv = self.parm["Values"]
         spd = self.parm["Data"]
 
-        spv["CVR number"] = int(sd.leCVRNo.text())
+        spv["CVR number"] = int(sd.cbCVRNo.itemData(sd.cbCVRNo.currentIndex()))
         spv["Preferred layer"] = sd.lePrefLayer.text()
         spv["Use extent"] = sd.chbMapExtent.isChecked()
         spv["Token value"] = sd.leToken.text()
@@ -1042,6 +1105,7 @@ class DMPManager:
             sd = self.dockwidget
             spa = self.parm["Access"]
             spc = self.parm["Commands"]
+            spv = self.parm["Values"]
 
             # Create header information for requests
             headers = copy.deepcopy(spa['Headers'])
@@ -1064,6 +1128,7 @@ class DMPManager:
             status, result = handleRequest(url, 'get', headers, None, self.dmpLog, 'dmptest')
             if status == 200:
                 sa['attributter'] = result['data']
+                self.loadCbCVRNo (sd.cbCVRNo, str(spv["CVR number"]))
                 messI(tr('Download of {} done').format('attributter'))
             else:
                 messC(tr('Error {} for download of {}').format(status, 'attributter'))
@@ -1233,9 +1298,10 @@ class DMPManager:
                     headers = copy.deepcopy(spa['Headers'])
                     headers['Authorization'] = headers['Authorization'].format(sd.leToken.text())
                     extent = mapperExtent(spv["EPSG code"]).asWkt() if sd.chbMapExtent.isChecked() else spv["Max extent"]
-
-                    if sd.leCVRNo.text().strip() != '' and sd.chbUseCVR.isChecked():
-                        url = spa['Address'] + spc['objekter'] + spc['objektfilter 3'].format(extent, val['id'], sd.leCVRNo.text().strip())
+                    
+                    cvrno = str(sd.cbCVRNo.itemData(sd.cbCVRNo.currentIndex())).strip() 
+                    if  cvrno != '' and sd.chbUseCVR.isChecked():
+                        url = spa['Address'] + spc['objekter'] + spc['objektfilter 3'].format(extent, val['id'], cvrno)
                     else:
                         url = spa['Address'] + spc['objekter'] + spc['objektfilter 1'].format(extent, val['id'])
 

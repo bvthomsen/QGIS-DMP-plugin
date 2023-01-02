@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>388</width>
-    <height>577</height>
+    <width>336</width>
+    <height>511</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -128,7 +128,7 @@
        <attribute name="title">
         <string>Checks</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_13">
+       <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
          <widget class="QGroupBox" name="groupBox_3">
           <property name="title">
@@ -146,7 +146,32 @@
           <property name="title">
            <string>Compare edit and reference layer</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_12">
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QPushButton" name="pbUncheckAll">
+               <property name="text">
+                <string>UnCheck all</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbCheckAll">
+               <property name="text">
+                <string>Check all</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pbUploadChecked">
+               <property name="text">
+                <string>Upload checked</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
            <item>
             <widget class="QTreeView" name="tvCompare"/>
            </item>
@@ -155,7 +180,7 @@
              <item>
               <widget class="QPushButton" name="pbClearCompare">
                <property name="text">
-                <string>Clear</string>
+                <string>Clear Compare</string>
                </property>
               </widget>
              </item>
@@ -206,39 +231,35 @@
           <property name="title">
            <string>Administration</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_6">
-           <item>
-            <layout class="QFormLayout" name="formLayout_2">
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_2">
-               <property name="text">
-                <string>CVR number:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="leCVRNo"/>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>Preferred layer:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLineEdit" name="lePrefLayer"/>
-             </item>
-            </layout>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>CVR number:</string>
+             </property>
+            </widget>
            </item>
-           <item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="cbCVRNo"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>Preferred layer:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="lePrefLayer"/>
+           </item>
+           <item row="2" column="0" colspan="2">
             <widget class="QPushButton" name="pbPrefLayer">
              <property name="text">
               <string>Set layer choice in tab &quot;fetch&quot; as preferred </string>
              </property>
             </widget>
            </item>
-           <item>
+           <item row="3" column="0" colspan="2">
             <widget class="QPushButton" name="pbRefresh">
              <property name="text">
               <string>Reset administrative data from DMP</string>
