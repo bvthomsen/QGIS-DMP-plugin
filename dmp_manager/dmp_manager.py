@@ -35,6 +35,8 @@ from PyQt5.QtCore import (QSettings,
                           
 from PyQt5.QtGui import QIcon, QFont
 
+from PyQt5.QtTest import QTest
+
 from PyQt5.QtWidgets import (QAction,
                              QMenu,
                              QInputDialog,
@@ -275,6 +277,7 @@ class DMPManager:
             sd.tvCompare.setContextMenuPolicy(Qt.CustomContextMenu)
             sd.tvCompare.customContextMenuRequested.connect(self.tvCompareOpenMenu)
             sd.cbDatabase.currentIndexChanged.connect (self.cbDatabaseCurrentIndexChanged)
+            sd.cbEnvironment.currentIndexChanged.connect (self.cbEnvironmentCurrentIndexChanged)
             sd.pbDatabase.clicked.connect(self.pbDatabaseClicked)
             sd.pbSchema.clicked.connect(self.pbSchemaClicked)
 
@@ -289,7 +292,7 @@ class DMPManager:
             self.pbResetClicked()
             self.twMainCurrentChanged(1)
             spd = self.parm["Data"]
-            spa = self.parm["Access"]
+            spa = self.parm["Access"][self.parm["Access_active"]]
 
             if self.dmpPipe == None: 
                 progName = os.path.join(self.plugin_dir,'login_app','DMPLogin.exe')
@@ -371,14 +374,14 @@ class DMPManager:
         return llog
         
     
-    def rightClickAction (self, operation, crawler):
+    def rightClickAction (self, operation, crawler, log=False):
 
         sd = self.dockwidget
         spd = self.parm["Data"]
         spn = self.parm["Names"]
         spr = self.parm["rollback"]
         spc = self.parm["Commands"]
-        spa = self.parm["Access"]  
+        spa = self.parm["Access"][self.parm["Access_active"]]
         
         llog = self.setDmpLog()
 
@@ -399,7 +402,6 @@ class DMPManager:
         if operation == 'zoom':
         
             zoomToFeature(str(crawler.parent().data(Qt.UserRole+2)),int(str(crawler.data(Qt.UserRole+2)))) 
-
 
         elif operation == 'show':
             msgBox = QMessageBox()
@@ -422,24 +424,27 @@ class DMPManager:
             if spa["Name"][:4].lower() == tblc[len(tblc)-1][:4].lower():
      
                 if ltype == 'Inserted':
-                    self.insDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode)
+                    self.insDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode, log)
     
                 elif ltype == 'Deleted':
-                    self.delDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote)
+                    self.delDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, log)
                     
                 elif ltype == 'Modified':
-                    self.updDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode)
+                    self.updDMP(pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode, log)
 
             else:
-                messC(tr('You can''t commit changes made in previous environment into environment: {}').format(spa["Name"]), tr('Changed environment with outstanding commits'))            
+                if log:
+                    LogC(tr('You can''t commit changes made in previous environment into environment: {}').format(spa["Name"]), tr('Changed environment with outstanding commits'))            
+                else:
+                    messC(tr('You can''t commit changes made in previous environment into environment: {}').format(spa["Name"]), tr('Changed environment with outstanding commits'))            
+                
+        if not log: self.iface.mapCanvas().refreshAllLayers() 
 
-        self.iface.mapCanvas().refreshAllLayers() 
-
-    def delDMP(self, pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote):
+    def delDMP(self, pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, log=False):
 
         sd = self.dockwidget
         spc = self.parm["Commands"]
-        spa = self.parm["Access"]  
+        spa = self.parm["Access"][self.parm["Access_active"]]  
         spr = self.parm["rollback"]
 
 
@@ -456,19 +461,25 @@ class DMPManager:
                 crawler.setEnabled(False)
                 sql = spr["Inserted"]
                 connection.executeSql(sql.format(cur=tblRef, pk=pkName, qt=pkQuote, val=pkid)) 
-                self.iface.mapCanvas().refreshAllLayers() 
+                if not log: self.iface.mapCanvas().refreshAllLayers() 
 
-                messI(tr('Status: {} - Delete of {}:{} done\n{}').format(status, pkName, pkid, result))
+                if log: 
+                    logI(tr('Status: {} - Delete of {}:{} done\n{}').format(status, pkName, pkid, result))
+                else:
+                    messI(tr('Status: {} - Delete of {}:{} done\n{}').format(status, pkName, pkid, result))
             else:
-                messC(tr('Error {} - Delete of {}:{}\n{}').format(status, pkName, pkid, result))
+                if log: 
+                    logC(tr('Error {} - Delete of {}:{}\n{}').format(status, pkName, pkid, result))
+                else:
+                    messC(tr('Error {} - Delete of {}:{}\n{}').format(status, pkName, pkid, result))
                 crawler.setData(result, Qt.UserRole+1)
 
 
-    def insDMP(self, pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode):
+    def insDMP(self, pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode, log=False):
 
         sd = self.dockwidget
         spc = self.parm["Commands"]
-        spa = self.parm["Access"]  
+        spa = self.parm["Access"][self.parm["Access_active"]]  
         spr = self.parm["rollback"]
         spt = self.parm["Templates"]
         
@@ -547,12 +558,17 @@ class DMPManager:
 
                     crawler.setEnabled(False)
 
-                    self.iface.mapCanvas().refreshAllLayers() 
+                    if not log: self.iface.mapCanvas().refreshAllLayers() 
 
-
-                    messI(tr('Status: {} - Insert of {}:{} done\n{}').format(status, pkName, pkid, result))
+                    if log:
+                        logI(tr('Status: {} - Insert of {}:{} done\n{}').format(status, pkName, pkid, result))
+                    else:
+                        messI(tr('Status: {} - Insert of {}:{} done\n{}').format(status, pkName, pkid, result))
                 else:
-                    messC(tr('Error: {} - Insert of {}:{}\n{}').format(status, pkName, pkid, result))
+                    if log:
+                        logC(tr('Error: {} - Insert of {}:{}\n{}').format(status, pkName, pkid, result))
+                    else:
+                        messC(tr('Error: {} - Insert of {}:{}\n{}').format(status, pkName, pkid, result))
                     crawler.setData(result, Qt.UserRole+1)
 
 
@@ -568,11 +584,11 @@ class DMPManager:
         return None if txt == 'NULL' else txt
 
 
-    def updDMP(self, pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode):
+    def updDMP(self, pkid, crawler, connection, tblCur, tblRef, pkName, pkQuote, tCode, log=False):
 
         sd = self.dockwidget
         spc = self.parm["Commands"]
-        spa = self.parm["Access"]  
+        spa = self.parm["Access"][self.parm["Access_active"]]  
         spr = self.parm["rollback"]
         spt = self.parm["Templates"]
         
@@ -638,11 +654,17 @@ class DMPManager:
 
                     crawler.setEnabled(False)
 
-                    self.iface.mapCanvas().refreshAllLayers() 
+                    if not log: self.iface.mapCanvas().refreshAllLayers() 
 
-                    messI(tr('Status: {} - Update of {}:{} done\n{}').format(status, pkName, pkid, result))
+                    if log:
+                        logI(tr('Status: {} - Update of {}:{} done\n{}').format(status, pkName, pkid, result))
+                    else:
+                        messI(tr('Status: {} - Update of {}:{} done\n{}').format(status, pkName, pkid, result))
                 else:
-                    messC(tr('Error: {} - Update of {}:{}\n{}').format(status, pkName, pkid, result))
+                    if log:
+                        logC(tr('Error: {} - Update of {}:{}\n{}').format(status, pkName, pkid, result))
+                    else:
+                        messC(tr('Error: {} - Update of {}:{}\n{}').format(status, pkName, pkid, result))
                     crawler.setData(result, Qt.UserRole+1)
 
     def loadCbCVRNo (self, cb, keyid):
@@ -655,6 +677,14 @@ class DMPManager:
                 for key, value in list.items(): cb.addItem(value, key)                     
                 index = cb.findData(keyid)
                 if index != -1: cb.setCurrentIndex(index);
+
+    def loadCbEnvironment (self, cb, keyid):
+
+        cb.clear()
+        spap = self.parm["Access"]
+        for key, value in spap.items(): cb.addItem(value["Name"], key)                     
+        index = cb.findData(keyid)
+        if index != -1: cb.setCurrentIndex(index);
 
     def genDictWhere(self, name, expr=r'cur."{0}" {1} ref."{0}"', opr = r'!=', conc='or', gname='geom', prefix='', postfix=''):
         """Generate where part from dictCompare chosen """
@@ -790,7 +820,7 @@ class DMPManager:
         spn = self.parm["Names"]        
         sps = self.parm["Selections"]
         spd = self.parm["Data"]
-        spa = self.parm["Access"] 
+        spa = self.parm["Access"][self.parm["Access_active"]] 
 
 
         # Clear current model
@@ -931,7 +961,9 @@ class DMPManager:
                 if rdel: tmcr.appendRow(rdel)
                 if rmod: tmcr.appendRow(rmod)
                 sd.tvCompare.setModel(tmc)
-
+                sd.pbUncheckAll.setEnabled(True)
+                sd.pbCheckAll.setEnabled(True)
+                sd.pbUploadChecked.setEnabled(True)
             else:
                 messI(tr('No inserts, deletes og modifications in layer: {}').format(layer.name()))
                 
@@ -963,26 +995,49 @@ class DMPManager:
                             item = childroot.child(j)
                             item.setCheckState(Qt.Checked)
                 
+
     def pbUploadCheckedClicked(self):
         """TBD"""
+        
         sd = self.dockwidget
         tmc = sd.tvCompare.model()
         if tmc:
-            root = tmc.invisibleRootItem()
-            if root.hasChildren():
-                for i in range(root.rowCount()):
-                    childroot = root.child(i)
-                    if childroot.hasChildren():
-                        for j in range(childroot.rowCount()):
-                            item = childroot.child(j)
-                            if item.checkState() == Qt.Checked:
-                                logI('{} --> {} uploads...'.format(childroot.text(),item.text()))
-                            
+            msgbox = QMessageBox(QMessageBox.Question, tr("Upload all checked changes"), tr("Are you sure you want to proceed?"))
+            msgbox.addButton(QMessageBox.Yes)
+            msgbox.addButton(QMessageBox.No)
+            msgbox.setDefaultButton(QMessageBox.No)
+            if msgbox.exec() == QMessageBox.Yes:
+                root = tmc.invisibleRootItem()
+                if root.hasChildren():
+                    numbers = []
+                    texts = []
+                    for i in range(root.rowCount()):
+                        childroot = root.child(i)
+                        number = 0
+                        text = childroot.text()
+                        if childroot.hasChildren():
+                            for j in range(childroot.rowCount()):
+                                item = childroot.child(j)
+                                if item.checkState() == Qt.Checked and item.isEnabled(): 
+                                    self.rightClickAction('commit', item, True)
+                                    number += 1
+                        numbers.append(number)
+                        texts.append(text)
+
+                    message = ''
+                    for i in range(len(numbers)): message += ' ' + texts[i] + ': ' + str(numbers[i]) + ','
+                    messI(tr('Upload finished, result is:{} uploads. See log for details').format(message[:-1]))
+                        
+        self.iface.mapCanvas().refreshAllLayers()                    
 
     def pbClearCompareClicked(self):
         """Clear compare reseults"""
         sd = self.dockwidget
         sd.tvCompare.setModel(None)
+        sd.pbUncheckAll.setEnabled(False)
+        sd.pbCheckAll.setEnabled(False)
+        sd.pbUploadChecked.setEnabled(False)
+
 
         # Removed layers inserted, modified and deleted layers from project.
         for e in ['INSERTED','MODIFIED','DELETED']:
@@ -1016,7 +1071,7 @@ class DMPManager:
         sd = self.dockwidget
         spv = self.parm["Values"]
         spd = self.parm["Data"]
-        spa = self.parm["Access"]
+        spa = self.parm["Access"][self.parm["Access_active"]]
 
         #sd.leCVRNo.setText(str(spv["CVR number"]))
         sd.lePrefLayer.setText(spv["Preferred layer"])
@@ -1025,12 +1080,13 @@ class DMPManager:
         sd.dtTimeout.setDateTime(QDateTime().fromString(spv["Token time"], Qt.ISODate))
         sd.lePkName.setText(spd["PKName"])
         sd.lePkQuote.setText(spd["PKQuote"])
-        sd.lMiljoe.setText('Miljøportalen: '+spa["Name"])
+        sd.lMiljoe.setText(spa["Name"])
         sd.lMiljoe.setStyleSheet('font: bold 24px') #; color: red')        
 
         self.loadCbDownload()
         self.loadCbDatabase(spd["Database_types"],spd["Database"],spd["Schema"])
         self.loadCbCVRNo (sd.cbCVRNo, str(spv["CVR number"]))
+        self.loadCbEnvironment (sd.cbEnvironment, self.parm["Access_active"])
         
     def pbSaveClicked(self):
         """Save values from several subwidgets into the self.parm dictionary and save it
@@ -1103,7 +1159,7 @@ class DMPManager:
 
             sa = self.attributes
             sd = self.dockwidget
-            spa = self.parm["Access"]
+            spa = self.parm["Access"][self.parm["Access_active"]]
             spc = self.parm["Commands"]
             spv = self.parm["Values"]
 
@@ -1268,7 +1324,7 @@ class DMPManager:
 
             # set dict vars
             sd = self.dockwidget
-            spa = self.parm["Access"]
+            spa = self.parm["Access"][self.parm["Access_active"]]
             spc = self.parm["Commands"]
             spv = self.parm["Values"]
             spn = self.parm["Names"]
@@ -1376,6 +1432,39 @@ class DMPManager:
 
             except:
                messI(tr('Providertype: {} deprecated').format(k))                    
+
+
+    def cbEnvironmentCurrentIndexChanged(self, index):
+
+        sd = self.dockwidget
+
+        if self.parm["Access_active"] != sd.cbEnvironment.itemData(index):
+
+            self.parm["Access_active"] = sd.cbEnvironment.itemData(index)
+            spa = self.parm["Access"][self.parm["Access_active"]]            
+            sd.lMiljoe.setText(spa["Name"])
+    
+            if self.dmpPipe: self.dmpPipe.stop()
+            QTest.qWait(500)
+    
+            progName = os.path.join(self.plugin_dir,'login_app','DMPLogin.exe')
+    
+            if spa["pipeName"]:
+                pipeName = spa["pipeName"]
+            else:
+                pipeName = get_random_string(24)
+            
+            self.dmpPipe = NamedPipe(progName,
+                                     spa["clientId"],
+                                     spa["host"],
+                                     spa["port"],
+                                     spa["redirectUri"],
+                                     spa["postLogoutRedirectUri"],
+                                     spa["authority"],
+                                     spa["scope"],
+                                     spa["api"],
+                                     pipeName,
+                                     spa["ShowConsole"])
 
     def cbDatabaseCurrentIndexChanged (self, index):
 
