@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="twMain">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -60,11 +60,15 @@
             </layout>
            </item>
            <item>
-            <widget class="QPushButton" name="pbReqToken">
-             <property name="text">
-              <string>Login to DMP </string>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QPushButton" name="pbReqToken">
+               <property name="text">
+                <string>Login to DMP </string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>

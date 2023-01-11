@@ -229,7 +229,8 @@ class DMPManager:
 
         try:
             if self.dmpPipe:
-                self.dmpPipe.stop()        
+                self.dmpPipe.stop()
+                QTest.qWait(500)
         except:
             pass
             
@@ -259,6 +260,7 @@ class DMPManager:
             sd.pbSave.clicked.connect(self.pbSaveClicked)
             sd.leToken.textChanged.connect(self.leTokenTextChanged)
             sd.pbReqToken.clicked.connect(self.pbReqTokenClicked)
+            #sd.pbLogout.clicked.connect(self.pbLogoutClicked)
             #sd.pbDeprToken.clicked.connect(self.pbDeprTokenClicked)
             sd.pbPrefLayer.clicked.connect(self.pbPrefLayerClicked)
             sd.pbRefresh.clicked.connect(self.pbRefreshClicked)
@@ -514,13 +516,9 @@ class DMPManager:
 
             for f in vl.getFeatures():
                 fi = f.fields()
+                
                 for ta in pa["temaattributter"].keys():
-                    if ta.find('-id') != -1:
-                        pa["temaattributter"][ta] = int(f[ta])
-                    else:
-                        txt = f[ta].toString(Qt.ISODate) if isinstance(f[ta], QDateTime) else str(f[ta]) 
-                        if txt == 'NULL': txt = None
-                        pa["temaattributter"][ta] = txt
+                    pa["temaattributter"][ta] = self.cnvDBField (ta, f[ta])
                             
                             
                 pa["objekt-id"] = None
@@ -680,12 +678,14 @@ class DMPManager:
 
     def loadCbEnvironment (self, cb, keyid):
 
+        cb.blockSignals(True)
         cb.clear()
         spap = self.parm["Access"]
         for key, value in spap.items(): cb.addItem(value["Name"], key)                     
         index = cb.findData(keyid)
         if index != -1: cb.setCurrentIndex(index);
-
+        cb.blockSignals(False)
+        
     def genDictWhere(self, name, expr=r'cur."{0}" {1} ref."{0}"', opr = r'!=', conc='or', gname='geom', prefix='', postfix=''):
         """Generate where part from dictCompare chosen """
 
@@ -1127,16 +1127,16 @@ class DMPManager:
         else:
             messW(tr('Login error: {}').format(res))
 
-    def pbDeprTokenClicked(self):
-        """HTTP request to generate access ticket and token for DMP"""
-
-        sd = self.dockwidget
-        res = self.dmpPipe.logout()
-        if res == '':
-            sd.leToken.setText('')
-            sd.dtTimeout.setDateTime(QDateTime.setCurrentDateTime())
-        else:
-            messW(tr('Logout error: {}').format(res))
+#    def pbLogoutClicked(self):
+#        """HTTP request to generate access ticket and token for DMP"""
+#
+#        sd = self.dockwidget
+#        res = self.dmpPipe.logout()
+#        if res == '':
+#            sd.leToken.setText('')
+#            sd.dtTimeout.setDateTime(QDateTime.setCurrentDateTime())
+#        else:
+#            messW(tr('Logout error: {}').format(res))
             
 
     def pbPrefLayerClicked(self):
@@ -1438,33 +1438,19 @@ class DMPManager:
 
         sd = self.dockwidget
 
-        if self.parm["Access_active"] != sd.cbEnvironment.itemData(index):
+        if self.parm["Access_active"] and index >= 0:
 
-            self.parm["Access_active"] = sd.cbEnvironment.itemData(index)
-            spa = self.parm["Access"][self.parm["Access_active"]]            
-            sd.lMiljoe.setText(spa["Name"])
-    
-            if self.dmpPipe: self.dmpPipe.stop()
-            QTest.qWait(500)
-    
-            progName = os.path.join(self.plugin_dir,'login_app','DMPLogin.exe')
-    
-            if spa["pipeName"]:
-                pipeName = spa["pipeName"]
-            else:
-                pipeName = get_random_string(24)
-            
-            self.dmpPipe = NamedPipe(progName,
-                                     spa["clientId"],
-                                     spa["host"],
-                                     spa["port"],
-                                     spa["redirectUri"],
-                                     spa["postLogoutRedirectUri"],
-                                     spa["authority"],
-                                     spa["scope"],
-                                     spa["api"],
-                                     pipeName,
-                                     spa["ShowConsole"])
+            if self.parm["Access_active"] != sd.cbEnvironment.itemData(index):
+
+                buttonReply = QMessageBox.question(None, tr('Change data environment...'), tr('You have chosen to change the data environment from:\n\n "{}" to "{}".\n\nIf you proceed, the QGIS application will be ended and you have to wait up to one hour for the DMP logon to timeout before working in the new data environment.\n\nProceed ?').format(self.parm["Access_active"], sd.cbEnvironment.itemData(index)), QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                if buttonReply == QMessageBox.Yes:
+                    messI(tr('DMP data environment will be changed from "{}" to "{}"').format(self.parm["Access_active"], sd.cbEnvironment.itemData(index)))
+                    self.parm["Access_active"] = sd.cbEnvironment.itemData(index)
+                    self.pbSaveClicked()
+                    self.iface.actionExit().trigger()
+
+                else:
+                    messI(tr('DMP data environment will not be changed'))
 
     def cbDatabaseCurrentIndexChanged (self, index):
 
