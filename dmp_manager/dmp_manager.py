@@ -1390,7 +1390,8 @@ class DMPManager:
                             udict['pkname'] = ''
                             ml2 = copyLayer2Layer(ml, udict, sd.chbOverwrite.isChecked())
                             if ml2: 
-                                addLayer2Tree(mprg, ml2, False, "DMPManager","DATA¤" + ml2.name() + "¤" + str(val['id']), os.path.join(spath, val['title'] + '.qml'), title)
+#                                addLayer2Tree(mprg, ml2, False, "DMPManager","DATA¤" + ml2.name() + "¤" + str(val['id']), os.path.join(spath, val['title'] + '.qml'), title)
+                                addLayer2Tree(root, ml2, True, "DMPManager","DATA¤" + ml2.name() + "¤" + str(val['id']), os.path.join(spath, val['title'] + '.qml'), title)
                                 udict['tname'] = '{}_{}_{}'.format(spd['RefPrefix'], spa["Name"][:4].lower(), ml.name())  
                                 ml3 = copyLayer2Layer(ml, udict, True)
                                 
